@@ -1,17 +1,13 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <main style="padding: var(--space-8); max-width: var(--max-width-prose); margin: 0 auto;">
+    <p class="label-mono">section 00 — scaffold</p>
+    <h1 style="font-size: var(--text-3xl); margin-top: var(--space-4);">Aiden Gonzalez</h1>
+    <p style="margin-top: var(--space-4); color: var(--color-text-tertiary);">
+      Site under construction. Visit <a href="/test" style="color: var(--color-accent); text-decoration: underline;">/test</a> to see the design system.
+    </p>
+  </main>
+</Layout>
