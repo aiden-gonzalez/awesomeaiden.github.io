@@ -29,11 +29,10 @@ Five files, designed to be read in order. Drop them all into a new project direc
 ## Approximate timeline
 
 - **Day 1** — Setup, tokens, type system (½ day if you've done this before)
-- **Days 2–3** — Static sections (hero, ride log, register, elevation profile)
+- **Days 2–3** — Static sections (hero, ride log, register)
 - **Days 4–5** — Cassette mechanic
-- **Day 6** — Contour-to-chain transition
-- **Day 7** — Polish
-- **Day 8** — Accessibility audit, cross-browser test, deploy
+- **Day 6** — Polish
+- **Day 7** — Accessibility audit, cross-browser test, deploy
 
 Add 30–50% buffer if this is your first time using Astro or GSAP.
 

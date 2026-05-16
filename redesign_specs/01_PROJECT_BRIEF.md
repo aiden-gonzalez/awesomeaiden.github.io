@@ -23,22 +23,19 @@ A topographic field journal that becomes a bike ride — a personal site for a s
 
 The voices map onto a real distinction: monospace is the field guide, serif italic is the field journal. The site is both.
 
-**Two "wow" moments. No more.**
-1. The contour-to-chain scroll transition between hero and timeline
-2. The cassette gear-shift mechanic for the career timeline
+**One "wow" moment, fully committed.**
+1. The cassette gear-shift mechanic for the career timeline
 
-Any more and the site feels like a theme park ride. Any fewer and it doesn't earn the attention.
+Everything else earns its place quietly — through typography, restraint, and the topographic field-journal frame. A single mechanic gets all the attention.
 
 ## Section breakdown
 
 | # | Section | Purpose | Visual |
 |---|---------|---------|--------|
 | 1 | Hero | Establish voice, location, identity | Topographic map with coordinates, contour lines, summit marker |
-| 2 | Transition | Connect hero to timeline (scroll-linked) | One contour line peels off the map and becomes the bike chain |
-| 3 | Timeline (cassette) | Career arc as a sequential journey | Stacked cogs, scroll = shift, derailleur tracks the chain |
-| 4 | Elevation profile | Overview of the same career arc | Career as terrain — 7 years, 8,400 ft, 3 peaks |
-| 5 | Projects (ride log) | Portfolio detail | Strava-style cards with route-sketch SVGs |
-| 6 | Contact (trail register) | Get in touch | Form styled as a summit logbook |
+| 2 | Timeline (cassette) | Career arc as a sequential journey | Stacked cogs, scroll = shift, derailleur tracks the chain |
+| 3 | Projects (ride log) | Portfolio detail | Strava-style cards with route-sketch SVGs |
+| 4 | Contact (trail register) | Get in touch | Form styled as a summit logbook |
 
 ## Personality anchors
 

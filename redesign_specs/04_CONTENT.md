@@ -15,29 +15,22 @@ Aiden Gonzalez
 **Tagline** (body):
 software developer · seattle, wa (relocating)
 
+**Sub-tagline** (body, lighter weight):
+Building backend systems for financial workloads.
+
 **Field notes mark** (mono, top-right):
 field notes
-vol. iv · 2026
-
-**Route blurb** (lower-left, max 2 lines):
-Senior dev building backend systems for financial workloads. Cycling, hiking, coffee, and the occasional pickup run.
+vol. iii · 2026
 
 **Scroll cue** (mono, lower-right):
 SCROLL TO RIDE ↓
 
 ---
 
-## Section 2: Contour-to-chain transition
-
-No copy. The visual does the work. Optional callout that fades in mid-transition:
-`↘ THE CONTOUR LEAVES THE MAP`
-
----
-
-## Section 3: Cassette timeline
+## Section 2: Cassette timeline
 
 **Section header** (status bar above the cassette):
-SECTION 02 — The ride · a timeline — 2019 → 2026
+SECTION 01 — The ride · a timeline — 2019 → 2026
 
 **Gear 1 — 32T (easy gear, starting line)**
 - Tag: `STARTING LINE`
@@ -83,34 +76,10 @@ SECTION 02 — The ride · a timeline — 2019 → 2026
 
 ---
 
-## Section 4: Elevation profile
+## Section 3: Ride log (projects)
 
 **Section header:**
-ELEVATION PROFILE — 2019 → 2026
-
-**Title:**
-The ride, in elevation
-
-**Stats strip:**
-- Distance: 7 yrs
-- Elevation: 8,400 ft
-- Peaks: 3
-- Avg grade: +5.2%
-
-**Waypoints on the profile** (in order):
-1. Precocity intern — 2019
-2. Northrop satellite sw — 2021
-3. **BS Purdue · with distinction** — 2022 *(peak)*
-4. **MS Purdue · + consultant role** — 2023 *(peak)*
-5. Jasper Ridge software dev — 2024
-6. **Senior dev · now** — 2026 *(peak)*
-
----
-
-## Section 5: Ride log (projects)
-
-**Section header:**
-SECTION 03 · RIDE LOG — Projects, by the numbers — 4 RIDES
+SECTION 02 · RIDE LOG — Projects, by the numbers — 4 RIDES
 
 **Card 1 — hydRate (active, 2025)**
 - Period: `2025 · IN PROGRESS`
@@ -150,10 +119,10 @@ SECTION 03 · RIDE LOG — Projects, by the numbers — 4 RIDES
 
 ---
 
-## Section 6: Trail register (contact)
+## Section 4: Trail register (contact)
 
 **Section header:**
-SECTION 04 · SUMMIT — The trail register
+SECTION 03 · SUMMIT — The trail register
 
 **Stat right-side (elevation):**
 ELEVATION — 8,400 ft
@@ -179,11 +148,6 @@ SIGN THE REGISTER →
 - GITHUB — github.com/aiden-gonzalez
 - LINKEDIN — linkedin.com/in/aiden-gonzalez-712a26170
 - SITE — aidengonzalez.dev
-
-**Previous hikers panel** (placeholder until real submissions come in — replace with actual testimonials or remove):
-- M. Chen — "Read your Bloomberg post — let's chat." (2w)
-- J. Park — "Coffee in Capitol Hill next week?" (1mo)
-- R. Singh — "Strava friend request incoming." (2mo)
 
 **Footer:**
 END OF ROUTE · THANKS FOR RIDING · 2026

@@ -4,7 +4,7 @@
 
 **Framework: Astro**
 
-Reasoning: this site is 95% static content with two islands of interactivity (scroll transition, cassette). Astro renders almost everything to static HTML at build time and lets you opt into JavaScript only where needed. It's faster than Next.js for this use case, has zero hydration cost for the static sections, and pairs naturally with vanilla SVG/Canvas where you need it.
+Reasoning: this site is 95% static content with one island of interactivity (the cassette). Astro renders almost everything to static HTML at build time and lets you opt into JavaScript only where needed. It's faster than Next.js for this use case, has zero hydration cost for the static sections, and pairs naturally with vanilla SVG/Canvas where you need it.
 
 Alternatives considered:
 - **Next.js** — overkill for a single-page site, ships too much JS by default
@@ -13,11 +13,11 @@ Alternatives considered:
 
 **Animation: GSAP + ScrollTrigger**
 
-Reasoning: the contour-to-chain transition and cassette scroll mechanic both need scroll-linked animation with `scrub` and `pin`. ScrollTrigger handles this cleanly, has battle-tested mobile behavior, and the API is stable. The GSAP business license is free for personal sites.
+Reasoning: the cassette scroll mechanic needs scroll-linked animation with `scrub` and `pin`. ScrollTrigger handles this cleanly, has battle-tested mobile behavior, and the API is stable. The GSAP business license is free for personal sites.
 
 Alternatives considered:
 - **Framer Motion** — great, but built for React state-driven motion, not scroll-linked
-- **Lenis + raw IntersectionObserver** — works for simpler effects, struggles with phase-based animation like the contour transition
+- **Lenis + raw IntersectionObserver** — works for simpler effects, struggles with phase-based animation
 - **CSS scroll-driven animations** — modern, native, but Safari support is still partial as of this writing; not yet production-ready as a primary tool
 
 **Styling: Tailwind CSS + CSS custom properties**
@@ -38,14 +38,11 @@ aidengonzalez-dev/
 ├── src/
 │   ├── components/
 │   │   ├── Hero.astro            # Section 1
-│   │   ├── ContourTransition.astro  # Section 2 — has client:load island
-│   │   ├── Cassette.astro        # Section 3 — has client:load island
-│   │   ├── ElevationProfile.astro   # Section 4
-│   │   ├── RideLog.astro         # Section 5
-│   │   └── TrailRegister.astro   # Section 6
+│   │   ├── Cassette.astro        # Section 2 — has client:load island
+│   │   ├── RideLog.astro         # Section 3
+│   │   └── TrailRegister.astro   # Section 4
 │   ├── lib/
 │   │   ├── cassette-cogs.js      # Cog geometry math
-│   │   ├── contour-paths.js      # SVG path interpolation for transition
 │   │   └── design-tokens.css     # All :root custom properties
 │   ├── layouts/
 │   │   └── Layout.astro          # Base HTML + meta tags
@@ -68,7 +65,7 @@ Don't try to build everything in parallel. Each step depends on the previous one
 - Self-host fonts via `@font-face`
 
 **Step 2: Static sections (1–2 days)**
-- Build Hero, RideLog, TrailRegister, ElevationProfile as static Astro components
+- Build Hero, RideLog, TrailRegister as static Astro components
 - No JS yet, no scroll effects, no fancy SVG
 - Get the layout responsive on mobile and desktop
 - This locks in the visual system before you spend time on the interactive parts
@@ -80,32 +77,19 @@ Don't try to build everything in parallel. Each step depends on the previous one
 - Desktop layout: text panel on the left, cassette on the right, chain wrapping around from the right side. This matches a real bike's drive side — getting it backwards reads wrong to anyone who rides.
 - Mobile: stack the panel below the cassette, shrink the SVG to ~70%
 
-**Step 4: Contour-to-chain transition (1 day)**
-- This is the hardest piece. Implement it as a separate `<section>` that pins for ~600vh of scroll
-- Use GSAP's ScrollTrigger with `scrub: 0.5` for smoothing
-- The contour path's `d` attribute is interpolated across four phases — see `contour-paths.js`
-- Test on a real phone before declaring it done; trackpad scroll feels different from touch
-
-**Step 5: Polish (1–2 days)**
+**Step 4: Polish (1–2 days)**
 - Accessibility audit (axe-core, manual keyboard testing, screen reader spot-check)
 - Lighthouse run, optimize for performance
 - Cross-browser test (Safari, Firefox, Chrome, mobile Safari)
 - Add `prefers-reduced-motion` fallbacks for every animation
 
-**Total: ~6–8 working days**
+**Total: ~5–7 working days**
 
 ## The hard parts (where to expect friction)
-
-**Contour-to-chain transition.** The SVG path interpolation in the prototype is hand-rolled and works for the demo, but production needs:
-- Smooth `scrub` interpolation (GSAP handles this if you give it the start and end `d` values as tween targets)
-- A chain texture overlay during phase 3 — use `stroke-dasharray` with a tight repeating pattern
-- Mobile: the whole transition needs to be shorter (less scroll distance) on small screens
 
 **Cassette on mobile.** The desktop version has cogs on the right, panel on the left (matching a real bike's drive side, with the chain entering from the right). Mobile has to stack them vertically, which means the active cog needs to be visible *above* the panel — so the layout flips and the cog scaling has to be tuned for a portrait viewport. Plan for this from the start.
 
 **Real chain rendering.** A solid stroke reads as "line" not "chain" at close inspection. The fix is to render the chain as a series of plate-like dashes along the path. SVG `stroke-dasharray` gets you most of the way there. A more elaborate version uses a `<pattern>` with chain link shapes, but `dasharray` is the 80/20 move.
-
-**The contour path interpolation.** When the path morphs from "topographic contour" to "chain wrapping a cog," it has to look continuous. The trick is to keep the *same number of control points* in both states and interpolate them. If the topology of the path changes (different number of `Q`/`C` commands), the morph breaks. Plan path geometry up front, not on the fly.
 
 ## Accessibility requirements
 
@@ -113,7 +97,6 @@ These are non-negotiable.
 
 **`prefers-reduced-motion`.** Every animated section needs a static fallback:
 - Cassette: show all panels stacked, no scroll-shift mechanic
-- Contour transition: skip the animation, jump straight to "chain attached to cassette"
 
 **Keyboard navigation.** Every interactive element (form, links) must be reachable and operable by keyboard. Run through the site with only Tab and Enter; if you can't complete the journey, it's broken.
 

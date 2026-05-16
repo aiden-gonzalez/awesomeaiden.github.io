@@ -1,0 +1,278 @@
+---
+const channels = [
+  { label: 'Email',    value: 'aidenlgonzalez2@gmail.com',                href: 'mailto:aidenlgonzalez2@gmail.com' },
+  { label: 'GitHub',   value: 'github.com/aiden-gonzalez',                href: 'https://github.com/aiden-gonzalez' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/aiden-gonzalez-712a26170', href: 'https://www.linkedin.com/in/aiden-gonzalez-712a26170/' },
+  { label: 'Site',     value: 'aidengonzalez.dev',                       href: 'https://aidengonzalez.dev' },
+];
+---
+
+<section class="register" id="register">
+  <header class="reg-header">
+    <p class="label-mono">section 03 · summit — the trail register</p>
+    <p class="label-mono reg-elev">elevation — 8,400 ft</p>
+  </header>
+
+  <div class="reg-grid">
+    <div class="reg-main">
+      <div class="reg-title-block">
+        <p class="reg-eyebrow"><em>summit register</em></p>
+        <h2 class="reg-name">Aiden Gonzalez</h2>
+        <p class="reg-coords label-mono">N 47°36&apos; / W 122°20&apos; · seattle, wa</p>
+      </div>
+
+      <blockquote class="reg-quote voice-journal">
+        "Made it. Thanks for hiking up. If you'd like to chat about backend work, financial systems, or where to find the best flat white in town — sign below."
+      </blockquote>
+
+      <form
+        class="reg-form"
+        action="mailto:aidenlgonzalez2@gmail.com"
+        method="post"
+        enctype="text/plain"
+      >
+        <label class="field">
+          <span class="field-label label-mono">Your name</span>
+          <input class="field-input" type="text" name="Name" placeholder="Hiker" required />
+        </label>
+
+        <label class="field">
+          <span class="field-label label-mono">How to reach you</span>
+          <input class="field-input" type="text" name="Reach" placeholder="email or @handle" required />
+        </label>
+
+        <label class="field">
+          <span class="field-label label-mono">A note</span>
+          <textarea class="field-input field-textarea" name="Note" rows="4" placeholder="Say hello, ask a question, or just sign in." required></textarea>
+        </label>
+
+        <button class="reg-submit label-mono" type="submit">sign the register →</button>
+      </form>
+    </div>
+
+    <aside class="reg-channels">
+      <p class="label-mono channels-title">direct channels</p>
+      <ul class="channels-list">
+        {channels.map((c) => (
+          <li class="channel">
+            <span class="channel-label label-mono">{c.label}</span>
+            <a class="channel-value" href={c.href}>{c.value}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="reg-footer">
+    <p class="label-mono">end of route · thanks for riding · 2026</p>
+  </footer>
+</section>
+
+<style>
+  .register {
+    background: var(--color-surface-inset);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-16) var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .register {
+      padding: var(--space-24) var(--space-8);
+    }
+  }
+
+  .reg-header,
+  .reg-grid,
+  .reg-footer {
+    max-width: var(--max-width-wide);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .reg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .reg-header .label-mono {
+    color: var(--color-text-secondary);
+  }
+
+  .reg-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    margin-top: var(--space-12);
+  }
+
+  @media (min-width: 900px) {
+    .reg-grid {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: var(--space-16);
+    }
+  }
+
+  /* Title block */
+  .reg-title-block {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .reg-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .reg-name {
+    font-size: var(--text-2xl);
+    margin: var(--space-2) 0 0;
+    color: var(--color-text-primary);
+  }
+
+  .reg-coords {
+    margin-top: var(--space-2);
+    color: var(--color-text-secondary);
+  }
+
+  .reg-quote {
+    font-size: var(--text-lg);
+    margin: var(--space-8) 0 0;
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--color-accent);
+    color: var(--color-text-primary);
+  }
+
+  /* Form */
+  .reg-form {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .field-label {
+    color: var(--color-text-secondary);
+  }
+
+  .field-input {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text-primary);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    line-height: var(--leading-normal);
+  }
+
+  .field-input:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-color: var(--color-accent);
+  }
+
+  .field-textarea {
+    font-family: var(--font-sans);
+    resize: vertical;
+    min-height: 6rem;
+  }
+
+  .reg-submit {
+    align-self: start;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-6);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-out-quart),
+                color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .reg-submit:hover,
+  .reg-submit:focus-visible {
+    background: var(--color-bg);
+    color: var(--color-accent);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Channels panel */
+  .reg-channels {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    align-self: start;
+  }
+
+  @media (min-width: 900px) {
+    .reg-channels {
+      position: sticky;
+      top: var(--space-6);
+    }
+  }
+
+  .channels-title {
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-6);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .channels-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .channel-label {
+    color: var(--color-text-secondary);
+  }
+
+  .channel-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .channel-value:hover,
+  .channel-value:focus-visible {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* Footer */
+  .reg-footer {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .reg-footer .label-mono {
+    color: var(--color-text-secondary);
+  }
+</style>

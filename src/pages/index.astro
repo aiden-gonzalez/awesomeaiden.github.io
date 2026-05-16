@@ -1,13 +1,38 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import RideLog from '../components/RideLog.astro';
+import TrailRegister from '../components/TrailRegister.astro';
 ---
 
 <Layout>
-  <main style="padding: var(--space-8); max-width: var(--max-width-prose); margin: 0 auto;">
-    <p class="label-mono">section 00 — scaffold</p>
-    <h1 style="font-size: var(--text-3xl); margin-top: var(--space-4);">Aiden Gonzalez</h1>
-    <p style="margin-top: var(--space-4); color: var(--color-text-tertiary);">
-      Site under construction. Visit <a href="/test" style="color: var(--color-accent); text-decoration: underline;">/test</a> to see the design system.
-    </p>
-  </main>
+  <Hero />
+
+  <section class="section-placeholder">
+    <p class="label-mono ph-label">section 01 — the cassette</p>
+    <p class="ph-note">Career timeline with scroll-shift mechanic — built in Step 3.</p>
+  </section>
+
+  <RideLog />
+  <TrailRegister />
 </Layout>
+
+<style>
+  .section-placeholder {
+    background: var(--color-bg);
+    border-top: 1px dashed var(--color-border);
+    border-bottom: 1px dashed var(--color-border);
+    padding: var(--space-16) var(--space-4);
+    text-align: center;
+  }
+
+  .ph-label {
+    color: var(--color-text-secondary);
+  }
+
+  .ph-note {
+    margin-top: var(--space-3);
+    color: var(--color-text-tertiary);
+    font-size: var(--text-sm);
+  }
+</style>
