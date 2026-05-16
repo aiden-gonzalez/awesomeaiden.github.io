@@ -176,8 +176,8 @@ SIGN THE REGISTER →
 
 **Direct channels panel:**
 - EMAIL — aidenlgonzalez2@gmail.com
-- GITHUB — github.com/aiden (update with real handle)
-- LINKEDIN — in/aidengonzalez (update with real handle)
+- GITHUB — github.com/aiden-gonzalez
+- LINKEDIN — linkedin.com/in/aiden-gonzalez-712a26170
 - SITE — aidengonzalez.dev
 
 **Previous hikers panel** (placeholder until real submissions come in — replace with actual testimonials or remove):
