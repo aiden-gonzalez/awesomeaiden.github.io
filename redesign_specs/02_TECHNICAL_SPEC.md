@@ -77,6 +77,7 @@ Don't try to build everything in parallel. Each step depends on the previous one
 - Build the SVG cog generator in `cassette-cogs.js`
 - Wire up the scroll-linked rotation with GSAP ScrollTrigger
 - Get the panel transitions working
+- Desktop layout: text panel on the left, cassette on the right, chain wrapping around from the right side. This matches a real bike's drive side — getting it backwards reads wrong to anyone who rides.
 - Mobile: stack the panel below the cassette, shrink the SVG to ~70%
 
 **Step 4: Contour-to-chain transition (1 day)**
@@ -100,7 +101,7 @@ Don't try to build everything in parallel. Each step depends on the previous one
 - A chain texture overlay during phase 3 — use `stroke-dasharray` with a tight repeating pattern
 - Mobile: the whole transition needs to be shorter (less scroll distance) on small screens
 
-**Cassette on mobile.** The desktop version has cogs on the left, panel on the right. Mobile has to stack them vertically, which means the active cog needs to be visible *above* the panel — so the layout flips and the cog scaling has to be tuned for a portrait viewport. Plan for this from the start.
+**Cassette on mobile.** The desktop version has cogs on the right, panel on the left (matching a real bike's drive side, with the chain entering from the right). Mobile has to stack them vertically, which means the active cog needs to be visible *above* the panel — so the layout flips and the cog scaling has to be tuned for a portrait viewport. Plan for this from the start.
 
 **Real chain rendering.** A solid stroke reads as "line" not "chain" at close inspection. The fix is to render the chain as a series of plate-like dashes along the path. SVG `stroke-dasharray` gets you most of the way there. A more elaborate version uses a `<pattern>` with chain link shapes, but `dasharray` is the 80/20 move.
 
