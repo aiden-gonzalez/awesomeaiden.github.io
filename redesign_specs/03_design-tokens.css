@@ -1,0 +1,161 @@
+/* ============================================================
+   Design tokens — aidengonzalez.dev
+   Drop this into src/lib/design-tokens.css and import in
+   your base layout. Every other file references these.
+   ============================================================ */
+
+:root {
+  /* ─── Color ─────────────────────────────────────────────── */
+
+  /* Primary palette */
+  --color-bone: #f5f1ea;          /* Page background, light surfaces */
+  --color-bone-warm: #faf6ed;     /* Card surfaces (slightly lighter) */
+  --color-bone-shade: #efe9da;    /* Inset surfaces, headers, footers */
+  --color-bone-line: #c4b896;     /* Borders, dividers, dashed lines */
+
+  --color-forest: #3a5a4a;        /* Structural — contour lines, labels, metadata */
+  --color-forest-soft: rgba(58, 90, 74, 0.55);
+  --color-forest-faint: rgba(58, 90, 74, 0.15);
+
+  --color-clay: #8b3a2b;          /* Accent — waypoints, active states */
+  --color-clay-tint: #f5e4dc;     /* Clay background for "active" badges */
+
+  --color-ink: #2c2416;           /* Body text, headings, hub center */
+  --color-ink-soft: #6b5d44;      /* Secondary text, captions */
+
+  /* Semantic aliases */
+  --color-bg: var(--color-bone);
+  --color-surface: var(--color-bone-warm);
+  --color-surface-inset: var(--color-bone-shade);
+  --color-border: var(--color-bone-line);
+  --color-text-primary: var(--color-ink);
+  --color-text-secondary: var(--color-forest);
+  --color-text-tertiary: var(--color-ink-soft);
+  --color-accent: var(--color-clay);
+
+  /* ─── Typography ────────────────────────────────────────── */
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-serif: "Source Serif Pro", "EB Garamond", Georgia, serif;
+
+  /* Type scale (modular, 1.25 ratio) */
+  --text-xs: 0.6875rem;    /* 11px — mono labels */
+  --text-sm: 0.8125rem;    /* 13px — secondary body */
+  --text-base: 0.9375rem;  /* 15px — body */
+  --text-lg: 1.125rem;     /* 18px — small headings */
+  --text-xl: 1.375rem;     /* 22px — section titles */
+  --text-2xl: 1.75rem;     /* 28px — sub-hero */
+  --text-3xl: 2.25rem;     /* 36px — hero */
+
+  /* Letter-spacing presets */
+  --tracking-tight: -0.02em;     /* Hero name, large display */
+  --tracking-normal: 0;
+  --tracking-loose: 0.05em;      /* Mono labels */
+  --tracking-extra: 0.15em;      /* Tag pills, section markers */
+  --tracking-mega: 0.25em;       /* "STARTING LINE" style tags */
+
+  /* Line heights */
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  /* ─── Layout ────────────────────────────────────────────── */
+
+  --max-width-prose: 42rem;       /* 672px — body content max */
+  --max-width-content: 56rem;     /* 896px — section content max */
+  --max-width-wide: 72rem;        /* 1152px — full sections */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ─── Motion ────────────────────────────────────────────── */
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring-soft: cubic-bezier(0.22, 1.6, 0.36, 1);
+
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 700ms;
+
+  /* ─── Z-index ───────────────────────────────────────────── */
+
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-overlay: 100;
+  --z-modal: 1000;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Screen-reader only ─────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Base typography ────────────────────────────────────── */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  font-feature-settings: "ss01", "cv11";  /* Inter stylistic alternates */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Heading defaults — sentence case, never title case */
+h1, h2, h3, h4 {
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* Mono labels — use this class for any "STARTING LINE" / "STOP 01 / 06" markers */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-mega);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+/* Field-journal voice — for register quotes, italic moments */
+.voice-journal {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--color-text-primary);
+}
