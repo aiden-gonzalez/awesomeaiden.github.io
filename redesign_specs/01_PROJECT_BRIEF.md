@@ -1,4 +1,4 @@
-# Personal site — project brief
+# Personal site, project brief
 
 **Owner:** Aiden Gonzalez
 **Domain:** aidengonzalez.dev
@@ -8,25 +8,25 @@
 
 ## The one-sentence pitch
 
-A topographic field journal that becomes a bike ride — a personal site for a senior backend developer who climbs mountains on weekends, treating his career as terrain you scroll through and shift through.
+A topographic field journal that becomes a bike ride, a personal site for a senior backend developer who climbs mountains on weekends, treating his career as terrain you scroll through and shift through.
 
 ## Core design principles
 
 **One metaphor, sustained.** Cycling-through-terrain runs underneath the entire site without ever announcing itself. Every section earns its place inside this metaphor. No section breaks the frame.
 
-**Restrained palette.** Bone (`#f5f1ea`), forest green (`#3a5a4a`), clay red (`#8b3a2b`), ink (`#2c2416`). Clay red is reserved as an accent — used only for waypoints and active states. Forest green carries structure. Ink carries content.
+**Restrained palette.** Bone (`#f5f1ea`), forest green (`#3a5a4a`), clay red (`#8b3a2b`), ink (`#2c2416`). Clay red is reserved as an accent, used only for waypoints and active states. Forest green carries structure. Ink carries content.
 
 **Two type voices in opposition.**
-- Sans-serif (Inter, IBM Plex Sans, or system sans) — body content, headings, navigation
-- Monospace (JetBrains Mono, Berkeley Mono, or system mono) — labels, coordinates, metadata, anything "systematic"
-- Serif italic (Source Serif, EB Garamond) — handwritten content only: the summit register quote, visitor signatures, the field-journal moments
+- Sans-serif (Inter, IBM Plex Sans, or system sans), body content, headings, navigation
+- Monospace (JetBrains Mono, Berkeley Mono, or system mono), labels, coordinates, metadata, anything "systematic"
+- Serif italic (Source Serif, EB Garamond), handwritten content only: the summit register quote, visitor signatures, the field-journal moments
 
 The voices map onto a real distinction: monospace is the field guide, serif italic is the field journal. The site is both.
 
 **One "wow" moment, fully committed.**
 1. The cassette gear-shift mechanic for the career timeline
 
-Everything else earns its place quietly — through typography, restraint, and the topographic field-journal frame. A single mechanic gets all the attention.
+Everything else earns its place quietly, through typography, restraint, and the topographic field-journal frame. A single mechanic gets all the attention.
 
 ## Section breakdown
 
@@ -39,16 +39,16 @@ Everything else earns its place quietly — through typography, restraint, and t
 
 ## Personality anchors
 
-These are the hobbies the site weaves in. They're not given their own sections — they show up as texture throughout:
+These are the hobbies the site weaves in. They're not given their own sections, they show up as texture throughout:
 
-- **Cycling** — the chain, the cassette, the elevation profile, the "ride" framing, the cadence/rpm readouts
-- **Hiking** — the topographic hero, coordinates, summit markers, the trail register, "elevation gained" as a metric
-- **Coffee** — referenced in copy (espresso, flat whites, cortados — the morning ritual), not visually depicted
-- **Basketball** — light touch; could appear as a single line in an "off the keyboard" sidebar or as an Easter egg
+- **Cycling**, the chain, the cassette, the elevation profile, the "ride" framing, the cadence/rpm readouts
+- **Hiking**, the topographic hero, coordinates, summit markers, the trail register, "elevation gained" as a metric
+- **Coffee**, referenced in copy (espresso, flat whites, cortados, the morning ritual), not visually depicted
+- **Basketball**, light touch; could appear as a single line in an "off the keyboard" sidebar or as an Easter egg
 
 ## What this site is NOT
 
-- Not a dark-mode terminal portfolio (that was concept 1 — we moved past it)
+- Not a dark-mode terminal portfolio (that was concept 1, we moved past it)
 - Not a Patagonia ad (the topographic restraint matters; resist literal mountain photography)
 - Not a one-trick site (every section pulls its weight; the metaphor isn't just decoration)
 - Not a CMS-driven blog (this is a single page, not a content system; if you ever want a blog, it's a separate sub-site at /writing)

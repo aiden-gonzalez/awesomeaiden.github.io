@@ -41,7 +41,7 @@ function ridgePath(baseY: number, amplitude: number, phase: number, segments = 4
 }
 
 // Nine ridges. Amplitudes ease toward the page edges. Phase shifts smoothly across the
-// stack so peaks fan out slightly — adjacent ridges stay close, distant ridges diverge more.
+// stack so peaks fan out slightly, adjacent ridges stay close, distant ridges diverge more.
 const ridges = [
   { baseY: 200, ampScale: 0.55, phase:   0 },
   { baseY: 290, ampScale: 0.70, phase:  35 },
@@ -99,8 +99,7 @@ const ridgeData = ridges.map((r, i) => {
 
     <div class="hero-center">
       <h1 id="hero-name" class="hero-name">Aiden Gonzalez</h1>
-      <p class="hero-tagline">software developer · seattle, wa (relocating)</p>
-      <p class="hero-subline">Building backend systems for financial workloads.</p>
+      <p class="hero-tagline">software developer · building backend systems for financial workloads</p>
     </div>
 
     <p class="hero-cue label-mono">scroll to ride ↓</p>
@@ -188,12 +187,6 @@ const ridgeData = ridges.map((r, i) => {
     margin-top: var(--space-3);
     font-size: var(--text-base);
     color: var(--color-text-secondary);
-  }
-
-  .hero-subline {
-    margin-top: var(--space-2);
-    font-size: var(--text-base);
-    color: var(--color-text-tertiary);
   }
 
   .hero-cue {

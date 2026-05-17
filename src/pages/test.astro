@@ -6,10 +6,10 @@ const primaryColors = [
   { name: '--color-bone-warm',   hex: '#faf6ed', note: 'Card surfaces (slightly lighter)' },
   { name: '--color-bone-shade',  hex: '#efe9da', note: 'Inset surfaces, headers, footers' },
   { name: '--color-bone-line',   hex: '#c4b896', note: 'Borders, dividers, dashed lines' },
-  { name: '--color-forest',      hex: '#3a5a4a', note: 'Structural — contour lines, labels, metadata' },
+  { name: '--color-forest',      hex: '#3a5a4a', note: 'Structural, contour lines, labels, metadata' },
   { name: '--color-forest-soft', hex: 'rgba(58, 90, 74, 0.55)', note: 'Softened forest for secondary marks' },
   { name: '--color-forest-faint',hex: 'rgba(58, 90, 74, 0.15)', note: 'Faint forest for backgrounds, washes' },
-  { name: '--color-clay',        hex: '#8b3a2b', note: 'Accent — waypoints, active states' },
+  { name: '--color-clay',        hex: '#8b3a2b', note: 'Accent, waypoints, active states' },
   { name: '--color-clay-tint',   hex: '#f5e4dc', note: 'Clay background for "active" badges' },
   { name: '--color-ink',         hex: '#2c2416', note: 'Body text, headings, hub center' },
   { name: '--color-ink-soft',    hex: '#6b5d44', note: 'Secondary text, captions' },
@@ -47,10 +47,10 @@ const trackingScale = [
 const sampleText = 'The contour leaves the map. Made it. Thanks for hiking up. 47°36N / 122°20W.';
 ---
 
-<Layout title="Design system — aidengonzalez.dev" description="Color, type, and motion tokens for the redesign.">
+<Layout title="Design system, aidengonzalez.dev" description="Color, type, and motion tokens for the redesign.">
   <main>
     <header class="page-header">
-      <p class="label-mono">section 00 — design system</p>
+      <p class="label-mono">section 00, design system</p>
       <h1 class="page-title">Design system</h1>
       <p class="page-sub">
         Every color, type voice, and motion token from <code>design-tokens.css</code>, rendered so the system can be signed off before any feature work begins.
@@ -75,7 +75,7 @@ const sampleText = 'The contour leaves the map. Made it. Thanks for hiking up. 4
 
     <section class="block">
       <h2 class="block-title"><span class="label-mono">02</span> Semantic aliases</h2>
-      <p class="block-intro">Aliases reference primary tokens — change a primary, every alias follows.</p>
+      <p class="block-intro">Aliases reference primary tokens, change a primary, every alias follows.</p>
       <ul class="alias-list">
         {semanticAliases.map((a) => (
           <li class="alias-row">

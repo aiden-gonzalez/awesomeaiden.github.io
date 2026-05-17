@@ -18,17 +18,17 @@ Paste the entire block below as your first message to Claude Code after you `cd`
 ```
 I'm building my personal website. The design is fully scoped and I have four handoff documents in this directory:
 
-- 01_PROJECT_BRIEF.md — design rationale, principles, section breakdown
-- 02_TECHNICAL_SPEC.md — stack, project structure, build order, accessibility requirements
-- 03_design-tokens.css — exact color, typography, and spacing values
-- 04_CONTENT.md — all copy for the site, ready to paste in
+- 01_PROJECT_BRIEF.md, design rationale, principles, section breakdown
+- 02_TECHNICAL_SPEC.md, stack, project structure, build order, accessibility requirements
+- 03_design-tokens.css, exact color, typography, and spacing values
+- 04_CONTENT.md, all copy for the site, ready to paste in
 
 Please start by reading all four files in order. Then summarize back to me:
 1. The core design concept in one sentence
 2. The recommended stack and why
 3. The build order, and which step you'd recommend starting with today
 
-Don't write any code yet — I want to confirm we're aligned before you start building. Once I say "go," follow the build order in the technical spec, completing Step 1 (tokens + typography setup) and stopping there so I can review.
+Don't write any code yet, I want to confirm we're aligned before you start building. Once I say "go," follow the build order in the technical spec, completing Step 1 (tokens + typography setup) and stopping there so I can review.
 
 Important constraints to remember throughout:
 - Static-first. JavaScript only where the interactivity demands it (scroll transition, cassette).
@@ -37,7 +37,7 @@ Important constraints to remember throughout:
 - prefers-reduced-motion fallbacks are non-negotiable.
 - The cassette content must also exist as semantic HTML for screen readers.
 - Self-host fonts (don't use Google Fonts CDN).
-- Mobile-first responsive — design for 375px width, enhance up.
+- Mobile-first responsive, design for 375px width, enhance up.
 
 Tooling notes:
 - Use the latest stable Astro
@@ -54,13 +54,13 @@ When you're ready to start, ask me any clarifying questions about my GitHub hand
 
 Claude Code will read your four docs, summarize the project back to you, and ask a handful of clarifying questions. Likely questions to anticipate:
 
-- **GitHub username** — your repo handle, used in commits and the contact section
-- **LinkedIn URL** — for the direct channels panel
-- **Real Strava integration** — yes or no? Adds API setup work
-- **Deployment target** — Vercel, Cloudflare Pages, Netlify, or something else
-- **Domain status** — is `aidengonzalez.dev` already registered and pointing somewhere?
-- **Analytics** — do you want anything (Plausible, Fathom, none)?
-- **Newsletter** — does the trail register submit to a real backend? If yes, which (Formspree, Resend, Buttondown)?
+- **GitHub username**, your repo handle, used in commits and the contact section
+- **LinkedIn URL**, for the direct channels panel
+- **Real Strava integration**, yes or no? Adds API setup work
+- **Deployment target**, Vercel, Cloudflare Pages, Netlify, or something else
+- **Domain status**, is `aidengonzalez.dev` already registered and pointing somewhere?
+- **Analytics**, do you want anything (Plausible, Fathom, none)?
+- **Newsletter**, does the trail register submit to a real backend? If yes, which (Formspree, Resend, Buttondown)?
 
 Have answers ready for these. The build moves faster when you've decided in advance.
 
@@ -103,7 +103,7 @@ We're ready to deploy. Run through this checklist:
 4. Mobile real-device test (or BrowserStack)
 5. prefers-reduced-motion test
 6. Keyboard navigation walkthrough
-7. View source — confirm no debug code, no console.log, no commented-out blocks
+7. View source, confirm no debug code, no console.log, no commented-out blocks
 
 Report any failures before we ship.
 ```

@@ -1,5 +1,5 @@
 /* ============================================================
-   Design tokens — aidengonzalez.dev
+   Design tokens, aidengonzalez.dev
    Drop this into src/lib/design-tokens.css and import in
    your base layout. Every other file references these.
    ============================================================ */
@@ -13,11 +13,11 @@
   --color-bone-shade: #efe9da;    /* Inset surfaces, headers, footers */
   --color-bone-line: #c4b896;     /* Borders, dividers, dashed lines */
 
-  --color-forest: #3a5a4a;        /* Structural — contour lines, labels, metadata */
+  --color-forest: #3a5a4a;        /* Structural, contour lines, labels, metadata */
   --color-forest-soft: rgba(58, 90, 74, 0.55);
   --color-forest-faint: rgba(58, 90, 74, 0.15);
 
-  --color-clay: #8b3a2b;          /* Accent — waypoints, active states */
+  --color-clay: #8b3a2b;          /* Accent, waypoints, active states */
   --color-clay-tint: #f5e4dc;     /* Clay background for "active" badges */
 
   --color-ink: #2c2416;           /* Body text, headings, hub center */
@@ -40,13 +40,13 @@
   --font-serif: "Source Serif Pro", "EB Garamond", Georgia, serif;
 
   /* Type scale (modular, 1.25 ratio) */
-  --text-xs: 0.6875rem;    /* 11px — mono labels */
-  --text-sm: 0.8125rem;    /* 13px — secondary body */
-  --text-base: 0.9375rem;  /* 15px — body */
-  --text-lg: 1.125rem;     /* 18px — small headings */
-  --text-xl: 1.375rem;     /* 22px — section titles */
-  --text-2xl: 1.75rem;     /* 28px — sub-hero */
-  --text-3xl: 2.25rem;     /* 36px — hero */
+  --text-xs: 0.6875rem;    /* 11px, mono labels */
+  --text-sm: 0.8125rem;    /* 13px, secondary body */
+  --text-base: 0.9375rem;  /* 15px, body */
+  --text-lg: 1.125rem;     /* 18px, small headings */
+  --text-xl: 1.375rem;     /* 22px, section titles */
+  --text-2xl: 1.75rem;     /* 28px, sub-hero */
+  --text-3xl: 2.25rem;     /* 36px, hero */
 
   /* Letter-spacing presets */
   --tracking-tight: -0.02em;     /* Hero name, large display */
@@ -63,9 +63,9 @@
 
   /* ─── Layout ────────────────────────────────────────────── */
 
-  --max-width-prose: 42rem;       /* 672px — body content max */
-  --max-width-content: 56rem;     /* 896px — section content max */
-  --max-width-wide: 72rem;        /* 1152px — full sections */
+  --max-width-prose: 42rem;       /* 672px, body content max */
+  --max-width-content: 56rem;     /* 896px, section content max */
+  --max-width-wide: 72rem;        /* 1152px, full sections */
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -137,14 +137,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Heading defaults — sentence case, never title case */
+/* Heading defaults, sentence case, never title case */
 h1, h2, h3, h4 {
   font-weight: 500;
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
 }
 
-/* Mono labels — use this class for any "STARTING LINE" / "STOP 01 / 06" markers */
+/* Mono labels, use this class for any "STARTING LINE" / "STOP 01 / 06" markers */
 .label-mono {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -153,7 +153,7 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
 }
 
-/* Field-journal voice — for register quotes, italic moments */
+/* Field-journal voice, for register quotes, italic moments */
 .voice-journal {
   font-family: var(--font-serif);
   font-style: italic;
