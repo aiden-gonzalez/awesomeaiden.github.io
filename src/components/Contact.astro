@@ -1,77 +1,53 @@
 ---
 type Channel =
   | { label: string; value: string; copy: string }
-  | { label: string; value: string; href: string };
+  | { label: string; value: string; href: string }
+  | { label: string; value: string; download: string };
 
 const channels: Channel[] = [
   { label: 'Email',    value: 'aidenlgonzalez2@gmail.com',                copy: 'aidenlgonzalez2@gmail.com' },
   { label: 'GitHub',   value: 'github.com/aiden-gonzalez',                href: 'https://github.com/aiden-gonzalez' },
   { label: 'LinkedIn', value: 'linkedin.com/in/aiden-gonzalez-712a26170', href: 'https://www.linkedin.com/in/aiden-gonzalez-712a26170/' },
+  { label: 'Resume',   value: 'aiden_gonzalez_resume.pdf',                 download: '/files/aiden_gonzalez_resume.pdf' },
 ];
 ---
 
-<section class="register" id="register">
-  <header class="reg-header">
+<section class="contact" id="contact">
+  <header class="contact-header">
     <p class="label-mono">contact</p>
-    <p class="label-mono reg-elev">elevation · 14,410 ft</p>
+    <p class="label-mono contact-elev">elevation · 14,410 ft</p>
   </header>
 
-  <div class="reg-grid">
-    <div class="reg-main">
-      <form
-        class="reg-form"
-        action="mailto:aidenlgonzalez2@gmail.com"
-        method="post"
-        enctype="text/plain"
-      >
-        <label class="field">
-          <span class="field-label label-mono">Your name</span>
-          <input class="field-input" type="text" name="Name" placeholder="Hiker" required />
-        </label>
+  <div class="contact-grid">
+    <aside class="contact-channels">
+      <ul class="channels-list">
+        {channels.map((c) => (
+          <li class="channel">
+            <span class="channel-label label-mono">{c.label}</span>
+            {'href' in c ? (
+              <a class="channel-value" href={c.href} target="_blank" rel="noopener noreferrer">{c.value}</a>
+            ) : 'download' in c ? (
+              <a class="channel-value" href={c.download} download>{c.value}</a>
+            ) : (
+              <button
+                class="channel-value channel-copy"
+                type="button"
+                data-copy={c.copy}
+                aria-label={`Copy ${c.value} to clipboard`}
+              >
+                <span class="channel-text">{c.value}</span>
+                <span class="channel-hover" aria-hidden="true">click to copy</span>
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </aside>
 
-        <label class="field">
-          <span class="field-label label-mono">How to reach you</span>
-          <input class="field-input" type="text" name="Reach" placeholder="email or @handle" required />
-        </label>
-
-        <label class="field">
-          <span class="field-label label-mono">A note</span>
-          <textarea class="field-input field-textarea" name="Note" rows="4" placeholder="Say hello, ask a question, or just sign in." required></textarea>
-        </label>
-
-        <button class="reg-submit label-mono" type="submit">submit</button>
-      </form>
-    </div>
-
-    <div class="reg-aside">
-      <aside class="reg-channels">
-        <p class="label-mono channels-title">direct channels</p>
-        <ul class="channels-list">
-          {channels.map((c) => (
-            <li class="channel">
-              <span class="channel-label label-mono">{c.label}</span>
-              {'href' in c ? (
-                <a class="channel-value" href={c.href} target="_blank" rel="noopener noreferrer">{c.value}</a>
-              ) : (
-                <button
-                  class="channel-value channel-copy"
-                  type="button"
-                  data-copy={c.copy}
-                  aria-label={`Copy ${c.value} to clipboard`}
-                >
-                  <span class="channel-text">{c.value}</span>
-                  <span class="channel-hover" aria-hidden="true">click to copy</span>
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </aside>
-
-      <figure class="reg-mountain" aria-labelledby="rainier-title rainier-desc">
+      <figure class="contact-mountain" aria-labelledby="rainier-title rainier-desc">
         <svg
           class="rainier"
-          viewBox="0 0 600 220"
+          viewBox="0 0 600 320"
           preserveAspectRatio="xMidYEnd meet"
           role="img"
         >
@@ -82,60 +58,69 @@ const channels: Channel[] = [
           <path
             class="rainier-far"
             fill="none"
-            d="M 0,172 Q 80,168 160,173 T 320,170 T 480,172 T 600,170"
+            d="M 0,268 Q 80,264 160,269 T 320,266 T 480,268 T 600,266"
           />
           <path
             class="rainier-ridge"
             fill="none"
-            d="M 0,160 C 80,156 160,165 240,158 C 320,152 400,162 480,156 C 540,152 580,158 600,156"
+            d="M 0,254 C 80,250 160,260 240,252 C 320,246 400,256 480,250 C 540,246 580,252 600,250"
           />
 
           <!-- Mount Rainier: broad asymmetric silhouette.  Liberty Cap appears as a small
                summit just left of the main Columbia Crest plateau, with a slight saddle
-               between them. -->
+               between them.  Left (north) face is steeper, right (south) face is gentler —
+               characteristic of the view from Seattle/Tacoma. -->
           <path
             class="rainier-main"
             fill="none"
-            d="M 20,205
-               C 80,200 130,192 170,178
-               C 195,162 215,140 230,118
-               C 232,112 237,108 240,108
-               L 252,108
-               C 256,108 260,111 262,113
-               C 268,118 272,118 278,113
-               C 282,108 290,100 300,96
-               L 305,95
-               L 355,95
-               C 365,96 372,100 380,108
-               C 410,128 445,154 480,174
-               C 520,188 555,198 585,202
-               L 595,205"
+            d="M 20,305
+               C 90,300 150,285 195,255
+               C 225,228 250,180 262,135
+               C 265,118 268,95 272,86
+               L 280,84
+               L 292,84
+               C 296,84 300,93 303,99
+               C 308,112 315,118 322,113
+               C 328,100 336,75 344,60
+               C 348,55 354,53 360,52
+               L 395,52
+               C 402,55 410,72 418,90
+               C 445,140 480,200 515,240
+               C 545,270 575,292 590,300
+               L 596,305"
           />
 
           <!-- Cleaver lines: subtle interior strokes suggesting rocky ridges between glaciers. -->
-          <path class="rainier-cleaver" fill="none" d="M 295,102 C 290,135 286,165 282,195" />
-          <path class="rainier-cleaver" fill="none" d="M 345,100 C 354,132 365,162 378,195" />
+          <path
+            class="rainier-cleaver"
+            fill="none"
+            d="M 315,68 C 308,140 298,215 290,290"
+          />
+          <path
+            class="rainier-cleaver"
+            fill="none"
+            d="M 372,68 C 382,140 398,215 412,290"
+          />
 
           <!-- Snow band on the upper slopes. -->
           <path
             class="rainier-snow"
             fill="none"
-            d="M 246,124 C 272,116 308,113 338,114 C 362,115 378,119 388,126"
+            d="M 270,100 C 295,88 325,80 355,80 C 380,80 397,86 408,98"
           />
           <path
             class="rainier-snow-soft"
             fill="none"
-            d="M 262,148 C 292,141 322,140 352,143 C 376,145 392,151 402,158"
+            d="M 258,148 C 295,134 330,128 365,130 C 392,132 412,142 428,158"
           />
 
           <!-- Ground -->
-          <line class="rainier-ground" fill="none" x1="0" y1="208" x2="600" y2="208" />
+          <line class="rainier-ground" fill="none" x1="0" y1="308" x2="600" y2="308" />
         </svg>
       </figure>
-    </div>
   </div>
 
-  <footer class="reg-footer">
+  <footer class="contact-footer">
     <p class="label-mono">end of route</p>
   </footer>
 </section>
@@ -168,27 +153,27 @@ const channels: Channel[] = [
 </script>
 
 <style>
-  .register {
+  .contact {
     background: var(--color-surface-inset);
     border-top: 1px solid var(--color-border);
     padding: var(--space-16) var(--space-4);
   }
 
   @media (min-width: 768px) {
-    .register {
+    .contact {
       padding: var(--space-24) var(--space-8);
     }
   }
 
-  .reg-header,
-  .reg-grid,
-  .reg-footer {
+  .contact-header,
+  .contact-grid,
+  .contact-footer {
     max-width: var(--max-width-wide);
     margin-left: auto;
     margin-right: auto;
   }
 
-  .reg-header {
+  .contact-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -196,94 +181,27 @@ const channels: Channel[] = [
     flex-wrap: wrap;
   }
 
-  .reg-header .label-mono {
+  .contact-header .label-mono {
     color: var(--color-text-secondary);
   }
 
-  .reg-grid {
+  .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-12);
+    gap: var(--space-10);
     margin-top: var(--space-12);
+    align-items: center;
   }
 
   @media (min-width: 900px) {
-    .reg-grid {
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    .contact-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--space-16);
     }
   }
 
-  /* Form */
-  .reg-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .field-label {
-    color: var(--color-text-secondary);
-  }
-
-  .field-input {
-    font-family: var(--font-sans);
-    /* 16px minimum prevents iOS Safari from zooming the viewport on focus. */
-    font-size: 1rem;
-    color: var(--color-text-primary);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: var(--space-3) var(--space-4);
-    line-height: var(--leading-normal);
-  }
-
-  .field-input:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-color: var(--color-accent);
-  }
-
-  .field-textarea {
-    font-family: var(--font-sans);
-    resize: vertical;
-    min-height: 6rem;
-  }
-
-  .reg-submit {
-    align-self: start;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    border: 1px solid var(--color-accent);
-    border-radius: var(--radius-sm);
-    padding: var(--space-3) var(--space-6);
-    cursor: pointer;
-    transition: background-color var(--duration-fast) var(--ease-out-quart),
-                color var(--duration-fast) var(--ease-out-quart);
-  }
-
-  .reg-submit:hover,
-  .reg-submit:focus-visible {
-    background: var(--color-bg);
-    color: var(--color-accent);
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-
-  /* Aside: mountain + channels stacked in the right column */
-  .reg-aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
   /* Mountain */
-  .reg-mountain {
+  .contact-mountain {
     margin: 0;
     padding: 0;
     display: flex;
@@ -294,7 +212,7 @@ const channels: Channel[] = [
 
   .rainier {
     width: 100%;
-    max-width: 320px;
+    max-width: 520px;
     height: auto;
     display: block;
   }
@@ -342,18 +260,11 @@ const channels: Channel[] = [
   }
 
   /* Channels panel */
-  .reg-channels {
+  .contact-channels {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: var(--space-6);
-  }
-
-  .channels-title {
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-6);
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--color-border);
   }
 
   .channels-list {
@@ -450,14 +361,14 @@ const channels: Channel[] = [
   }
 
   /* Footer */
-  .reg-footer {
+  .contact-footer {
     margin-top: var(--space-16);
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
     text-align: center;
   }
 
-  .reg-footer .label-mono {
+  .contact-footer .label-mono {
     color: var(--color-text-secondary);
   }
 </style>
