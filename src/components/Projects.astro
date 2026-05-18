@@ -17,14 +17,12 @@ const cards = projects as Project[];
 
 <section class="projects" id="projects">
   <header class="projects-header">
-    <p class="label-mono">projects · selected work, by the numbers</p>
+    <p class="label-mono">projects · selected work · 2020 → present</p>
   </header>
 
   <ul class="projects-grid">
     {cards.map((c) => {
       const shape = projectShapes[c.shape] ?? projectShapes.line;
-      const last = shape.dots[shape.dots.length - 1];
-      const lead = shape.dots.slice(0, -1);
       const Wrapper = c.link ? 'a' : 'article';
       const wrapperProps = c.link
         ? { href: c.link, target: '_blank', rel: 'noopener noreferrer' }
@@ -43,15 +41,9 @@ const cards = projects as Project[];
                 role="img"
               >
                 <path class="map-line" d={shape.path} fill="none" />
-                {lead.map((d) => (
+                {shape.dots.map((d) => (
                   <circle class="map-dot" cx={d.x} cy={d.y} r="3" />
                 ))}
-                <circle
-                  class:list={['map-dot', 'map-dot-end', c.status]}
-                  cx={last.x}
-                  cy={last.y}
-                  r="4.5"
-                />
               </svg>
             </div>
 
@@ -167,14 +159,6 @@ const cards = projects as Project[];
 
   .map-dot {
     fill: var(--color-text-secondary);
-  }
-
-  .map-dot-end {
-    fill: var(--color-text-secondary);
-  }
-
-  .map-dot-end.active {
-    fill: var(--color-accent);
   }
 
   /* Card text */

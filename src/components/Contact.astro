@@ -44,34 +44,30 @@ const channels: Channel[] = [
       </ul>
     </aside>
 
-      <figure class="contact-mountain" aria-labelledby="rainier-title rainier-desc">
+      <figure class="contact-mountain">
         <svg
-          class="rainier"
+          class="mountain"
           viewBox="0 0 600 320"
           preserveAspectRatio="xMidYEnd meet"
           role="img"
+          aria-label="Mountain"
         >
-          <title id="rainier-title">Mount Rainier</title>
-          <desc id="rainier-desc">A stylised line drawing of Mount Rainier with Liberty Cap rising to the left of the main summit, snow detail on the upper slopes, two distant atmospheric ridges behind, and subtle cleaver lines suggesting the rocky ridges between glaciers.</desc>
-
-          <!-- Atmospheric ridges behind — distant Cascade peaks. -->
+          <!-- Atmospheric ridges behind — distant peaks. -->
           <path
-            class="rainier-far"
+            class="mountain-far"
             fill="none"
             d="M 0,268 Q 80,264 160,269 T 320,266 T 480,268 T 600,266"
           />
           <path
-            class="rainier-ridge"
+            class="mountain-ridge"
             fill="none"
             d="M 0,254 C 80,250 160,260 240,252 C 320,246 400,256 480,250 C 540,246 580,252 600,250"
           />
 
-          <!-- Mount Rainier: broad asymmetric silhouette.  Liberty Cap appears as a small
-               summit just left of the main Columbia Crest plateau, with a slight saddle
-               between them.  Left (north) face is steeper, right (south) face is gentler —
-               characteristic of the view from Seattle/Tacoma. -->
+          <!-- Main silhouette: broad asymmetric mountain.  Small subsidiary summit on
+               the left with a slight saddle between it and the main flat-topped summit. -->
           <path
-            class="rainier-main"
+            class="mountain-main"
             fill="none"
             d="M 20,305
                C 90,300 150,285 195,255
@@ -92,30 +88,30 @@ const channels: Channel[] = [
 
           <!-- Cleaver lines: subtle interior strokes suggesting rocky ridges between glaciers. -->
           <path
-            class="rainier-cleaver"
+            class="mountain-cleaver"
             fill="none"
             d="M 315,68 C 308,140 298,215 290,290"
           />
           <path
-            class="rainier-cleaver"
+            class="mountain-cleaver"
             fill="none"
             d="M 372,68 C 382,140 398,215 412,290"
           />
 
           <!-- Snow band on the upper slopes. -->
           <path
-            class="rainier-snow"
+            class="mountain-snow"
             fill="none"
             d="M 270,100 C 295,88 325,80 355,80 C 380,80 397,86 408,98"
           />
           <path
-            class="rainier-snow-soft"
+            class="mountain-snow-soft"
             fill="none"
             d="M 258,148 C 295,134 330,128 365,130 C 392,132 412,142 428,158"
           />
 
           <!-- Ground -->
-          <line class="rainier-ground" fill="none" x1="0" y1="308" x2="600" y2="308" />
+          <line class="mountain-ground" fill="none" x1="0" y1="308" x2="600" y2="308" />
         </svg>
       </figure>
   </div>
@@ -210,51 +206,51 @@ const channels: Channel[] = [
     gap: var(--space-2);
   }
 
-  .rainier {
+  .mountain {
     width: 100%;
     max-width: 520px;
     height: auto;
     display: block;
   }
 
-  .rainier path,
-  .rainier line {
+  .mountain path,
+  .mountain line {
     vector-effect: non-scaling-stroke;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
 
-  .rainier-far {
+  .mountain-far {
     stroke: var(--color-forest-faint);
     stroke-width: 0.8;
   }
 
-  .rainier-ridge {
+  .mountain-ridge {
     stroke: var(--color-forest-faint);
     stroke-width: 1;
   }
 
-  .rainier-main {
+  .mountain-main {
     stroke: var(--color-forest);
     stroke-width: 1.5;
   }
 
-  .rainier-cleaver {
+  .mountain-cleaver {
     stroke: var(--color-forest-faint);
     stroke-width: 0.9;
   }
 
-  .rainier-snow {
+  .mountain-snow {
     stroke: var(--color-forest-soft);
     stroke-width: 1.25;
   }
 
-  .rainier-snow-soft {
+  .mountain-snow-soft {
     stroke: var(--color-forest-faint);
     stroke-width: 1;
   }
 
-  .rainier-ground {
+  .mountain-ground {
     stroke: var(--color-border);
     stroke-width: 1;
   }
