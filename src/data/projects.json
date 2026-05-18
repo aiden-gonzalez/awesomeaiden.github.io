@@ -1,0 +1,108 @@
+[
+  {
+    "title": "hydRate",
+    "period": "2025 · in progress",
+    "description": "Cross-platform app for finding and rating public water fountains and bathrooms. Built on a scalable Node.js / PostgreSQL backend on AWS.",
+    "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
+    "link": "https://devpost.com/software/hydrate-b4lkoa",
+    "status": "active",
+    "shape": "loop"
+  },
+  {
+    "title": "Statement engine",
+    "period": "2024 · Jasper Ridge",
+    "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80–90% for monthly and quarterly client reporting.",
+    "stack": ["C# .NET"],
+    "status": "completed",
+    "shape": "fork"
+  },
+  {
+    "title": "Income allocation engine",
+    "period": "2024 · Jasper Ridge",
+    "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend. Composable accounting workflows.",
+    "stack": ["C# .NET", "React"],
+    "status": "completed",
+    "shape": "fork"
+  },
+  {
+    "title": "Regex comprehension study",
+    "period": "2023",
+    "description": "Experimental web app studying the efficacy of regex comprehension tools. Co-authored a research paper on the findings.",
+    "stack": ["React", "Node.js"],
+    "link": "https://portfolium.com/entry/evaluation-of-regex-comprehension-tools",
+    "status": "completed",
+    "shape": "meander"
+  },
+  {
+    "title": "CI/CD pipeline",
+    "period": "2023 · Precocity",
+    "description": "Template GitLab CI/CD pipeline for Kotlin API development. Faster, more reliable deployments across teams.",
+    "stack": ["Kotlin", "GitLab CI"],
+    "link": "https://portfolium.com/entry/starter-cicd-pipeline-for-kotlin-api-development",
+    "status": "completed",
+    "shape": "line"
+  },
+  {
+    "title": "Lantern",
+    "period": "2022",
+    "description": "Accounting MVP for small business owners. Distilled their financial health into digestible insights.",
+    "stack": ["React", "Node.js", "PostgreSQL"],
+    "link": "https://portfolium.com/entry/lantern-open-source-accounting-app",
+    "status": "completed",
+    "shape": "line"
+  },
+  {
+    "title": "OpenAir assistant",
+    "period": "2022 · Precocity",
+    "description": "Slack-integrated time tracking tool MVP that streamlined employee reporting.",
+    "stack": ["Node.js", "Slack API"],
+    "link": "https://portfolium.com/entry/openair-assistant-full-stack-slack-app-mvp",
+    "status": "completed",
+    "shape": "hub"
+  },
+  {
+    "title": "YOLO object detection",
+    "period": "2022",
+    "description": "PyTorch implementation of you-only-look-once object detection from scratch.",
+    "stack": ["PyTorch", "Python"],
+    "link": "https://portfolium.com/entry/yolo-object-detection-implementation",
+    "status": "completed",
+    "shape": "zigzag"
+  },
+  {
+    "title": "TapIn!",
+    "period": "2021",
+    "description": "Social media sharing tool prototype for quick content drops between friends.",
+    "stack": ["React Native"],
+    "link": "https://devpost.com/software/tapin-nhebcv",
+    "status": "completed",
+    "shape": "loop"
+  },
+  {
+    "title": "BLE LEDs",
+    "period": "2021",
+    "description": "Bluetooth-controlled Arduino LED strip with a companion mobile app.",
+    "stack": ["Arduino", "Bluetooth LE"],
+    "link": "https://portfolium.com/entry/bluetooth-controlled-led-strip",
+    "status": "completed",
+    "shape": "wave"
+  },
+  {
+    "title": "AHB convolver",
+    "period": "2020",
+    "description": "Verilog AHB-connected 2D convolver module prototype for hardware-accelerated image processing.",
+    "stack": ["Verilog", "AHB"],
+    "link": "https://portfolium.com/entry/ahb-connected-2d-convolver-module-prototype",
+    "status": "completed",
+    "shape": "wave"
+  },
+  {
+    "title": "Microcontroller pong",
+    "period": "2020",
+    "description": "Pong-style game running on a microcontroller, with discrete inputs and a small display.",
+    "stack": ["C", "Embedded"],
+    "link": "https://portfolium.com/entry/microcontroller-pong-game",
+    "status": "completed",
+    "shape": "zigzag"
+  }
+]

@@ -1,112 +1,70 @@
 ---
-const cards = [
-  {
-    period: '2025 · in progress',
-    title: 'hydRate',
-    description: 'Cross-platform app for finding and rating public water fountains and bathrooms.',
-    meta: [
-      { label: 'Stack',   value: 'Flutter' },
-      { label: 'Backend', value: 'Node · PG' },
-    ],
-    grade: '+8.4%',
-    routeShape: 'climb',
-    routeEnd: 'active',
-  },
-  {
-    period: '2022 · completed',
-    title: 'Lantern',
-    description: 'Accounting MVP giving small business owners digestible financial insights.',
-    meta: [
-      { label: 'Stack',   value: 'React' },
-      { label: 'Backend', value: 'Node · PG' },
-    ],
-    grade: '+6.1%',
-    routeShape: 'climb',
-    routeEnd: 'completed',
-  },
-  {
-    period: '2024 · work · Jasper Ridge',
-    title: 'Statement engine',
-    description: 'Parallelized financial statement generator. 80–90% perf improvement.',
-    meta: [
-      { label: 'Stack',  value: 'C# .NET' },
-      { label: 'Impact', value: '~85%' },
-    ],
-    grade: '+12.0%',
-    routeShape: 'jump',
-    routeEnd: 'completed',
-  },
-  {
-    period: '2024 · work · Jasper Ridge',
-    title: 'Income allocation engine',
-    description: 'Composable engine with operation-tracking framework and AG Grid frontend.',
-    meta: [
-      { label: 'Stack', value: 'C# · React' },
-      { label: 'Scope', value: 'core wf' },
-    ],
-    grade: '+7.8%',
-    routeShape: 'gentle',
-    routeEnd: 'completed',
-  },
-];
+import projects from '../data/projects.json';
+import { projectShapes, PROJECT_SHAPE_VIEW } from '../lib/project-shapes';
+
+type Project = {
+  title: string;
+  period: string;
+  description: string;
+  stack: string[];
+  link?: string;
+  status: 'active' | 'completed';
+  shape: keyof typeof projectShapes;
+};
+
+const cards = projects as Project[];
 ---
 
 <section class="projects" id="projects">
   <header class="projects-header">
-    <p class="label-mono">ride log · projects, by the numbers</p>
+    <p class="label-mono">projects · selected work, by the numbers</p>
   </header>
 
   <ul class="projects-grid">
-    {cards.map((c) => (
-      <li class="card">
-        <div class="card-top">
-          <p class="card-period label-mono">{c.period}</p>
+    {cards.map((c) => {
+      const shape = projectShapes[c.shape] ?? projectShapes.line;
+      const last = shape.dots[shape.dots.length - 1];
+      const lead = shape.dots.slice(0, -1);
+      const Wrapper = c.link ? 'a' : 'article';
+      const wrapperProps = c.link
+        ? { href: c.link, target: '_blank', rel: 'noopener noreferrer' }
+        : {};
+      return (
+        <li>
+          <Wrapper class="card" {...wrapperProps}>
+            <div class="card-top">
+              <p class="card-period label-mono">{c.period}</p>
 
-          <svg
-            class={`card-route route-${c.routeShape}`}
-            viewBox="0 0 240 80"
-            preserveAspectRatio="xMidYMid meet"
-            aria-hidden="true"
-            role="img"
-          >
-            {c.routeShape === 'climb' && (
-              <polyline class="route-line" points="10,65 50,55 90,42 130,30 170,18 210,12" />
-            )}
-            {c.routeShape === 'gentle' && (
-              <polyline class="route-line" points="10,60 50,55 90,48 130,42 170,34 210,28" />
-            )}
-            {c.routeShape === 'jump' && (
-              <>
-                <polyline class="route-line" points="10,60 90,60 105,30 210,28" />
-                <polygon class="route-kom" points="100,18 108,30 92,30" />
-              </>
-            )}
-            <circle
-              class={`route-end ${c.routeEnd}`}
-              cx="210"
-              cy={c.routeShape === 'climb' ? 12 : c.routeShape === 'gentle' ? 28 : 28}
-              r="5"
-            />
-          </svg>
-        </div>
-
-        <h3 class="card-title">{c.title}</h3>
-        <p class="card-desc">{c.description}</p>
-
-        <dl class="card-meta">
-          {c.meta.map((m) => (
-            <div class="meta-row">
-              <dt class="meta-label label-mono">{m.label}</dt>
-              <dd class="meta-value">{m.value}</dd>
+              <svg
+                class="card-map"
+                viewBox={`0 0 ${PROJECT_SHAPE_VIEW.width} ${PROJECT_SHAPE_VIEW.height}`}
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+                role="img"
+              >
+                <path class="map-line" d={shape.path} fill="none" />
+                {lead.map((d) => (
+                  <circle class="map-dot" cx={d.x} cy={d.y} r="3" />
+                ))}
+                <circle
+                  class:list={['map-dot', 'map-dot-end', c.status]}
+                  cx={last.x}
+                  cy={last.y}
+                  r="4.5"
+                />
+              </svg>
             </div>
-          ))}
-          <div class="meta-row meta-grade">
-            <dt class="meta-label label-mono">Grade</dt>
-            <dd class="meta-value">{c.grade}</dd>
-          </div>
-        </dl>
-      </li>
-    ))}
+
+            <h3 class="card-title">{c.title}</h3>
+            <p class="card-desc">{c.description}</p>
+
+            <ul class="card-stack">
+              {c.stack.map((s) => <li class="stack-tag label-mono">{s}</li>)}
+            </ul>
+          </Wrapper>
+        </li>
+      );
+    })}
   </ul>
 </section>
 
@@ -129,6 +87,11 @@ const cards = [
     margin-right: auto;
   }
 
+  .projects-header p {
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
   .projects-grid {
     list-style: none;
     padding: 0;
@@ -144,6 +107,11 @@ const cards = [
     }
   }
 
+  .projects-grid > li {
+    display: flex;
+  }
+
+  /* Card */
   .card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -152,6 +120,17 @@ const cards = [
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--duration-fast) var(--ease-out-quart),
+                transform var(--duration-fast) var(--ease-out-quart);
+  }
+
+  a.card:hover,
+  a.card:focus-visible {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
   }
 
   .card-top {
@@ -165,40 +144,40 @@ const cards = [
     color: var(--color-text-secondary);
   }
 
-  .card-route {
+  .card-map {
     width: 120px;
     height: 40px;
     flex-shrink: 0;
   }
 
   @media (min-width: 480px) {
-    .card-route {
+    .card-map {
       width: 160px;
-      height: 50px;
+      height: 54px;
     }
   }
 
-  .route-line {
-    fill: none;
+  .map-line {
     stroke: var(--color-text-secondary);
-    stroke-width: 2;
+    stroke-width: 1.75;
     stroke-linejoin: round;
     stroke-linecap: round;
     vector-effect: non-scaling-stroke;
   }
 
-  .route-kom {
-    fill: var(--color-accent);
-  }
-
-  .route-end.completed {
+  .map-dot {
     fill: var(--color-text-secondary);
   }
 
-  .route-end.active {
+  .map-dot-end {
+    fill: var(--color-text-secondary);
+  }
+
+  .map-dot-end.active {
     fill: var(--color-accent);
   }
 
+  /* Card text */
   .card-title {
     font-size: var(--text-xl);
     color: var(--color-text-primary);
@@ -211,33 +190,23 @@ const cards = [
     margin: 0;
   }
 
-  .card-meta {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3) var(--space-6);
+  /* Stack tags */
+  .card-stack {
+    list-style: none;
+    padding: var(--space-4) 0 0;
     margin: var(--space-2) 0 0;
-    padding-top: var(--space-4);
     border-top: 1px dashed var(--color-border);
-  }
-
-  .meta-row {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
   }
 
-  .meta-label {
+  .stack-tag {
     color: var(--color-text-secondary);
   }
 
-  .meta-value {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-text-primary);
-    margin: 0;
-  }
-
-  .meta-grade .meta-value {
-    color: var(--color-accent);
+  .stack-tag:not(:last-child)::after {
+    content: ' ·';
+    color: var(--color-text-tertiary);
   }
 </style>
