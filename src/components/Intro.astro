@@ -1,0 +1,195 @@
+---
+const skills = [
+  {
+    label: 'Core',
+    value: 'Backend development, data structures, cloud infrastructure, APIs, scaling and reliability',
+  },
+  {
+    label: 'Languages',
+    value: 'C#, Python, SQL / dbt, Node.js, C++, C, TypeScript, React, Flutter',
+  },
+  {
+    label: 'Technologies',
+    value: 'AWS (Certified), Docker, Airflow, CI / CD, Snowflake, Datadog, Terraform, Kubernetes',
+  },
+];
+---
+
+<section class="intro" id="intro" aria-labelledby="intro-lead">
+  <div class="intro-inner">
+    <div class="intro-main">
+      <div class="intro-text">
+        <h2 id="intro-lead" class="intro-lead">
+          I build backend systems for financial workloads.
+        </h2>
+
+        <div class="intro-body">
+          <p>
+            Currently a senior software developer at Jasper Ridge Partners in Fort Worth, designing parallelized financial statement engines (one cut processing time by 80&ndash;90% over what it replaced), Bloomberg-integrated ETL pipelines, and accounting tooling for family-office portfolios. Mostly C#, dbt, and AWS, with the occasional React frontend when it's warranted.
+          </p>
+          <p>
+            Before this: four years at Precocity (intern in 2019, promoted to full-time consultant after my MS), internships at Northrop Grumman patching security vulnerabilities in satellite software, and a BS/MS in Computer Engineering at Purdue. I'm drawn to the parts of a system that fall over at 3am: data reconciliation, parallelization, the recovery paths nobody wants to think about until they have to.
+          </p>
+        </div>
+      </div>
+
+      <figure class="intro-headshot">
+        <img
+          class="headshot-img"
+          src="/images/headshot.png"
+          alt="Aiden Gonzalez"
+          width="4032"
+          height="3024"
+        />
+      </figure>
+    </div>
+
+    <dl class="intro-skills">
+      {skills.map((s) => (
+        <>
+          <dt class="skill-label label-mono">{s.label}</dt>
+          <dd class="skill-value">{s.value}</dd>
+        </>
+      ))}
+    </dl>
+  </div>
+
+  <footer class="intro-bottom">
+    <p class="label-mono">keep going ↓</p>
+  </footer>
+</section>
+
+<style>
+  .intro {
+    position: relative;
+    background: var(--color-bg);
+    min-height: 100vh;
+    padding: var(--space-8) var(--space-4) var(--space-10);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .intro {
+      padding: var(--space-12) var(--space-12) var(--space-16);
+    }
+  }
+
+  .intro-bottom,
+  .intro-inner {
+    max-width: var(--max-width-wide);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .intro-bottom {
+    text-align: right;
+  }
+
+  .intro-bottom p {
+    margin: 0;
+    color: var(--color-accent);
+  }
+
+  /* The content area fills the space between top and bottom labels and centres vertically. */
+  .intro-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 1100px) {
+    .intro-inner {
+      gap: var(--space-12);
+    }
+  }
+
+  /* Two-column row: text on the left, headshot on the right.  Stacks on mobile (text first). */
+  .intro-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .intro-main {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-12);
+    }
+  }
+
+  .intro-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Headshot column */
+  .intro-headshot {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .headshot-img {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    display: block;
+  }
+
+  .intro-lead {
+    font-family: var(--font-sans);
+    font-size: clamp(var(--text-2xl), 4.5vw, var(--text-3xl));
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0;
+    max-width: 30ch;
+  }
+
+  .intro-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    max-width: var(--max-width-prose);
+  }
+
+  .intro-body p {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .intro-skills {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-8);
+    row-gap: var(--space-4);
+    align-items: baseline;
+    padding-top: var(--space-6);
+    border-top: 1px dashed var(--color-border);
+    margin: 0;
+  }
+
+  .skill-label {
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .skill-value {
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-primary);
+  }
+</style>
