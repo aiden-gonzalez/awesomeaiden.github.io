@@ -23,23 +23,18 @@ const skills = [
           I build backend systems for financial workloads.
         </h2>
 
-        <div class="intro-body">
-          <p>
-            Currently a senior software developer at Jasper Ridge Partners in Fort Worth, designing parallelized financial statement engines (one cut processing time by 80&ndash;90% over what it replaced), Bloomberg-integrated ETL pipelines, and accounting tooling for family-office portfolios. Mostly C#, dbt, and AWS, with the occasional React frontend when it's warranted.
-          </p>
-          <p>
-            Before this: four years at Precocity (intern in 2019, promoted to full-time consultant after my MS), internships at Northrop Grumman patching security vulnerabilities in satellite software, and a BS/MS in Computer Engineering at Purdue. I'm drawn to the parts of a system that fall over at 3am: data reconciliation, parallelization, the recovery paths nobody wants to think about until they have to.
-          </p>
-        </div>
+        <p class="intro-bio">
+          Senior software developer with a foundation in data structures, backend systems, and performant infrastructure. Skilled in Python, C#, Node.js, React, and AWS, with a track record of building reliable, scalable systems. Proficient in collaboration across teams to deliver high-impact backend features.
+        </p>
       </div>
 
       <figure class="intro-headshot">
         <img
           class="headshot-img"
-          src="/images/headshot.png"
+          src="/images/headshot.webp"
           alt="Aiden Gonzalez"
-          width="4032"
-          height="3024"
+          width="1700"
+          height="1753"
         />
       </figure>
     </div>
@@ -61,7 +56,6 @@ const skills = [
 
 <style>
   .intro {
-    position: relative;
     background: var(--color-bg);
     min-height: 100vh;
     padding: var(--space-8) var(--space-4) var(--space-10);
@@ -109,6 +103,12 @@ const skills = [
     }
   }
 
+  /* Constrain the prose width inside the layout grid so the long lines stay readable
+     even though the outer container is now wider. */
+  .intro-text {
+    max-width: var(--max-width-prose);
+  }
+
   /* Two-column row: text on the left, headshot on the right.  Stacks on mobile (text first). */
   .intro-main {
     display: grid;
@@ -140,9 +140,15 @@ const skills = [
 
   .headshot-img {
     width: 100%;
-    max-width: 360px;
+    max-width: 500px;
     height: auto;
     display: block;
+    /* Soft desaturate + warm grade so the photo sits inside the bone/forest palette. */
+    filter: saturate(0.35) sepia(0.2) brightness(1.15) contrast(1.05);
+    /* Fade the bottom edge into the page so the cutout doesn't sit on top of the
+       topography.  Lower number = more of the photo fades; higher = less. */
+    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
   }
 
   .intro-lead {
@@ -156,14 +162,7 @@ const skills = [
     max-width: 30ch;
   }
 
-  .intro-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    max-width: var(--max-width-prose);
-  }
-
-  .intro-body p {
+  .intro-bio {
     font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
     color: var(--color-text-primary);
