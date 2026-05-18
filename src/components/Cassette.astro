@@ -3,52 +3,46 @@ type Pt = [number, number];
 
 const gears = [
   {
-    teeth: 32,
-    tag: 'starting line',
+    teeth: 28,
     span: 'May 2019',
     title: 'Software engineering intern · Precocity, LLC',
     subtitle: 'Dallas, TX',
     body: 'Patched user-facing bugs in C# and React for a top fintech client. Automated payroll accounting with SQL, Python, and JavaScript for a 90% efficiency gain. Built a GitLab CI/CD pipeline for Kotlin APIs and prototyped a Slack-integrated time tracker in Node.js.',
   },
   {
-    teeth: 28,
-    tag: 'climb',
+    teeth: 24,
     span: 'Jun 2020 – Aug 2021',
     title: 'Software intern · Northrop Grumman',
     subtitle: 'Dulles, VA / Cincinnati, OH',
     body: 'Identified and remediated critical security vulnerabilities in C-based ESPAStar satellite software. Optimized SonarQube API calls to extract 100k+ static analysis findings. Prototyped an internal gig-economy marketplace and presented to the VP of Engineering Innovation.',
   },
   {
-    teeth: 25,
-    tag: 'waypoint',
+    teeth: 21,
     span: 'May 2022',
     title: 'BS Computer Engineering · Purdue',
     subtitle: 'Honors College · Math minor · GPA 3.95, with distinction',
     body: 'Finished Computer Engineering on the Honors-track with distinction. Math minor on the side. West Lafayette, IN.',
   },
   {
-    teeth: 21,
-    tag: 'waypoint',
+    teeth: 18,
     span: 'May 2023',
     title: 'MS Electrical & Computer Engineering · Purdue',
     subtitle: 'Engineering Teaching Assistantship · GPA 3.50',
     body: 'Wrapped the MS in ECE while going deeper on systems. Promoted from intern to full-time consultant at Precocity the same month.',
   },
   {
-    teeth: 18,
-    tag: 'tempo',
+    teeth: 16,
     span: 'Jan 2024 – Dec 2025',
     title: 'Software developer · Jasper Ridge Partners',
     subtitle: 'Fort Worth, TX',
     body: 'Designed a parallelized financial statement generation engine in C# that cut processing time 80–90% for monthly and quarterly reporting. Built ETL pipelines and dbt models integrating Bloomberg market data into analytics. Engineered an auditable income allocation engine in C# .NET with an AG Grid React frontend.',
   },
   {
-    teeth: 12,
-    tag: 'top gear',
+    teeth: 14,
     span: 'Jan 2026 – present',
     title: 'Senior software developer · Jasper Ridge Partners',
     subtitle: 'Technical lead · Seattle (relocating)',
-    body: 'Leading junior engineers on code quality, performance, and best practices. Driving production deploys across AWS ECS and Fargate. Relocating to Seattle next.',
+    body: 'Leading junior engineers on code quality, performance, and best practices. Driving production deploys across AWS ECS and Fargate.',
   },
 ];
 
@@ -184,7 +178,7 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
 
 <section class="cassette" id="cassette" data-cassette aria-labelledby="cassette-title">
   <div class="cassette-inner">
-    <p class="label-mono cassette-label">section 01 · the ride · a timeline · 2019 → 2026</p>
+    <p class="label-mono cassette-label">the ride · a timeline · 2019 → 2026</p>
 
     <div class="cassette-grid">
       <div class="panels">
@@ -194,7 +188,7 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
             data-panel-idx={i}
             aria-hidden={i !== activeIdx}
           >
-            <p class="panel-eyebrow label-mono">gear {i + 1} / {gears.length} · {g.teeth}T · {g.tag}</p>
+            <p class="panel-eyebrow label-mono">gear {i + 1} / {gears.length} · {g.teeth}T</p>
             <p class="panel-span label-mono">{g.span}</p>
             {i === activeIdx
               ? <h2 id="cassette-title" class="panel-title">{g.title}</h2>
@@ -218,31 +212,38 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
             Six concentric cogs sharing a hub, ranging from 32 teeth (largest, easy gear) to 12 teeth (smallest, hardest gear). One cog is highlighted in clay red to indicate the active career stage.
           </desc>
 
-          {drawOrder.map((c) => (
-            <path
-              d={c.d}
-              class:list={['cog', { active: c.index === activeIdx }]}
-              data-cog-idx={c.index}
-            />
-          ))}
+          <g data-spinner>
+            {drawOrder.map((c) => (
+              <path
+                d={c.d}
+                class:list={['cog', { active: c.index === activeIdx }]}
+                data-cog-idx={c.index}
+              />
+            ))}
+
+            <circle class="hub" cx={CX} cy={CY} r={HUB_R} />
+            <circle class="hub-bolt" cx={CX} cy={CY - HUB_R + 5} r="2" />
+            <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((2 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((2 * Math.PI) / 3 - Math.PI / 2)} r="2" />
+            <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((4 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((4 * Math.PI) / 3 - Math.PI / 2)} r="2" />
+          </g>
 
           {chainGeoms.map((geom, i) => (
             <g
               class:list={['chain', { active: i === activeIdx }]}
               data-chain-idx={i}
+              data-chain-radius={outerRadius(gears[i].teeth)}
+              data-chain-pitch={(Math.PI * outerRadius(gears[i].teeth) + 2 * CHAIN_TAIL) / (geom.pins.length - 1)}
+              data-chain-total-len={Math.PI * outerRadius(gears[i].teeth) + 2 * CHAIN_TAIL}
               aria-hidden="true"
             >
-              {geom.links.map((d) => <path class="chain-link" d={d} />)}
-              {geom.pins.map((p) => (
-                <circle class="chain-pin" cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r={PIN_DOT_R} />
+              {geom.links.map((d, li) => (
+                <path class="chain-link" d={d} data-link-idx={li} />
+              ))}
+              {geom.pins.map((p, pi) => (
+                <circle class="chain-pin" cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r={PIN_DOT_R} data-pin-idx={pi} />
               ))}
             </g>
           ))}
-
-          <circle class="hub" cx={CX} cy={CY} r={HUB_R} />
-          <circle class="hub-bolt" cx={CX} cy={CY - HUB_R + 5} r="2" />
-          <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((2 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((2 * Math.PI) / 3 - Math.PI / 2)} r="2" />
-          <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((4 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((4 * Math.PI) / 3 - Math.PI / 2)} r="2" />
         </svg>
 
         <ol class="gear-legend label-mono" aria-hidden="true">
@@ -287,6 +288,7 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
     const cogs = Array.from(section.querySelectorAll<SVGPathElement>('[data-cog-idx]'));
     const ticks = Array.from(section.querySelectorAll<HTMLElement>('[data-tick-idx]'));
     const chains = Array.from(section.querySelectorAll<SVGGElement>('[data-chain-idx]'));
+    const spinner = section.querySelector<SVGGElement>('[data-spinner]');
     const total = panels.length;
     if (total === 0) return;
 
@@ -307,6 +309,75 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
       if (!Number.isNaN(i)) chainByIdx.set(i, c);
     });
 
+    // Chain geometry helpers (must match the server-side functions in the frontmatter).
+    const CX = 220;
+    const CY = 220;
+    const CHAIN_TAIL = 220;
+    const PLATE_R = 4.5;
+    const WAIST_R = 2.6;
+
+    type Pt = { x: number; y: number };
+    const pointAtArcLength = (s: number, R: number): Pt => {
+      const arcLen = Math.PI * R;
+      const totalLen = 2 * CHAIN_TAIL + arcLen;
+      let ns = ((s % totalLen) + totalLen) % totalLen;
+      if (ns <= CHAIN_TAIL) {
+        return { x: CX + CHAIN_TAIL - ns, y: CY - R };
+      }
+      if (ns <= CHAIN_TAIL + arcLen) {
+        const t = (ns - CHAIN_TAIL) / R;
+        const angle = -Math.PI / 2 - t;
+        return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+      }
+      return { x: CX + (ns - CHAIN_TAIL - arcLen), y: CY + R };
+    };
+
+    const buildLinkPath = (p1: Pt, p2: Pt): string => {
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 1e-6) return '';
+      const nx = -dy / dist;
+      const ny = dx / dist;
+      const p1a = { x: p1.x + nx * PLATE_R, y: p1.y + ny * PLATE_R };
+      const p1b = { x: p1.x - nx * PLATE_R, y: p1.y - ny * PLATE_R };
+      const p2a = { x: p2.x + nx * PLATE_R, y: p2.y + ny * PLATE_R };
+      const p2b = { x: p2.x - nx * PLATE_R, y: p2.y - ny * PLATE_R };
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      const wa = { x: mx + nx * WAIST_R, y: my + ny * WAIST_R };
+      const wb = { x: mx - nx * WAIST_R, y: my - ny * WAIST_R };
+      const f = (n: number) => n.toFixed(1);
+      return (
+        `M ${f(p1a.x)},${f(p1a.y)} ` +
+        `Q ${f(wa.x)},${f(wa.y)} ${f(p2a.x)},${f(p2a.y)} ` +
+        `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p2b.x)},${f(p2b.y)} ` +
+        `Q ${f(wb.x)},${f(wb.y)} ${f(p1b.x)},${f(p1b.y)} ` +
+        `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p1a.x)},${f(p1a.y)} Z`
+      );
+    };
+
+    // Cache the per-chain config and the DOM nodes we'll need to update each frame.
+    type ChainState = {
+      R: number;
+      pitch: number;
+      pins: NodeListOf<SVGCircleElement>;
+      links: NodeListOf<SVGPathElement>;
+    };
+    const chainStates = new Map<number, ChainState>();
+    chains.forEach((c) => {
+      const i = Number(c.dataset.chainIdx);
+      const R = Number(c.dataset.chainRadius);
+      const pitch = Number(c.dataset.chainPitch);
+      if (Number.isNaN(i) || Number.isNaN(R) || Number.isNaN(pitch)) return;
+      chainStates.set(i, {
+        R,
+        pitch,
+        pins: c.querySelectorAll<SVGCircleElement>('[data-pin-idx]'),
+        links: c.querySelectorAll<SVGPathElement>('[data-link-idx]'),
+      });
+    });
+
     let currentIdx = 0;
     const setActive = (idx: number) => {
       if (idx === currentIdx) return;
@@ -323,6 +394,63 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
       currentIdx = idx;
     };
 
+    // Chain motion across the full scroll, in SVG arc-length units. The cog rotation is
+    // derived from this so the chain and cog stay in sync.
+    const TOTAL_CHAIN_MOTION = 1500;
+
+    // Plates and pins fade out as they approach the right edge of the SVG, so the wrap
+    // point at x = CX + CHAIN_TAIL doesn't show plates "bridging" between the two tails.
+    const FADE_START = CX + CHAIN_TAIL - 70;
+    const FADE_END = CX + CHAIN_TAIL;
+    const fadeAt = (x: number): number => {
+      if (x <= FADE_START) return 1;
+      if (x >= FADE_END) return 0;
+      return 1 - (x - FADE_START) / (FADE_END - FADE_START);
+    };
+
+    const updateMotion = (progress: number) => {
+      // Chain motion is reversed (negative) so the chain at the top of the cog feeds
+      // rightward and the cog spins clockwise on forward scroll, matching the bike's
+      // drive-side rotation as viewed in this layout.
+      const chainOffset = -progress * TOTAL_CHAIN_MOTION;
+      const state = chainStates.get(currentIdx);
+      if (!state) return;
+
+      // Cog rotation: clockwise on forward scroll (positive angle in SVG y-down).
+      // Magnitude derived from chain motion / R so chain and cog stay synced.
+      if (spinner) {
+        const rotDeg = (Math.abs(chainOffset) / state.R) * (180 / Math.PI);
+        spinner.setAttribute('transform', `rotate(${rotDeg.toFixed(2)} ${CX} ${CY})`);
+      }
+
+      // Shift each pin and recompute the link plates joining them. Apply fade near the
+      // right edge so plates that would "bridge" the wrap point are invisible.
+      state.pins.forEach((pin) => {
+        const i = Number(pin.dataset.pinIdx);
+        const pos = pointAtArcLength(i * state.pitch + chainOffset, state.R);
+        pin.setAttribute('cx', pos.x.toFixed(1));
+        pin.setAttribute('cy', pos.y.toFixed(1));
+        pin.setAttribute('opacity', fadeAt(pos.x).toFixed(2));
+      });
+      // A "wrap link" is one whose two pins land on opposite tails because their s
+      // values straddle the chain endpoints. The geometric distance gives it away —
+      // a normal link's pins are ~pitch apart, a wrap link's pins are at least the
+      // cog diameter apart. Hide those entirely so no bridge plate spans the right edge.
+      const wrapDistanceThreshold = state.pitch * 2.5;
+      state.links.forEach((link) => {
+        const i = Number(link.dataset.linkIdx);
+        const p1 = pointAtArcLength(i * state.pitch + chainOffset, state.R);
+        const p2 = pointAtArcLength((i + 1) * state.pitch + chainOffset, state.R);
+        const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        if (dist > wrapDistanceThreshold) {
+          link.setAttribute('opacity', '0');
+          return;
+        }
+        link.setAttribute('d', buildLinkPath(p1, p2));
+        link.setAttribute('opacity', fadeAt(Math.max(p1.x, p2.x)).toFixed(2));
+      });
+    };
+
     // Scroll length: ~60vh of scroll per gear shift (tighter than 100vh).
     const SCROLL_PER_GEAR = 60;
     ScrollTrigger.create({
@@ -334,6 +462,7 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
       onUpdate: (self) => {
         const idx = Math.min(total - 1, Math.floor(self.progress * total));
         setActive(idx);
+        updateMotion(self.progress);
       },
     });
   }
