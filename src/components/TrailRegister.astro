@@ -9,22 +9,12 @@ const channels = [
 
 <section class="register" id="register">
   <header class="reg-header">
-    <p class="label-mono">summit · the trail register</p>
-    <p class="label-mono reg-elev">elevation · 8,400 ft</p>
+    <p class="label-mono">contact</p>
+    <p class="label-mono reg-elev">elevation · 14,410 ft</p>
   </header>
 
   <div class="reg-grid">
     <div class="reg-main">
-      <div class="reg-title-block">
-        <p class="reg-eyebrow"><em>summit register</em></p>
-        <h2 class="reg-name">Aiden Gonzalez</h2>
-        <p class="reg-coords label-mono">N 47.110° / W 122.552° · seattle, wa</p>
-      </div>
-
-      <blockquote class="reg-quote voice-journal">
-        "Made it. Thanks for hiking up. If you'd like to chat about backend work, financial systems, or where to find the best flat white in town, sign below."
-      </blockquote>
-
       <form
         class="reg-form"
         action="mailto:aidenlgonzalez2@gmail.com"
@@ -46,25 +36,61 @@ const channels = [
           <textarea class="field-input field-textarea" name="Note" rows="4" placeholder="Say hello, ask a question, or just sign in." required></textarea>
         </label>
 
-        <button class="reg-submit label-mono" type="submit">sign the register →</button>
+        <button class="reg-submit label-mono" type="submit">submit</button>
       </form>
     </div>
 
-    <aside class="reg-channels">
-      <p class="label-mono channels-title">direct channels</p>
-      <ul class="channels-list">
-        {channels.map((c) => (
-          <li class="channel">
-            <span class="channel-label label-mono">{c.label}</span>
-            <a class="channel-value" href={c.href}>{c.value}</a>
-          </li>
-        ))}
-      </ul>
-    </aside>
+    <div class="reg-aside">
+      <aside class="reg-channels">
+        <p class="label-mono channels-title">direct channels</p>
+        <ul class="channels-list">
+          {channels.map((c) => (
+            <li class="channel">
+              <span class="channel-label label-mono">{c.label}</span>
+              <a class="channel-value" href={c.href}>{c.value}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <figure class="reg-mountain" aria-labelledby="rainier-title rainier-desc">
+        <svg
+          class="rainier"
+          viewBox="0 0 600 220"
+          preserveAspectRatio="xMidYEnd meet"
+          role="img"
+        >
+          <title id="rainier-title">Mount Rainier</title>
+          <desc id="rainier-desc">A stylised line drawing of Mount Rainier with a distant ridge behind it and a snow line near the summit.</desc>
+
+          <path
+            class="rainier-ridge"
+            fill="none"
+            d="M 0,165 C 110,160 220,168 330,162 C 440,156 530,164 600,160"
+          />
+          <path
+            class="rainier-main"
+            fill="none"
+            d="M 30,198
+               C 110,192 175,180 230,150
+               C 260,134 285,112 310,90
+               Q 330,78 350,88
+               C 375,102 400,128 430,158
+               C 480,180 540,194 580,198"
+          />
+          <path
+            class="rainier-snow"
+            fill="none"
+            d="M 265,135 C 295,118 325,113 350,118 C 370,121 385,134 395,148"
+          />
+          <line class="rainier-ground" fill="none" x1="0" y1="205" x2="600" y2="205" />
+        </svg>
+      </figure>
+    </div>
   </div>
 
   <footer class="reg-footer">
-    <p class="label-mono">end of route · thanks for riding · 2026</p>
+    <p class="label-mono">end of route · thanks for riding</p>
   </footer>
 </section>
 
@@ -115,41 +141,8 @@ const channels = [
     }
   }
 
-  /* Title block */
-  .reg-title-block {
-    padding-bottom: var(--space-6);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .reg-eyebrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .reg-name {
-    font-size: var(--text-2xl);
-    margin: var(--space-2) 0 0;
-    color: var(--color-text-primary);
-  }
-
-  .reg-coords {
-    margin-top: var(--space-2);
-    color: var(--color-text-secondary);
-  }
-
-  .reg-quote {
-    font-size: var(--text-lg);
-    margin: var(--space-8) 0 0;
-    padding-left: var(--space-4);
-    border-left: 2px solid var(--color-accent);
-    color: var(--color-text-primary);
-  }
-
   /* Form */
   .reg-form {
-    margin-top: var(--space-8);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -209,20 +202,63 @@ const channels = [
     outline-offset: 2px;
   }
 
+  /* Aside: mountain + channels stacked in the right column */
+  .reg-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  /* Mountain */
+  .reg-mountain {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .rainier {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+  }
+
+  .rainier path,
+  .rainier line {
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .rainier-ridge {
+    stroke: var(--color-forest-faint);
+    stroke-width: 1;
+  }
+
+  .rainier-main {
+    stroke: var(--color-forest);
+    stroke-width: 1.5;
+  }
+
+  .rainier-snow {
+    stroke: var(--color-forest-soft);
+    stroke-width: 1;
+  }
+
+  .rainier-ground {
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+
   /* Channels panel */
   .reg-channels {
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: var(--space-6);
-    align-self: start;
-  }
-
-  @media (min-width: 900px) {
-    .reg-channels {
-      position: sticky;
-      top: var(--space-6);
-    }
   }
 
   .channels-title {
