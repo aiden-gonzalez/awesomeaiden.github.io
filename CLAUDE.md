@@ -24,7 +24,7 @@ Design tokens (colors, typography, spacing, motion) live in `src/styles/design-t
 
 These shape every piece of visible text on the site:
 
-- **No em dashes (—) anywhere in user-facing copy.** The user considers them an AI tell. Use commas, colons, parentheses, or "and" instead. En dashes (–) for date ranges are fine.
+- **No em dashes (—) or en dashes (–) anywhere in user-facing copy.** The user considers em dashes an AI tell. Use commas, colons, parentheses, or "and" instead. For date ranges, use a regular hyphen (`-`); for section labels that span a timeline, use an arrow (`→`) as in "2019 → 2026".
 - **Never use exclamation points.** The voice is dry, observational, slightly literary. Field journal, not corporate blog.
 - **Sentence case everywhere.** "Software developer" not "Software Developer." Goes for headings, buttons, labels. The hero title and the bio's "Senior Software Engineer" are exceptions (proper titles).
 - **Specifics over abstractions.** "double cortado, 9 a.m." not "I like coffee." "80–90% perf boost" not "improved performance."
