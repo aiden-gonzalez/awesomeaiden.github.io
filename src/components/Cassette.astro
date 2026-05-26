@@ -7,42 +7,65 @@ const gears = [
     span: 'May 2019',
     title: 'Software engineering intern · Precocity, LLC',
     subtitle: 'Dallas, TX',
-    body: 'Patched user-facing bugs in C# and React for a top fintech client. Automated payroll accounting with SQL, Python, and JavaScript for a 90% efficiency gain. Built a GitLab CI/CD pipeline for Kotlin APIs and prototyped a Slack-integrated time tracker in Node.js.',
+    bullets: [
+      'Patched user-facing bugs in C# and React for a top fintech client',
+      'Automated payroll accounting with SQL, Python, and JavaScript for a 90% efficiency gain',
+      'Built a GitLab CI/CD pipeline for Kotlin APIs',
+      'Prototyped a Slack-integrated time tracker in Node.js',
+    ],
   },
   {
     teeth: 24,
     span: 'Jun 2020 – Aug 2021',
     title: 'Software intern · Northrop Grumman',
     subtitle: 'Dulles, VA / Cincinnati, OH',
-    body: 'Identified and remediated critical security vulnerabilities in C-based ESPAStar satellite software. Optimized SonarQube API calls to extract 100k+ static analysis findings. Prototyped an internal gig-economy marketplace and presented to the VP of Engineering Innovation.',
+    bullets: [
+      'Identified and remediated critical security vulnerabilities in C-based ESPAStar satellite software',
+      'Optimized SonarQube API calls to extract 100k+ static analysis findings',
+      'Prototyped an internal gig-economy marketplace and presented to the VP of Engineering Innovation',
+    ],
   },
   {
     teeth: 21,
     span: 'May 2022',
     title: 'BS Computer Engineering · Purdue',
     subtitle: 'Honors College · Math minor · GPA 3.95, with distinction',
-    body: 'Finished Computer Engineering on the Honors-track with distinction. Math minor on the side. West Lafayette, IN.',
+    bullets: [
+      'Computer Engineering on the Honors-track, finished with distinction',
+      'Math minor on the side',
+      'West Lafayette, IN',
+    ],
   },
   {
     teeth: 18,
     span: 'May 2023',
     title: 'MS Electrical & Computer Engineering · Purdue',
     subtitle: 'Engineering Teaching Assistantship · GPA 3.50',
-    body: 'Wrapped the MS in ECE while going deeper on systems. Promoted from intern to full-time consultant at Precocity the same month.',
+    bullets: [
+      'Wrapped the MS in ECE while going deeper on systems',
+      'Promoted from intern to full-time consultant at Precocity the same month',
+    ],
   },
   {
     teeth: 16,
     span: 'Jan 2024 – Dec 2025',
     title: 'Software developer · Jasper Ridge Partners',
     subtitle: 'Fort Worth, TX',
-    body: 'Designed a parallelized financial statement generation engine in C# that cut processing time 80–90% for monthly and quarterly reporting. Built ETL pipelines and dbt models integrating Bloomberg market data into analytics. Engineered an auditable income allocation engine in C# .NET with an AG Grid React frontend.',
+    bullets: [
+      'Designed a parallelized financial statement generation engine in C# that cut processing time 80–90% for monthly and quarterly reporting',
+      'Built ETL pipelines and dbt models integrating Bloomberg market data into analytics',
+      'Engineered an auditable income allocation engine in C# .NET with an AG Grid React frontend',
+    ],
   },
   {
     teeth: 14,
     span: 'Jan 2026 – present',
     title: 'Senior software developer · Jasper Ridge Partners',
     subtitle: 'Technical lead · Seattle (relocating)',
-    body: 'Leading junior engineers on code quality, performance, and best practices. Driving production deploys across AWS ECS and Fargate.',
+    bullets: [
+      'Leading junior engineers on code quality, performance, and best practices',
+      'Driving production deploys across AWS ECS and Fargate',
+    ],
   },
 ];
 
@@ -188,14 +211,17 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
             data-panel-idx={i}
             aria-hidden={i !== activeIdx}
           >
-            <p class="panel-eyebrow label-mono">gear {i + 1} / {gears.length} · {g.teeth}T</p>
             <p class="panel-span label-mono">{g.span}</p>
             {i === activeIdx
               ? <h2 id="cassette-title" class="panel-title">{g.title}</h2>
               : <h2 class="panel-title">{g.title}</h2>
             }
             <p class="panel-subtitle">{g.subtitle}</p>
-            <p class="panel-body">{g.body}</p>
+            <ul class="panel-bullets" role="list">
+              {g.bullets.map((b) => (
+                <li class="panel-bullet">{b}</li>
+              ))}
+            </ul>
           </article>
         ))}
       </div>
@@ -261,7 +287,10 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
   <ol class="sr-only" aria-label="Career timeline by gear">
     {gears.map((g) => (
       <li>
-        <strong>{g.span}</strong>, {g.title}. {g.subtitle}. {g.body}
+        <strong>{g.span}</strong>, {g.title}. {g.subtitle}.
+        <ul>
+          {g.bullets.map((b) => <li>{b}</li>)}
+        </ul>
       </li>
     ))}
   </ol>
@@ -585,10 +614,6 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
     pointer-events: auto;
   }
 
-  .panel-eyebrow {
-    color: var(--color-accent);
-  }
-
   .panel-span {
     color: var(--color-text-secondary);
   }
@@ -607,10 +632,47 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
     font-size: var(--text-base);
   }
 
-  .panel-body {
-    margin: var(--space-3) 0 0;
+  /* Accomplishments as a list of chain plates: each bullet is prefixed with a small
+     ring whose silhouette echoes the pin holes on the chain plates in the SVG above. */
+  .panel-bullets {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .panel-bullet {
+    position: relative;
+    padding-left: calc(var(--space-4) + 4px);
     color: var(--color-text-primary);
     line-height: var(--leading-normal);
+  }
+
+  .panel-bullet::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-accent);
+    box-sizing: border-box;
+  }
+
+  /* A faint guide line links the bullets vertically, so a stack of accomplishments
+     reads as one continuous "chain" of work rather than a loose pile of dots. */
+  .panel-bullet:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: calc(0.55em + 8px);
+    bottom: calc(-1 * var(--space-2));
+    width: 1.5px;
+    background: var(--color-border);
   }
 
   /* Cog SVG */
