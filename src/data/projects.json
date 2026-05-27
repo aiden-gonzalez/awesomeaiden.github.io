@@ -63,7 +63,7 @@
         "To make our contribution, we select three popular and distinct regex comprehension techniques and integrate them into a custom-developed experimental tool. The tool has various measurement techniques to monitor user comprehension of regular expressions. After many trials with a comprehensive sample of developers, comprehension of the different techniques is analyzed, and findings are presented."
       ],
       "gallery": [
-        { "kind": "doc", "src": "/files/projects/regex-comprehension-study/writeup.pdf", "label": "Portfolium writeup" }
+        { "kind": "doc", "src": "/files/projects/regex-comprehension-study/writeup.pdf", "label": "Writeup" }
       ],
       "links": [
         { "label": "Repository", "href": "https://github.com/aiden-gonzalez/595-regex-comp" }

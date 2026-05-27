@@ -323,6 +323,11 @@ const slugify = (s: string) =>
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-6);
+    /* dense packing lets a right-column card backfill the row when the
+       left-column card above it is expanded and its detail-row spans
+       the full width. Without this, the right card would drop below
+       the detail panel because items normally flow in DOM order. */
+    grid-auto-flow: dense;
   }
 
   @media (min-width: 800px) {
