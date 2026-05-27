@@ -2,6 +2,7 @@
   {
     "title": "promlite",
     "period": "2026",
+    "org": "Personal",
     "description": "A lightweight, single-node time series database for home server observability. PromQL-compatible for Grafana integration, targeting <100MB memory.",
     "stack": ["Rust"],
     "link": "https://github.com/promlite/promlite",
@@ -11,6 +12,7 @@
   {
     "title": "hydRate",
     "period": "2025",
+    "org": "BoilerMake",
     "description": "Cross-platform app for finding and rating public water fountains and bathrooms. Built on a scalable Node.js / PostgreSQL backend on AWS.",
     "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
     "link": "https://devpost.com/software/hydrate-b4lkoa",
@@ -18,7 +20,7 @@
     "shape": "route"
   },
   {
-    "title": "Statement engine",
+    "title": "Financial statement generator",
     "period": "2024",
     "org": "Jasper Ridge",
     "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80–90% for monthly and quarterly client reporting.",
@@ -30,7 +32,7 @@
     "title": "Income allocation engine",
     "period": "2024",
     "org": "Jasper Ridge",
-    "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend. Composable accounting workflows.",
+    "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend, enabling composable accounting workflows.",
     "stack": ["C# .NET", "React"],
     "status": "completed",
     "shape": "split"
@@ -38,6 +40,7 @@
   {
     "title": "Regex comprehension study",
     "period": "2023",
+    "org": "Purdue ECE",
     "description": "Experimental web app studying the efficacy of regex comprehension tools. Co-authored a research paper on the findings.",
     "stack": ["React", "Node.js"],
     "link": "https://portfolium.com/entry/evaluation-of-regex-comprehension-tools",
@@ -48,7 +51,7 @@
     "title": "CI/CD pipeline",
     "period": "2023",
     "org": "Precocity",
-    "description": "Template GitLab CI/CD pipeline for Kotlin API development. Faster, more reliable deployments across teams.",
+    "description": "Template GitLab CI/CD pipeline for Kotlin API development, allowing for faster, more reliable deployments across teams.",
     "stack": ["Kotlin", "GitLab CI"],
     "link": "https://portfolium.com/entry/starter-cicd-pipeline-for-kotlin-api-development",
     "status": "completed",
@@ -57,7 +60,8 @@
   {
     "title": "Lantern",
     "period": "2022",
-    "description": "Accounting MVP for small business owners. Distilled their financial health into digestible insights.",
+    "org": "Purdue ECE",
+    "description": "Accounting MVP for small business owners which distilled their financial health into digestible insights.",
     "stack": ["React", "Node.js", "PostgreSQL"],
     "link": "https://portfolium.com/entry/lantern-open-source-accounting-app",
     "status": "completed",
@@ -76,6 +80,7 @@
   {
     "title": "YOLO object detection",
     "period": "2022",
+    "org": "Purdue ECE",
     "description": "PyTorch implementation of you-only-look-once object detection from scratch.",
     "stack": ["PyTorch", "Python"],
     "link": "https://portfolium.com/entry/yolo-object-detection-implementation",
@@ -85,7 +90,8 @@
   {
     "title": "TapIn!",
     "period": "2021",
-    "description": "Social media sharing tool prototype for quick content drops between friends.",
+    "org": "BoilerMake",
+    "description": "Social media profile sharing prototype.",
     "stack": ["React Native"],
     "link": "https://devpost.com/software/tapin-nhebcv",
     "status": "completed",
@@ -94,6 +100,7 @@
   {
     "title": "BLE LEDs",
     "period": "2021",
+    "org": "Purdue ECE",
     "description": "Bluetooth-controlled Arduino LED strip with a companion mobile app.",
     "stack": ["Arduino", "Bluetooth LE"],
     "link": "https://portfolium.com/entry/bluetooth-controlled-led-strip",
@@ -103,6 +110,7 @@
   {
     "title": "AHB convolver",
     "period": "2020",
+    "org": "Purdue ECE",
     "description": "Verilog AHB-connected 2D convolver module prototype for hardware-accelerated image processing.",
     "stack": ["Verilog", "AHB"],
     "link": "https://portfolium.com/entry/ahb-connected-2d-convolver-module-prototype",
@@ -112,6 +120,7 @@
   {
     "title": "Microcontroller pong",
     "period": "2020",
+    "org": "Purdue ECE",
     "description": "Pong-style game running on a microcontroller, with discrete inputs and a small display.",
     "stack": ["C", "Embedded"],
     "link": "https://portfolium.com/entry/microcontroller-pong-game",
