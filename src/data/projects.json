@@ -23,7 +23,11 @@
         "Each entry in the body array becomes its own paragraph. Add as many as you like."
       ],
       "gallery": [
-        { "kind": "doc", "src": "/files/aiden_gonzalez_resume.pdf", "label": "Sample PDF tile" }
+        { "kind": "image", "src": "/images/projects/hydrate/01.svg", "alt": "Placeholder 01" },
+        { "kind": "image", "src": "/images/projects/hydrate/02.svg", "alt": "Placeholder 02" },
+        { "kind": "doc", "src": "/files/aiden_gonzalez_resume.pdf", "label": "Sample PDF tile" },
+        { "kind": "image", "src": "/images/projects/hydrate/03.svg", "alt": "Placeholder 03" },
+        { "kind": "image", "src": "/images/projects/hydrate/04.svg", "alt": "Placeholder 04" }
       ],
       "links": [
         { "label": "Devpost", "href": "https://devpost.com/software/hydrate-b4lkoa" }

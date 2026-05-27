@@ -104,45 +104,62 @@ const slugify = (s: string) =>
             </li>
             <li class="detail-row" id={detailId} hidden>
               <div class="detail-inner">
-                {c.detail!.body && c.detail!.body.length > 0 && (
-                  <div class="detail-body">
-                    {c.detail!.body.map((p) => <p>{p}</p>)}
+                {(c.detail!.body && c.detail!.body.length > 0) || (c.detail!.links && c.detail!.links.length > 0) ? (
+                  <div class="detail-primary">
+                    {c.detail!.body && c.detail!.body.length > 0 && (
+                      <section class="detail-section">
+                        <h4 class="detail-label label-mono">notes</h4>
+                        <div class="detail-body">
+                          {c.detail!.body.map((p) => <p>{p}</p>)}
+                        </div>
+                      </section>
+                    )}
+                    {c.detail!.links && c.detail!.links.length > 0 && (
+                      <section class="detail-section">
+                        <h4 class="detail-label label-mono">elsewhere</h4>
+                        <ul class="detail-links label-mono">
+                          {c.detail!.links.map((l) => (
+                            <li>
+                              <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label} ↗</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
                   </div>
-                )}
+                ) : null}
                 {c.detail!.gallery && c.detail!.gallery.length > 0 && (
-                  <div class="detail-gallery">
-                    {c.detail!.gallery.map((item) => (
-                      item.kind === 'image' ? (
-                        <a
-                          class="gallery-item gallery-image"
-                          href={item.src}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img src={item.src} alt={item.alt} loading="lazy" />
-                        </a>
-                      ) : (
-                        <a
-                          class="gallery-item gallery-doc"
-                          href={item.src}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span class="doc-icon label-mono" aria-hidden="true">PDF</span>
-                          <span class="doc-label">{item.label}</span>
-                        </a>
-                      )
-                    ))}
-                  </div>
-                )}
-                {c.detail!.links && c.detail!.links.length > 0 && (
-                  <ul class="detail-links label-mono">
-                    {c.detail!.links.map((l) => (
-                      <li>
-                        <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label} ↗</a>
-                      </li>
-                    ))}
-                  </ul>
+                  <section class="detail-section detail-aside">
+                    <h4 class="detail-label label-mono">gallery</h4>
+                    <div class="gallery-wrapper">
+                      <div class="detail-gallery">
+                        {c.detail!.gallery.map((item) => (
+                          item.kind === 'image' ? (
+                            <a
+                              class="gallery-item gallery-image"
+                              href={item.src}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <img src={item.src} alt={item.alt} loading="lazy" />
+                            </a>
+                          ) : (
+                            <a
+                              class="gallery-item gallery-doc"
+                              href={item.src}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span class="doc-icon label-mono" aria-hidden="true">PDF</span>
+                              <span class="doc-label">{item.label}</span>
+                            </a>
+                          )
+                        ))}
+                      </div>
+                      <button class="gallery-nav gallery-nav-prev" type="button" aria-label="Previous">←</button>
+                      <button class="gallery-nav gallery-nav-next" type="button" aria-label="Next">→</button>
+                    </div>
+                  </section>
                 )}
               </div>
             </li>
@@ -244,6 +261,35 @@ const slugify = (s: string) =>
     const row = rowFor(openTrigger);
     if (row) positionNotch(openTrigger, row);
   });
+
+  for (const wrapper of document.querySelectorAll<HTMLElement>('#projects .gallery-wrapper')) {
+    const gallery = wrapper.querySelector<HTMLElement>('.detail-gallery');
+    const prev = wrapper.querySelector<HTMLButtonElement>('.gallery-nav-prev');
+    const next = wrapper.querySelector<HTMLButtonElement>('.gallery-nav-next');
+    if (!gallery || !prev || !next) continue;
+
+    const scrollByItem = (direction: 1 | -1) => {
+      const items = Array.from(gallery.querySelectorAll<HTMLElement>('.gallery-item'));
+      if (items.length === 0) return;
+      const galleryLeft = gallery.getBoundingClientRect().left;
+
+      let currentIndex = 0;
+      let minOffset = Infinity;
+      items.forEach((item, i) => {
+        const offset = item.getBoundingClientRect().left - galleryLeft;
+        if (offset >= -2 && offset < minOffset) {
+          minOffset = offset;
+          currentIndex = i;
+        }
+      });
+
+      const target = items[Math.max(0, Math.min(items.length - 1, currentIndex + direction))];
+      target?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    };
+
+    prev.addEventListener('click', () => scrollByItem(-1));
+    next.addEventListener('click', () => scrollByItem(1));
+  }
 </script>
 
 <style>
@@ -460,8 +506,38 @@ const slugify = (s: string) =>
     transform: translateX(-50%) rotate(45deg);
   }
 
-  .detail-inner > * + * {
+  .detail-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  /* Two-column 3:1 layout on desktop when both primary content and an
+     aside gallery are present. min-width: 0 on the children prevents the
+     gallery's flex row from growing the aside past its 1fr track. */
+  @media (min-width: 800px) {
+    .detail-inner:has(.detail-primary):has(.detail-aside) {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+  }
+
+  .detail-primary,
+  .detail-aside {
+    min-width: 0;
+  }
+
+  .detail-primary > .detail-section + .detail-section {
     margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .detail-label {
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+    font-weight: inherit;
   }
 
   .detail-body {
@@ -476,10 +552,25 @@ const slugify = (s: string) =>
     color: var(--color-text-primary);
   }
 
+  /* Gallery: horizontal scroll-snap carousel. Items have fixed height; each
+     tile's width follows its own aspect-ratio. Prev/next buttons inside
+     .gallery-wrapper appear on hover and use scrollIntoView to advance. */
+  .gallery-wrapper {
+    position: relative;
+  }
+
   .detail-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    display: flex;
     gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 2px 0;
+  }
+
+  .detail-gallery::-webkit-scrollbar {
+    display: none;
   }
 
   .gallery-item {
@@ -487,12 +578,66 @@ const slugify = (s: string) =>
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     overflow: hidden;
-    aspect-ratio: 4 / 3;
     background: var(--color-surface-inset);
     text-decoration: none;
     color: inherit;
+    flex-shrink: 0;
+    height: 160px;
+    scroll-snap-align: start;
     transition: border-color var(--duration-fast) var(--ease-out-quart),
                 transform var(--duration-fast) var(--ease-out-quart);
+  }
+
+  /* Image tiles: square. Doc tiles: portrait page ratio (US Letter). */
+  .gallery-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .gallery-doc {
+    aspect-ratio: 8.5 / 11;
+  }
+
+  /* Prev/next buttons — small circular controls overlaid on the gallery,
+     fading in on wrapper hover. */
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: var(--text-sm);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity var(--duration-fast) var(--ease-out-quart),
+                border-color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .gallery-wrapper:hover .gallery-nav,
+  .gallery-nav:focus-visible {
+    opacity: 1;
+  }
+
+  .gallery-nav:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .gallery-nav-prev {
+    left: -6px;
+  }
+
+  .gallery-nav-next {
+    right: -6px;
   }
 
   .gallery-item:hover,
