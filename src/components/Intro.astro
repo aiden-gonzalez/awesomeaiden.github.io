@@ -19,16 +19,16 @@ const skills = [
   <div class="intro-inner">
     <div class="intro-main">
       <div class="intro-text">
-        <h2 id="intro-lead" class="intro-lead">
+        <h2 id="intro-lead" class="intro-lead reveal" style="--reveal-delay: 0ms;">
           I build full-stack systems for financial workloads.
         </h2>
 
-        <p class="intro-bio">
+        <p class="intro-bio reveal" style="--reveal-delay: 80ms;">
           Strong foundation in data structures, databases, and performant backend infrastructure. Skilled in C#, Python, Node.js, React, C++, and AWS, with a track record of building reliable, scalable systems. Proficient in collaboration across teams to deliver high-impact features.
         </p>
       </div>
 
-      <figure class="intro-headshot">
+      <figure class="intro-headshot reveal" style="--reveal-delay: 160ms;">
         <img
           class="headshot-img"
           src="/images/headshot.webp"
@@ -40,10 +40,10 @@ const skills = [
     </div>
 
     <dl class="intro-skills">
-      {skills.map((s) => (
+      {skills.map((s, i) => (
         <>
-          <dt class="skill-label label-mono">{s.label}</dt>
-          <dd class="skill-value">{s.value}</dd>
+          <dt class="skill-label label-mono reveal" style={`--reveal-delay: ${240 + i * 80}ms;`}>{s.label}</dt>
+          <dd class="skill-value reveal" style={`--reveal-delay: ${240 + i * 80}ms;`}>{s.value}</dd>
         </>
       ))}
     </dl>
@@ -53,6 +53,24 @@ const skills = [
     <p class="label-mono">keep going ↓</p>
   </footer>
 </section>
+
+<script>
+  const section = document.getElementById('intro');
+  if (section) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            section.classList.add('is-revealed');
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.33 }
+    );
+    observer.observe(section);
+  }
+</script>
 
 <style>
   .intro {
@@ -190,5 +208,28 @@ const skills = [
     font-size: var(--text-base);
     line-height: var(--leading-normal);
     color: var(--color-text-primary);
+  }
+
+  /* Scroll-triggered reveal: each .reveal element fades + slides up
+     once .intro gains .is-revealed (set by IntersectionObserver at 20% visible). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--duration-slow) var(--ease-out-quart) var(--reveal-delay, 0ms),
+      transform var(--duration-slow) var(--ease-out-quart) var(--reveal-delay, 0ms);
+  }
+
+  .intro.is-revealed .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 </style>
