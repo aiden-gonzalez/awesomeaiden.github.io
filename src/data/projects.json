@@ -19,18 +19,12 @@
     "shape": "route",
     "detail": {
       "body": [
-        "TODO: replace with real writeup. This is a placeholder so the expanded view has something to show.",
-        "Each entry in the body array becomes its own paragraph. Add as many as you like."
-      ],
-      "gallery": [
-        { "kind": "image", "src": "/images/projects/hydrate/01.svg", "alt": "Placeholder 01" },
-        { "kind": "image", "src": "/images/projects/hydrate/02.svg", "alt": "Placeholder 02" },
-        { "kind": "doc", "src": "/files/aiden_gonzalez_resume.pdf", "label": "Sample PDF tile" },
-        { "kind": "image", "src": "/images/projects/hydrate/03.svg", "alt": "Placeholder 03" },
-        { "kind": "image", "src": "/images/projects/hydrate/04.svg", "alt": "Placeholder 04" }
+        "Two repos: a Flutter mobile client and a Node.js + PostgreSQL backend. The backend runs on Kubernetes with signed CloudFront URLs for media."
       ],
       "links": [
-        { "label": "Devpost", "href": "https://devpost.com/software/hydrate-b4lkoa" }
+        { "label": "Frontend (Flutter)", "href": "https://github.com/aiden-gonzalez/hydrate_mobile_flutter" },
+        { "label": "Backend (Node.js)", "href": "https://github.com/aiden-gonzalez/hydrate-backend" },
+        { "label": "Prototype demo", "href": "https://www.youtube.com/watch?v=tq3YYdi_cBI" }
       ]
     }
   },
@@ -57,10 +51,24 @@
     "period": "2023",
     "org": "Purdue ECE",
     "description": "Experimental web app studying the efficacy of regex comprehension tools. Co-authored a research paper on the findings.",
-    "stack": ["React", "Node.js"],
-    "link": "https://portfolium.com/entry/evaluation-of-regex-comprehension-tools",
+    "stack": ["React", "Python", "Flask"],
     "status": "completed",
-    "shape": "capture"
+    "shape": "capture",
+    "detail": {
+      "body": [
+        "For a study on regular expression comprehension tools, I helped develop a web app (React frontend, Python Flask backend) to run participants through the experiment and collect data. The app allowed our 4-person research group to gather enough data to draw conclusions in the paper.",
+        "From the paper's abstract: Regular expressions are notoriously hard to intuitively comprehend. Debugging issues with them can also be difficult. Several techniques have been created to help alleviate this issue and make these expressions easier to understand.",
+        "Existing techniques include everything from diagrams to equivalent code to natural language descriptions. However, there is not a lot of empirical evidence to show which methods are most effective in aiding regular expression (regex) comprehension.",
+        "In our work, we conduct an experiment to study and measure the effectiveness of several different comprehension techniques. By doing so, we are able to provide empirical support for the strongest of these techniques, encouraging its adoption to fight regex-related bugs in software.",
+        "To make our contribution, we select three popular and distinct regex comprehension techniques and integrate them into a custom-developed experimental tool. The tool has various measurement techniques to monitor user comprehension of regular expressions. After many trials with a comprehensive sample of developers, comprehension of the different techniques is analyzed, and findings are presented."
+      ],
+      "gallery": [
+        { "kind": "doc", "src": "/files/projects/regex-comprehension-study/writeup.pdf", "label": "Portfolium writeup" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/595-regex-comp" }
+      ]
+    }
   },
   {
     "title": "CI/CD pipeline",
@@ -68,9 +76,15 @@
     "org": "Precocity",
     "description": "Template GitLab CI/CD pipeline for Kotlin API development, allowing for faster, more reliable deployments across teams.",
     "stack": ["Kotlin", "GitLab CI"],
-    "link": "https://portfolium.com/entry/starter-cicd-pipeline-for-kotlin-api-development",
     "status": "completed",
-    "shape": "pipeline"
+    "shape": "pipeline",
+    "detail": {
+      "body": [
+        "A reference CI/CD pipeline built at Precocity for Kotlin API development. It runs against an example API written previously by a colleague, triggered on changes to a specified folder in the repo.",
+        "The pipeline spans 10 stages across 20 jobs: gradle build and test, code coverage, four parallel static analyses (vulnerabilities, formatting, likely bugs), docker packaging to two cloud container registries, image vulnerability scanning, deploy to a Google App Engine Flexible test environment, performance and functionality API tests, Google Web Scanner security tests, a Slack-notified gated production deploy, and an automatic dev-to-master merge after a successful prod deploy.",
+        "It served as a launching point for subsequent Kotlin API work at the company."
+      ]
+    }
   },
   {
     "title": "Lantern",
