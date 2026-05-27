@@ -15,9 +15,20 @@
     "org": "BoilerMake",
     "description": "Cross-platform app for finding and rating public water fountains and bathrooms. Built on a scalable Node.js / PostgreSQL backend on AWS.",
     "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
-    "link": "https://devpost.com/software/hydrate-b4lkoa",
     "status": "active",
-    "shape": "route"
+    "shape": "route",
+    "detail": {
+      "body": [
+        "TODO: replace with real writeup. This is a placeholder so the expanded view has something to show.",
+        "Each entry in the body array becomes its own paragraph. Add as many as you like."
+      ],
+      "gallery": [
+        { "kind": "doc", "src": "/files/aiden_gonzalez_resume.pdf", "label": "Sample PDF tile" }
+      ],
+      "links": [
+        { "label": "Devpost", "href": "https://devpost.com/software/hydrate-b4lkoa" }
+      ]
+    }
   },
   {
     "title": "Financial statement generator",
