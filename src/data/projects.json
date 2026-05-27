@@ -1,7 +1,16 @@
 [
   {
+    "title": "promlite",
+    "period": "2026",
+    "description": "A lightweight, single-node time series database for home server observability. PromQL-compatible for Grafana integration, targeting <100MB memory.",
+    "stack": ["Rust"],
+    "link": "https://github.com/promlite/promlite",
+    "status": "active",
+    "shape": "series"
+  },
+  {
     "title": "hydRate",
-    "period": "2025 · in progress",
+    "period": "2025",
     "description": "Cross-platform app for finding and rating public water fountains and bathrooms. Built on a scalable Node.js / PostgreSQL backend on AWS.",
     "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
     "link": "https://devpost.com/software/hydrate-b4lkoa",
@@ -10,7 +19,8 @@
   },
   {
     "title": "Statement engine",
-    "period": "2024 · Jasper Ridge",
+    "period": "2024",
+    "org": "Jasper Ridge",
     "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80–90% for monthly and quarterly client reporting.",
     "stack": ["C# .NET"],
     "status": "completed",
@@ -18,7 +28,8 @@
   },
   {
     "title": "Income allocation engine",
-    "period": "2024 · Jasper Ridge",
+    "period": "2024",
+    "org": "Jasper Ridge",
     "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend. Composable accounting workflows.",
     "stack": ["C# .NET", "React"],
     "status": "completed",
@@ -35,7 +46,8 @@
   },
   {
     "title": "CI/CD pipeline",
-    "period": "2023 · Precocity",
+    "period": "2023",
+    "org": "Precocity",
     "description": "Template GitLab CI/CD pipeline for Kotlin API development. Faster, more reliable deployments across teams.",
     "stack": ["Kotlin", "GitLab CI"],
     "link": "https://portfolium.com/entry/starter-cicd-pipeline-for-kotlin-api-development",
@@ -53,7 +65,8 @@
   },
   {
     "title": "OpenAir assistant",
-    "period": "2022 · Precocity",
+    "period": "2022",
+    "org": "Precocity",
     "description": "Slack-integrated time tracking tool MVP that streamlined employee reporting.",
     "stack": ["Node.js", "Slack API"],
     "link": "https://portfolium.com/entry/openair-assistant-full-stack-slack-app-mvp",

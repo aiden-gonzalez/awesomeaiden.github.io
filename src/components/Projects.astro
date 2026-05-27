@@ -5,6 +5,7 @@ import { projectShapes, PROJECT_SHAPE_VIEW } from '../lib/project-shapes';
 type Project = {
   title: string;
   period: string;
+  org?: string;
   description: string;
   stack: string[];
   link?: string;
@@ -31,7 +32,17 @@ const cards = projects as Project[];
         <li class="reveal">
           <Wrapper class="card" {...wrapperProps}>
             <div class="card-top">
-              <p class="card-period label-mono">{c.period}</p>
+              <div class="card-meta">
+                <p class="card-period label-mono">
+                  {c.period}{c.org ? ` · ${c.org}` : ''}
+                </p>
+                {c.status === 'active' && (
+                  <>
+                    <span class="card-active-dot" aria-hidden="true"></span>
+                    <p class="card-active label-mono">active</p>
+                  </>
+                )}
+              </div>
 
               <svg
                 class="card-map"
@@ -148,8 +159,33 @@ const cards = projects as Project[];
     gap: var(--space-4);
   }
 
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .card-meta > p {
+    margin: 0;
+  }
+
   .card-period {
     color: var(--color-text-secondary);
+  }
+
+  .card-active {
+    color: var(--color-accent);
+  }
+
+  .card-active-dot {
+    width: 0.4em;
+    height: 0.4em;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+    transform: translateY(-0.75px);
   }
 
   .card-map {

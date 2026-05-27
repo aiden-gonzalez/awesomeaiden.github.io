@@ -90,6 +90,21 @@ export const projectShapes: Record<string, ProjectShape> = {
     ],
   },
 
+  // Series — sparkline of irregular samples at fixed intervals (time series data,
+  // metrics, observability).
+  series: {
+    path: 'M 20,50 L 53,32 L 86,60 L 120,22 L 153,44 L 186,28 L 220,50',
+    dots: [
+      { x: 20,  y: 50 },
+      { x: 53,  y: 32 },
+      { x: 86,  y: 60 },
+      { x: 120, y: 22 },
+      { x: 153, y: 44 },
+      { x: 186, y: 28 },
+      { x: 220, y: 50 },
+    ],
+  },
+
   // Meander — winding exploratory path (research, experimental studies).
   meander: {
     path: 'M 20,40 C 40,12 70,12 90,40 C 110,68 140,68 160,40 C 180,12 210,12 220,40',
