@@ -23,7 +23,7 @@ const cards = projects as Project[];
 
   <ul class="projects-grid">
     {cards.map((c) => {
-      const shape = projectShapes[c.shape] ?? projectShapes.line;
+      const shape = projectShapes[c.shape] ?? projectShapes.series;
       const Wrapper = c.link ? 'a' : 'article';
       const wrapperProps = c.link
         ? { href: c.link, target: '_blank', rel: 'noopener noreferrer' }

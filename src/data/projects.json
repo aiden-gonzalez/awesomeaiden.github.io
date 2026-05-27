@@ -15,7 +15,7 @@
     "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
     "link": "https://devpost.com/software/hydrate-b4lkoa",
     "status": "active",
-    "shape": "loop"
+    "shape": "route"
   },
   {
     "title": "Statement engine",
@@ -24,7 +24,7 @@
     "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80–90% for monthly and quarterly client reporting.",
     "stack": ["C# .NET"],
     "status": "completed",
-    "shape": "fork"
+    "shape": "rows"
   },
   {
     "title": "Income allocation engine",
@@ -33,7 +33,7 @@
     "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend. Composable accounting workflows.",
     "stack": ["C# .NET", "React"],
     "status": "completed",
-    "shape": "fork"
+    "shape": "split"
   },
   {
     "title": "Regex comprehension study",
@@ -42,7 +42,7 @@
     "stack": ["React", "Node.js"],
     "link": "https://portfolium.com/entry/evaluation-of-regex-comprehension-tools",
     "status": "completed",
-    "shape": "meander"
+    "shape": "capture"
   },
   {
     "title": "CI/CD pipeline",
@@ -52,7 +52,7 @@
     "stack": ["Kotlin", "GitLab CI"],
     "link": "https://portfolium.com/entry/starter-cicd-pipeline-for-kotlin-api-development",
     "status": "completed",
-    "shape": "line"
+    "shape": "pipeline"
   },
   {
     "title": "Lantern",
@@ -61,7 +61,7 @@
     "stack": ["React", "Node.js", "PostgreSQL"],
     "link": "https://portfolium.com/entry/lantern-open-source-accounting-app",
     "status": "completed",
-    "shape": "line"
+    "shape": "radiate"
   },
   {
     "title": "OpenAir assistant",
@@ -80,7 +80,7 @@
     "stack": ["PyTorch", "Python"],
     "link": "https://portfolium.com/entry/yolo-object-detection-implementation",
     "status": "completed",
-    "shape": "zigzag"
+    "shape": "boxes"
   },
   {
     "title": "TapIn!",
@@ -89,7 +89,7 @@
     "stack": ["React Native"],
     "link": "https://devpost.com/software/tapin-nhebcv",
     "status": "completed",
-    "shape": "loop"
+    "shape": "icons"
   },
   {
     "title": "BLE LEDs",
@@ -98,7 +98,7 @@
     "stack": ["Arduino", "Bluetooth LE"],
     "link": "https://portfolium.com/entry/bluetooth-controlled-led-strip",
     "status": "completed",
-    "shape": "wave"
+    "shape": "bars"
   },
   {
     "title": "AHB convolver",
@@ -107,7 +107,7 @@
     "stack": ["Verilog", "AHB"],
     "link": "https://portfolium.com/entry/ahb-connected-2d-convolver-module-prototype",
     "status": "completed",
-    "shape": "wave"
+    "shape": "kernel"
   },
   {
     "title": "Microcontroller pong",
@@ -116,6 +116,6 @@
     "stack": ["C", "Embedded"],
     "link": "https://portfolium.com/entry/microcontroller-pong-game",
     "status": "completed",
-    "shape": "zigzag"
+    "shape": "bounce"
   }
 ]
