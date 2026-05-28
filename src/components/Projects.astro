@@ -64,9 +64,6 @@ const slugify = (s: string) =>
                   <p class="card-active label-mono">active</p>
                 </>
               )}
-              {isExpandable && (
-                <span class="card-toggle-icon label-mono" aria-hidden="true">▾</span>
-              )}
             </div>
             <svg
               class="card-map"
@@ -83,9 +80,17 @@ const slugify = (s: string) =>
           </div>
           <h3 class="card-title">{c.title}</h3>
           <p class="card-desc">{c.description}</p>
-          <ul class="card-stack">
-            {c.stack.map((s) => <li class="stack-tag label-mono">{s}</li>)}
-          </ul>
+          <div class="card-footer">
+            <ul class="card-stack">
+              {c.stack.map((s) => <li class="stack-tag label-mono">{s}</li>)}
+            </ul>
+            {isExpandable && (
+              <span class="card-toggle-icon label-mono" aria-hidden="true">▾</span>
+            )}
+            {hasLink && (
+              <span class="card-link-icon label-mono" aria-hidden="true">↗</span>
+            )}
+          </div>
         </>
       );
 
@@ -411,15 +416,22 @@ const slugify = (s: string) =>
     transform: translateY(-0.75px);
   }
 
-  .card-toggle-icon {
+  .card-toggle-icon,
+  .card-link-icon {
     color: var(--color-text-secondary);
-    margin-left: var(--space-1);
     transition: transform var(--duration-fast) var(--ease-out-quart);
     display: inline-block;
+    line-height: 1;
   }
 
   .card-expandable[aria-expanded="true"] .card-toggle-icon {
     transform: rotate(180deg);
+  }
+
+  a.card:hover .card-link-icon,
+  a.card:focus-visible .card-link-icon {
+    color: var(--color-accent);
+    transform: translate(1px, -1px);
   }
 
   .card-map {
@@ -460,15 +472,27 @@ const slugify = (s: string) =>
     margin: 0;
   }
 
+  /* Footer row holds stack tags on the left and the expand chevron on
+     the right. Owns the dashed top border that previously lived on the
+     stack list. */
+  .card-footer {
+    margin: auto 0 0;
+    padding: var(--space-4) 0 0;
+    border-top: 1px dashed var(--color-border);
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
   /* Stack tags */
   .card-stack {
     list-style: none;
-    padding: var(--space-4) 0 0;
-    margin: var(--space-2) 0 0;
-    border-top: 1px dashed var(--color-border);
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-3);
+    flex: 1;
   }
 
   .stack-tag {
