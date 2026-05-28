@@ -160,6 +160,14 @@ export const projectShapes = {
     ],
   },
 
+  // Row of character cells with a larger frame capturing one — OCR, character recognition.
+  glyphs: {
+    path: 'M 35,32 L 55,32 L 55,52 L 35,52 Z M 75,32 L 95,32 L 95,52 L 75,52 Z M 115,32 L 135,32 L 135,52 L 115,52 Z M 155,32 L 175,32 L 175,52 L 155,52 Z M 195,32 L 215,32 L 215,52 L 195,52 Z M 105,22 L 145,22 L 145,62 L 105,62 Z',
+    dots: [
+      { x: 125, y: 42 },
+    ],
+  },
+
   // Ball ricocheting off the floor between two paddles — pong, simple reflection.
   bounce: {
     path: 'M 30,15 L 42,15 L 42,58 L 30,58 Z M 198,15 L 210,15 L 210,58 L 198,58 Z M 42,22 L 150,65 L 194,50',
