@@ -173,9 +173,30 @@
     "org": "Purdue ECE",
     "description": "PyTorch implementation of you-only-look-once object detection from scratch.",
     "stack": ["PyTorch", "Python"],
-    "link": "https://portfolium.com/entry/yolo-object-detection-implementation",
     "status": "completed",
-    "shape": "boxes"
+    "shape": "boxes",
+    "detail": {
+      "body": [
+        "Final project for an artificial intelligence course at Purdue: a from-scratch PyTorch reimplementation of YOLO (You Only Look Once) real-time object detection.",
+        "Tested on still images first, then fed in dashcam footage from my car to see how the network performed on real driving scenes."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/yolo/detection.png",
+          "alt": "YOLO detection output on a still image: colored bounding boxes label a dog in the foreground, a bicycle leaning against a wall, and a vehicle visible through a doorway in the background."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/AV93oGncrsM",
+          "label": "Final presentation"
+        },
+        { "kind": "doc", "src": "/files/projects/yolo/paper.pdf", "label": "Final paper" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/ece570-yolo" }
+      ]
+    }
   },
   {
     "title": "TapIn!",
