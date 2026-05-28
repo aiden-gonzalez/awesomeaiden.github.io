@@ -75,16 +75,20 @@ const skills = [
 <style>
   .intro {
     background: var(--color-bg);
-    min-height: 100vh;
-    padding: var(--space-8) var(--space-4) var(--space-10);
+    padding: var(--space-12) var(--space-8) var(--space-12);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
   }
 
+  /* The min-height: 100vh constraint is desktop-only — on mobile the section
+     is already content-heavy, so forcing it to fill the viewport just packs
+     things in. Let the section be its natural content height with generous
+     padding instead. */
   @media (min-width: 768px) {
     .intro {
+      min-height: 100vh;
       padding: var(--space-12) var(--space-12) var(--space-16);
     }
   }
@@ -112,13 +116,7 @@ const skills = [
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: var(--space-10);
-  }
-
-  @media (min-width: 1100px) {
-    .intro-inner {
-      gap: var(--space-12);
-    }
+    gap: var(--space-12);
   }
 
   /* Constrain the prose width inside the layout grid so the long lines stay readable
@@ -131,7 +129,7 @@ const skills = [
   .intro-main {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-10);
     align-items: center;
   }
 
@@ -158,7 +156,10 @@ const skills = [
 
   .headshot-img {
     width: 100%;
-    max-width: 500px;
+    /* Mobile cap so the headshot reads as a portrait element rather than a
+       viewport-wide image dominating the stacked single-column layout.
+       Overridden at the 2-column breakpoint below. */
+    max-width: 320px;
     height: auto;
     display: block;
     /* Soft desaturate + warm grade so the photo sits inside the bone/forest palette. */
@@ -167,6 +168,14 @@ const skills = [
        topography.  Lower number = more of the photo fades; higher = less. */
     -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  }
+
+  /* On the 2-column desktop layout the image lives in its own 1fr track,
+     so the original 500px cap is fine. */
+  @media (min-width: 900px) {
+    .headshot-img {
+      max-width: 500px;
+    }
   }
 
   .intro-lead {
