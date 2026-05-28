@@ -108,10 +108,27 @@
     "period": "2022",
     "org": "Purdue ECE",
     "description": "Accounting MVP for small business owners which distilled their financial health into digestible insights.",
-    "stack": ["React", "Node.js", "PostgreSQL"],
-    "link": "https://portfolium.com/entry/lantern-open-source-accounting-app",
+    "stack": ["React", "Node.js", "Express", "MongoDB"],
     "status": "completed",
-    "shape": "radiate"
+    "shape": "radiate",
+    "detail": {
+      "body": [
+        "Senior design capstone with a three-person team. Lantern is an open-source accounting MVP for small business owners: link a business bank account through Plaid and the app produces instant views of financial health.",
+        "Built on the MERN stack (MongoDB, Express, React, Node). My contributions were the API specification, the backend server, and several frontend features. I also ran the GitHub project (issue triage, PR review, merges) and configured the GitHub Actions CI/CD pipeline so every PR ran tests and lint checks before merge."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/lantern/dashboard.png",
+          "alt": "Lantern dashboard overview. Left sidebar lists Banking, Finances, Tools, and Settings sections. Main area shows a cash flow breakdown line chart with revenue, expenses, and profit traces over March and April 2022, plus an account balance card, an upcoming events list, and pie charts for expenses and revenue."
+        },
+        { "kind": "doc", "src": "/files/projects/lantern/presentation.pdf", "label": "Final presentation" }
+      ],
+      "links": [
+        { "label": "Frontend (React)", "href": "https://github.com/lanterndevs/Lantern-Client" },
+        { "label": "Backend (Node.js)", "href": "https://github.com/lanterndevs/Lantern-Server" }
+      ]
+    }
   },
   {
     "title": "OpenAir assistant",
