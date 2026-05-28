@@ -306,7 +306,7 @@
     "shape": "glyphs",
     "detail": {
       "body": [
-        "Final project for a Russian language course at Purdue, fall 2019. A Python + OpenCV script that reads printed Cyrillic text from images, picking up OpenCV from scratch in the process.",
+        "Built in the fall of 2019, this was my first experience with OpenCV.",
         "Preprocessing (grayscale, Gaussian blur, adaptive threshold) feeds contour detection to segment characters. A 1-nearest-neighbor classifier matches each cropped glyph against a hand-labeled training set, built interactively by stepping through a training image and pressing the matching key for each detected character. Recognition then reconstructs lines and words: contours sort into lines by Y position, by X within each line, and gaps wider than half the line's maximum intra-line gap mark word boundaries."
       ],
       "gallery": [

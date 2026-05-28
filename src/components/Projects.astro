@@ -62,7 +62,7 @@ const slugify = (s: string) =>
 
 <section class="projects" id="projects">
   <header class="projects-header">
-    <p class="label-mono">selected work · 2020 → present</p>
+    <p class="label-mono">selected work · click a card to expand</p>
   </header>
 
   <ul class="projects-grid">
@@ -465,6 +465,7 @@ const slugify = (s: string) =>
     transition: transform var(--duration-fast) var(--ease-out-quart);
     display: inline-block;
     line-height: 1;
+    font-size: var(--text-lg);
   }
 
   .card-expandable[aria-expanded="true"] .card-toggle-icon {
