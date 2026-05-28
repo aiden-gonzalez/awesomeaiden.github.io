@@ -27,7 +27,7 @@ These shape every piece of visible text on the site:
 - **No em dashes (—) or en dashes (–) anywhere in user-facing copy.** The user considers em dashes an AI tell. Use commas, colons, parentheses, or "and" instead. For date ranges, use a regular hyphen (`-`); for section labels that span a timeline, use an arrow (`→`) as in "2019 → 2026".
 - **Never use exclamation points.** The voice is dry, observational, slightly literary. Field journal, not corporate blog.
 - **Sentence case everywhere.** "Software developer" not "Software Developer." Goes for headings, buttons, labels. The hero title and the bio's "Senior Software Engineer" are exceptions (proper titles).
-- **Specifics over abstractions.** "double cortado, 9 a.m." not "I like coffee." "80–90% perf boost" not "improved performance."
+- **Specifics over abstractions.** Prefer concrete technical numbers and details (e.g., "cut processing time 80-90%") over vague claims like "improved performance." Don't reach for cutesy personal-life specifics (coffee orders, daily routines) as flavor — the user finds that style AI-generated-sounding.
 - **No "I love" or "I'm passionate about."** Show, don't tell.
 - **Cycling vocabulary is OK in moderation.** "Big ring," "tempo," "cadence," "KOM" — they reward attentive readers. Don't translate them.
 

@@ -20,9 +20,6 @@
           "src": "/images/projects/promlite/architecture.svg",
           "alt": "Architecture diagram. Publisher app and Grafana sit at the top, feeding into a PromLite Rust workspace with a write path (IPC server, head block plus WAL) on the left and a read path (HTTP API, query engine) on the right. Both paths flow into a shared block-file storage layer at the bottom."
         }
-      ],
-      "links": [
-        { "label": "Repository", "href": "https://github.com/promlite/promlite" }
       ]
     }
   },
@@ -55,7 +52,7 @@
     "title": "Financial statement generator",
     "period": "2024",
     "org": "Jasper Ridge",
-    "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80–90% for monthly and quarterly client reporting.",
+    "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80-90% for monthly and quarterly client reporting.",
     "stack": ["C# .NET"],
     "status": "completed",
     "shape": "rows"
@@ -104,7 +101,7 @@
     "detail": {
       "body": [
         "A reference CI/CD pipeline built at Precocity for Kotlin API development. It runs against an example API written previously by a colleague, triggered on changes to a specified folder in the repo.",
-        "The pipeline spans 10 stages across 20 jobs: gradle build and test, code coverage, four parallel static analyses (vulnerabilities, formatting, likely bugs), docker packaging to two cloud container registries, image vulnerability scanning, deploy to a Google App Engine Flexible test environment, performance and functionality API tests, Google Web Scanner security tests, a Slack-notified gated production deploy, and an automatic dev-to-master merge after a successful prod deploy.",
+        "The pipeline spans 10 stages across 20 jobs: Gradle build and test, code coverage, four parallel static analyses (vulnerabilities, formatting, likely bugs), Docker packaging to two cloud container registries, image vulnerability scanning, deploy to a Google App Engine Flexible test environment, performance and functionality API tests, Google Web Scanner security tests, a Slack-notified gated production deploy, and an automatic dev-to-master merge after a successful prod deploy.",
         "It served as a launching point for subsequent Kotlin API work at the company."
       ]
     }
