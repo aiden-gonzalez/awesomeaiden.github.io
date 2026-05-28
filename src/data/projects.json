@@ -38,10 +38,16 @@
       "body": [
         "Two repos: a Flutter mobile client and a Node.js + PostgreSQL backend. The backend runs on Kubernetes with signed CloudFront URLs for media."
       ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://www.youtube.com/watch?v=tq3YYdi_cBI",
+          "label": "Prototype demo"
+        }
+      ],
       "links": [
         { "label": "Frontend (Flutter)", "href": "https://github.com/aiden-gonzalez/hydrate_mobile_flutter" },
-        { "label": "Backend (Node.js)", "href": "https://github.com/aiden-gonzalez/hydrate-backend" },
-        { "label": "Prototype demo", "href": "https://www.youtube.com/watch?v=tq3YYdi_cBI" }
+        { "label": "Backend (Node.js)", "href": "https://github.com/aiden-gonzalez/hydrate-backend" }
       ]
     }
   },
@@ -135,10 +141,31 @@
     "period": "2022",
     "org": "Precocity",
     "description": "Slack-integrated time tracking tool MVP that streamlined employee reporting.",
-    "stack": ["Node.js", "Slack API"],
-    "link": "https://portfolium.com/entry/openair-assistant-full-stack-slack-app-mvp",
+    "stack": ["Node.js", "Google App Engine", "Firestore"],
     "status": "completed",
-    "shape": "hub"
+    "shape": "hub",
+    "detail": {
+      "body": [
+        "Solo MVP of a Slack app for managing OpenAir timesheets without leaving Slack. Precocity employees connect their account and then log time and update their active timesheet through Slack messages and Block Kit interactive components.",
+        "Runs on Google App Engine (Node.js standard environment), organized into four files: main.js routes incoming Slack actions and outgoing responses, openair.js handles the OpenAir XML API, database.js caches session and timesheet data in Firebase Firestore, and messages.js builds the outgoing Slack messages (plain text through interactive Block Kit layouts).",
+        "Reception was strong enough internally that coworkers with no prior involvement asked to contribute after their first use."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/openair/slack-profile.png",
+          "alt": "Slack app profile card for OpenAir Assistant, showing the blue app icon, the tagline 'Assists in logging hours in OpenAir', and the two slash commands /oa and /openair that launch the assistant."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/-GEk_bYwt0w",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "README (Gist)", "href": "https://gist.github.com/aiden-gonzalez/c4a766ba92f9ad980f777a7a0b414395" }
+      ]
+    }
   },
   {
     "title": "YOLO object detection",

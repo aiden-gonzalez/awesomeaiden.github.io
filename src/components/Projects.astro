@@ -4,7 +4,29 @@ import { projectShapes, PROJECT_SHAPE_VIEW } from '../lib/project-shapes';
 
 type GalleryItem =
   | { kind: 'image'; src: string; alt: string }
-  | { kind: 'doc'; src: string; label: string };
+  | { kind: 'doc'; src: string; label: string }
+  | { kind: 'video'; src: string; label: string };
+
+// Parse a YouTube URL into a video ID, or null for unsupported/non-YouTube URLs.
+// Drives thumbnail rendering: if we get an ID we use the i.ytimg.com poster;
+// otherwise the video tile falls back to a badge-only style like the PDF tile.
+function getYouTubeId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname === 'youtu.be') {
+      return u.pathname.slice(1).split('/')[0] || null;
+    }
+    if (u.hostname.endsWith('youtube.com') || u.hostname.endsWith('youtube-nocookie.com')) {
+      const v = u.searchParams.get('v');
+      if (v) return v;
+      const parts = u.pathname.split('/').filter(Boolean);
+      if (parts[0] === 'embed' || parts[0] === 'shorts') return parts[1] || null;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
 
 type ProjectDetail = {
   body?: string[];
@@ -138,17 +160,38 @@ const slugify = (s: string) =>
                     <h4 class="detail-label label-mono">gallery</h4>
                     <div class="gallery-wrapper">
                       <div class="detail-gallery">
-                        {c.detail!.gallery.map((item) => (
-                          item.kind === 'image' ? (
-                            <a
-                              class="gallery-item gallery-image"
-                              href={item.src}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <img src={item.src} alt={item.alt} loading="lazy" />
-                            </a>
-                          ) : (
+                        {c.detail!.gallery.map((item) => {
+                          if (item.kind === 'image') {
+                            return (
+                              <a
+                                class="gallery-item gallery-image"
+                                href={item.src}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <img src={item.src} alt={item.alt} loading="lazy" />
+                              </a>
+                            );
+                          }
+                          if (item.kind === 'video') {
+                            const ytId = getYouTubeId(item.src);
+                            const poster = ytId ? `https://i.ytimg.com/vi/${ytId}/mqdefault.jpg` : null;
+                            return (
+                              <a
+                                class:list={['gallery-item', 'gallery-video', { 'has-thumb': !!poster }]}
+                                href={item.src}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {poster && (
+                                  <img class="video-thumb" src={poster} alt="" loading="lazy" aria-hidden="true" />
+                                )}
+                                <span class="video-play" aria-hidden="true">▶</span>
+                                <span class="video-label">{item.label}</span>
+                              </a>
+                            );
+                          }
+                          return (
                             <a
                               class="gallery-item gallery-doc"
                               href={item.src}
@@ -158,8 +201,8 @@ const slugify = (s: string) =>
                               <span class="doc-icon label-mono" aria-hidden="true">PDF</span>
                               <span class="doc-label">{item.label}</span>
                             </a>
-                          )
-                        ))}
+                          );
+                        })}
                       </div>
                       <button class="gallery-nav gallery-nav-prev" type="button" aria-label="Previous">←</button>
                       <button class="gallery-nav gallery-nav-next" type="button" aria-label="Next">→</button>
@@ -704,6 +747,94 @@ const slugify = (s: string) =>
   .doc-label {
     color: var(--color-text-primary);
     font-size: var(--text-sm);
+  }
+
+  /* Video tile: 16:9 to read as video-shaped. Two visual modes — when a YouTube
+     thumbnail is available the poster fills the tile and the play button + label
+     overlay it; otherwise the tile renders like the PDF doc, with a clay
+     play-arrow badge centered above the label. */
+  .gallery-video {
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    text-align: center;
+  }
+
+  .gallery-video .video-play {
+    background: var(--color-accent);
+    color: var(--color-bone);
+    padding: 0.15em 0.6em;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-loose);
+    line-height: 1;
+  }
+
+  .gallery-video .video-label {
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+  }
+
+  .video-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+  }
+
+  /* Thumbnail mode: poster fills the tile; play button becomes a round white
+     dot center-overlaid; label moves into a subtle dark gradient strip at the
+     bottom for readability against arbitrary thumbnail content. */
+  .gallery-video.has-thumb {
+    justify-content: flex-end;
+    padding: 0;
+    gap: 0;
+  }
+
+  .gallery-video.has-thumb .video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(245, 241, 234, 0.94);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    letter-spacing: 0;
+    z-index: 2;
+    transition: transform var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .gallery-video.has-thumb:hover .video-play,
+  .gallery-video.has-thumb:focus-visible .video-play {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  .gallery-video.has-thumb .video-label {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    margin: 0;
+    padding: var(--space-6) var(--space-3) var(--space-2);
+    color: var(--color-bone);
+    background: linear-gradient(to top, rgba(44, 36, 22, 0.78), rgba(44, 36, 22, 0));
+    box-sizing: border-box;
+    text-align: left;
   }
 
   .detail-links {
