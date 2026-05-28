@@ -203,10 +203,25 @@
     "period": "2021",
     "org": "BoilerMake",
     "description": "Social media profile sharing prototype.",
-    "stack": ["React Native"],
-    "link": "https://devpost.com/software/tapin-nhebcv",
+    "stack": ["React Native", "Express.js", "Firebase"],
     "status": "completed",
-    "shape": "icons"
+    "shape": "icons",
+    "detail": {
+      "body": [
+        "BoilerMake hackathon project. TapIn replaces the awkward dance of trading half a dozen social handles when meeting someone new: each user has a QR code that, when scanned, opens a webpage with their chosen social profiles. The person scanning never needs TapIn installed.",
+        "Built with a React Native client, Express.js backend, and Firebase. The original concept was NFC tap-to-share, but we hit hardware issues during the hackathon and pivoted to QR codes to land a working demo before the deadline."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://youtu.be/StbNhc_cBo0",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "Devpost", "href": "https://devpost.com/software/tapin-nhebcv" }
+      ]
+    }
   },
   {
     "title": "BLE LEDs",
