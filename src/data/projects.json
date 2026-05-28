@@ -250,9 +250,25 @@
     "org": "Purdue ECE",
     "description": "Verilog AHB-connected 2D convolver module prototype for hardware-accelerated image processing.",
     "stack": ["Verilog", "AHB"],
-    "link": "https://portfolium.com/entry/ahb-connected-2d-convolver-module-prototype",
     "status": "completed",
-    "shape": "kernel"
+    "shape": "kernel",
+    "detail": {
+      "body": [
+        "Honors project for an undergraduate ASIC design lab at Purdue, working with the course instructor, Dr. Mark Johnson, to prototype a new final lab for the course: an AHB-connected 2D convolver module for hardware-accelerated image processing.",
+        "Across the semester I scoped the concept with Dr. Johnson, designed the architecture, implemented it in Verilog, and wrote test benches for both the simulated and synthesized versions. The whole thing was packaged with documentation so it could land as the official final lab for the Spring 2022 cohort."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/ahb-convolver/convolution.png",
+          "alt": "Diagram of a 2D convolution: a small white kernel grid on the left maps via highlighted lines to a darker region within a larger blue input grid on the right, illustrating how the kernel slides across the input."
+        },
+        { "kind": "doc", "src": "/files/projects/ahb-convolver/lab-manual.pdf", "label": "Lab manual" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/337labs/tree/main/Honors" }
+      ]
+    }
   },
   {
     "title": "Microcontroller pong",
