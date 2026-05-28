@@ -1,0 +1,741 @@
+---
+import cassetteData from '../data/cassette.json';
+
+type Pt = [number, number];
+
+type Gear = {
+  teeth: number;
+  span: string;
+  title: string;
+  subtitle: string;
+  bullets: string[];
+};
+
+const gears = cassetteData as Gear[];
+
+const activeIdx = 0;
+const active = gears[activeIdx];
+
+// SVG geometry, cassette viewBox is square, centred. Largest cog 32T → smallest 12T.
+const CX = 220;
+const CY = 220;
+const HUB_R = 22;
+
+// Map tooth count to outer radius. Spread roughly evenly between MIN and MAX.
+const MIN_R = 60;
+const MAX_R = 175;
+const minTeeth = Math.min(...gears.map((g) => g.teeth));
+const maxTeeth = Math.max(...gears.map((g) => g.teeth));
+function outerRadius(teeth: number): number {
+  return MIN_R + ((teeth - minTeeth) / (maxTeeth - minTeeth)) * (MAX_R - MIN_R);
+}
+
+function cogPath(teeth: number, outerR: number, toothDepth = 9): string {
+  const innerR = outerR - toothDepth;
+  const steps = teeth * 2;
+  const offset = -Math.PI / 2; // tooth pointing up so the spider symmetry is intuitive
+  const pts: Pt[] = [];
+  for (let i = 0; i < steps; i++) {
+    const a = offset + (i / steps) * Math.PI * 2;
+    const r = i % 2 === 0 ? outerR : innerR;
+    pts.push([CX + r * Math.cos(a), CY + r * Math.sin(a)]);
+  }
+  return 'M ' + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L ') + ' Z';
+}
+
+const cogData = gears.map((g, i) => ({
+  ...g,
+  index: i,
+  outerR: outerRadius(g.teeth),
+  d: cogPath(g.teeth, outerRadius(g.teeth)),
+}));
+
+// Draw order: largest first (z-bottom), smallest last (z-top). Active cog rendered last
+// so its accent stroke isn't covered by the smaller cogs that nest inside it.
+const drawOrder = [...cogData].sort((a, b) => b.outerR - a.outerR);
+
+// Chain visualization: a real bike chain is a series of figure-eight link plates joined
+// by pins. We compute pin positions at uniform arc-length spacing along the chain path
+// (so every link is the same length within a single chain), with pitch matched to the cog's
+// tooth spacing so the chain visually engages with the cog teeth.
+const CHAIN_TAIL = 220;       // CX = 220, so tails reach x = 440 (the right edge of the SVG)
+const PLATE_R = 4.5;          // outer radius of each pin hole on the plate (and link half-width)
+const WAIST_R = 2.6;          // half-width at the link's pinched waist (gives the "figure 8" look)
+const PIN_DOT_R = 1.4;        // radius of the small pin dots at each junction
+
+type ChainGeom = { links: string[]; pins: { x: number; y: number }[] };
+
+// Locate a point at arc-length s along the chain path:
+//  1) top tail: from (CX + CHAIN_TAIL, CY - R) leftward to (CX, CY - R)
+//  2) half-arc wrapping the LEFT side of the cog from top down to bottom
+//  3) bottom tail: from (CX, CY + R) rightward to (CX + CHAIN_TAIL, CY + R)
+function pointAtArcLength(s: number, R: number): { x: number; y: number } {
+  const arcLen = Math.PI * R;
+  if (s <= CHAIN_TAIL) {
+    return { x: CX + CHAIN_TAIL - s, y: CY - R };
+  }
+  if (s <= CHAIN_TAIL + arcLen) {
+    const t = (s - CHAIN_TAIL) / R;
+    const angle = -Math.PI / 2 - t;
+    return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+  }
+  return { x: CX + (s - CHAIN_TAIL - arcLen), y: CY + R };
+}
+
+// One link plate: a figure-eight outline spanning p1 → p2.  Two 180° arcs around each pin,
+// joined by quadratic curves that pinch in at the waist so the link reads as a real chain plate.
+function linkPath(
+  p1: { x: number; y: number },
+  p2: { x: number; y: number }
+): string {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const dist = Math.hypot(dx, dy);
+  if (dist < 1e-6) return '';
+  // Perpendicular unit vector (left of direction of travel in math sense / right on screen)
+  const nx = -dy / dist;
+  const ny = dx / dist;
+
+  // Endpoints of the perpendicular diameter at each pin
+  const p1a = { x: p1.x + nx * PLATE_R, y: p1.y + ny * PLATE_R };
+  const p1b = { x: p1.x - nx * PLATE_R, y: p1.y - ny * PLATE_R };
+  const p2a = { x: p2.x + nx * PLATE_R, y: p2.y + ny * PLATE_R };
+  const p2b = { x: p2.x - nx * PLATE_R, y: p2.y - ny * PLATE_R };
+
+  // Waist control points (one on each side of the midpoint)
+  const mx = (p1.x + p2.x) / 2;
+  const my = (p1.y + p2.y) / 2;
+  const wa = { x: mx + nx * WAIST_R, y: my + ny * WAIST_R };
+  const wb = { x: mx - nx * WAIST_R, y: my - ny * WAIST_R };
+
+  const f = (n: number) => n.toFixed(1);
+  return [
+    `M ${f(p1a.x)},${f(p1a.y)}`,
+    `Q ${f(wa.x)},${f(wa.y)} ${f(p2a.x)},${f(p2a.y)}`,
+    `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p2b.x)},${f(p2b.y)}`,
+    `Q ${f(wb.x)},${f(wb.y)} ${f(p1b.x)},${f(p1b.y)}`,
+    `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p1a.x)},${f(p1a.y)}`,
+    'Z',
+  ].join(' ');
+}
+
+function chainGeometry(R: number, teeth: number): ChainGeom {
+  const arcLen = Math.PI * R;
+  const totalLen = 2 * CHAIN_TAIL + arcLen;
+  // Pitch = the cog's own tooth spacing, so the chain visually engages with the teeth.
+  const targetPitch = (2 * Math.PI * R) / teeth;
+  const linkCount = Math.max(2, Math.round(totalLen / targetPitch));
+  const pitch = totalLen / linkCount;
+
+  const pins = [];
+  for (let i = 0; i <= linkCount; i++) {
+    pins.push(pointAtArcLength(i * pitch, R));
+  }
+
+  const links: string[] = [];
+  for (let i = 0; i < pins.length - 1; i++) {
+    links.push(linkPath(pins[i], pins[i + 1]));
+  }
+
+  return { links, pins };
+}
+
+const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth));
+---
+
+<section class="cassette" id="cassette" data-cassette aria-labelledby="cassette-title">
+  <div class="cassette-inner">
+    <p class="label-mono cassette-label">the ride · a timeline · 2019 → 2026</p>
+
+    <div class="cassette-grid">
+      <div class="panels">
+        {gears.map((g, i) => (
+          <article
+            class:list={['panel', { active: i === activeIdx }]}
+            data-panel-idx={i}
+            aria-hidden={i !== activeIdx}
+          >
+            <p class="panel-span label-mono">{g.span}</p>
+            {i === activeIdx
+              ? <h2 id="cassette-title" class="panel-title">{g.title}</h2>
+              : <h2 class="panel-title">{g.title}</h2>
+            }
+            <p class="panel-subtitle">{g.subtitle}</p>
+            <ul class="panel-bullets" role="list">
+              {g.bullets.map((b) => (
+                <li class="panel-bullet">{b}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <div class="cog-wrap">
+        <svg
+          class="cogs"
+          viewBox="0 0 440 440"
+          role="img"
+          aria-labelledby="cassette-svg-title cassette-svg-desc"
+        >
+          <title id="cassette-svg-title">Bike cassette</title>
+          <desc id="cassette-svg-desc">
+            Six concentric cogs sharing a hub, ranging from 32 teeth (largest, easy gear) to 12 teeth (smallest, hardest gear). One cog is highlighted in clay red to indicate the active career stage.
+          </desc>
+
+          <g data-spinner>
+            {drawOrder.map((c) => (
+              <path
+                d={c.d}
+                class:list={['cog', { active: c.index === activeIdx }]}
+                data-cog-idx={c.index}
+              />
+            ))}
+
+            <circle class="hub" cx={CX} cy={CY} r={HUB_R} />
+            <circle class="hub-bolt" cx={CX} cy={CY - HUB_R + 5} r="2" />
+            <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((2 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((2 * Math.PI) / 3 - Math.PI / 2)} r="2" />
+            <circle class="hub-bolt" cx={CX + (HUB_R - 5) * Math.cos((4 * Math.PI) / 3 - Math.PI / 2)} cy={CY + (HUB_R - 5) * Math.sin((4 * Math.PI) / 3 - Math.PI / 2)} r="2" />
+          </g>
+
+          {chainGeoms.map((geom, i) => (
+            <g
+              class:list={['chain', { active: i === activeIdx }]}
+              data-chain-idx={i}
+              data-chain-radius={outerRadius(gears[i].teeth)}
+              data-chain-pitch={(Math.PI * outerRadius(gears[i].teeth) + 2 * CHAIN_TAIL) / (geom.pins.length - 1)}
+              data-chain-total-len={Math.PI * outerRadius(gears[i].teeth) + 2 * CHAIN_TAIL}
+              aria-hidden="true"
+            >
+              {geom.links.map((d, li) => (
+                <path class="chain-link" d={d} data-link-idx={li} />
+              ))}
+              {geom.pins.map((p, pi) => (
+                <circle class="chain-pin" cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r={PIN_DOT_R} data-pin-idx={pi} />
+              ))}
+            </g>
+          ))}
+        </svg>
+
+        <ol class="gear-legend label-mono" aria-hidden="true">
+          {gears.map((g, i) => (
+            <li class:list={['legend-tick', { active: i === activeIdx }]} data-tick-idx={i}>
+              <span>{String(i + 1).padStart(2, '0')}</span>
+              <span>{g.teeth}T</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <ol class="sr-only" aria-label="Career timeline by gear">
+    {gears.map((g) => (
+      <li>
+        <strong>{g.span}</strong>, {g.title}. {g.subtitle}.
+        <ul>
+          {g.bullets.map((b) => <li>{b}</li>)}
+        </ul>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initCassette() {
+    const section = document.querySelector<HTMLElement>('[data-cassette]');
+    if (!section) return;
+
+    // Default state is the no-JS / reduced-motion timeline (every panel visible inline).
+    // Only opt into the carousel + pinned-scroll mechanic when JS is available and the
+    // user hasn't asked for reduced motion.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+    section.classList.add('js-active');
+
+    const panels = Array.from(section.querySelectorAll<HTMLElement>('[data-panel-idx]'));
+    const cogs = Array.from(section.querySelectorAll<SVGPathElement>('[data-cog-idx]'));
+    const ticks = Array.from(section.querySelectorAll<HTMLElement>('[data-tick-idx]'));
+    const chains = Array.from(section.querySelectorAll<SVGGElement>('[data-chain-idx]'));
+    const spinner = section.querySelector<SVGGElement>('[data-spinner]');
+    const total = panels.length;
+    if (total === 0) return;
+
+    // Map cogs, ticks, and chains by their data-idx so the visual draw order doesn't matter.
+    const cogByIdx = new Map<number, SVGPathElement>();
+    cogs.forEach((c) => {
+      const i = Number(c.dataset.cogIdx);
+      if (!Number.isNaN(i)) cogByIdx.set(i, c);
+    });
+    const tickByIdx = new Map<number, HTMLElement>();
+    ticks.forEach((t) => {
+      const i = Number(t.dataset.tickIdx);
+      if (!Number.isNaN(i)) tickByIdx.set(i, t);
+    });
+    const chainByIdx = new Map<number, SVGGElement>();
+    chains.forEach((c) => {
+      const i = Number(c.dataset.chainIdx);
+      if (!Number.isNaN(i)) chainByIdx.set(i, c);
+    });
+
+    // Chain geometry helpers (must match the server-side functions in the frontmatter).
+    const CX = 220;
+    const CY = 220;
+    const CHAIN_TAIL = 220;
+    const PLATE_R = 4.5;
+    const WAIST_R = 2.6;
+
+    type Pt = { x: number; y: number };
+    const pointAtArcLength = (s: number, R: number): Pt => {
+      const arcLen = Math.PI * R;
+      const totalLen = 2 * CHAIN_TAIL + arcLen;
+      let ns = ((s % totalLen) + totalLen) % totalLen;
+      if (ns <= CHAIN_TAIL) {
+        return { x: CX + CHAIN_TAIL - ns, y: CY - R };
+      }
+      if (ns <= CHAIN_TAIL + arcLen) {
+        const t = (ns - CHAIN_TAIL) / R;
+        const angle = -Math.PI / 2 - t;
+        return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+      }
+      return { x: CX + (ns - CHAIN_TAIL - arcLen), y: CY + R };
+    };
+
+    const buildLinkPath = (p1: Pt, p2: Pt): string => {
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 1e-6) return '';
+      const nx = -dy / dist;
+      const ny = dx / dist;
+      const p1a = { x: p1.x + nx * PLATE_R, y: p1.y + ny * PLATE_R };
+      const p1b = { x: p1.x - nx * PLATE_R, y: p1.y - ny * PLATE_R };
+      const p2a = { x: p2.x + nx * PLATE_R, y: p2.y + ny * PLATE_R };
+      const p2b = { x: p2.x - nx * PLATE_R, y: p2.y - ny * PLATE_R };
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      const wa = { x: mx + nx * WAIST_R, y: my + ny * WAIST_R };
+      const wb = { x: mx - nx * WAIST_R, y: my - ny * WAIST_R };
+      const f = (n: number) => n.toFixed(1);
+      return (
+        `M ${f(p1a.x)},${f(p1a.y)} ` +
+        `Q ${f(wa.x)},${f(wa.y)} ${f(p2a.x)},${f(p2a.y)} ` +
+        `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p2b.x)},${f(p2b.y)} ` +
+        `Q ${f(wb.x)},${f(wb.y)} ${f(p1b.x)},${f(p1b.y)} ` +
+        `A ${PLATE_R} ${PLATE_R} 0 0 1 ${f(p1a.x)},${f(p1a.y)} Z`
+      );
+    };
+
+    // Cache the per-chain config and the DOM nodes we'll need to update each frame.
+    type ChainState = {
+      R: number;
+      pitch: number;
+      pins: NodeListOf<SVGCircleElement>;
+      links: NodeListOf<SVGPathElement>;
+    };
+    const chainStates = new Map<number, ChainState>();
+    chains.forEach((c) => {
+      const i = Number(c.dataset.chainIdx);
+      const R = Number(c.dataset.chainRadius);
+      const pitch = Number(c.dataset.chainPitch);
+      if (Number.isNaN(i) || Number.isNaN(R) || Number.isNaN(pitch)) return;
+      chainStates.set(i, {
+        R,
+        pitch,
+        pins: c.querySelectorAll<SVGCircleElement>('[data-pin-idx]'),
+        links: c.querySelectorAll<SVGPathElement>('[data-link-idx]'),
+      });
+    });
+
+    let currentIdx = 0;
+    const setActive = (idx: number) => {
+      if (idx === currentIdx) return;
+      panels[currentIdx]?.classList.remove('active');
+      panels[currentIdx]?.setAttribute('aria-hidden', 'true');
+      panels[idx]?.classList.add('active');
+      panels[idx]?.setAttribute('aria-hidden', 'false');
+      cogByIdx.get(currentIdx)?.classList.remove('active');
+      cogByIdx.get(idx)?.classList.add('active');
+      tickByIdx.get(currentIdx)?.classList.remove('active');
+      tickByIdx.get(idx)?.classList.add('active');
+      chainByIdx.get(currentIdx)?.classList.remove('active');
+      chainByIdx.get(idx)?.classList.add('active');
+      currentIdx = idx;
+    };
+
+    // Chain motion across the full scroll, in SVG arc-length units. The cog rotation is
+    // derived from this so the chain and cog stay in sync.
+    const TOTAL_CHAIN_MOTION = 1500;
+
+    // Plates and pins fade out as they approach the right edge of the SVG, so the wrap
+    // point at x = CX + CHAIN_TAIL doesn't show plates "bridging" between the two tails.
+    const FADE_START = CX + CHAIN_TAIL - 70;
+    const FADE_END = CX + CHAIN_TAIL;
+    const fadeAt = (x: number): number => {
+      if (x <= FADE_START) return 1;
+      if (x >= FADE_END) return 0;
+      return 1 - (x - FADE_START) / (FADE_END - FADE_START);
+    };
+
+    const updateMotion = (progress: number) => {
+      // Chain motion is reversed (negative) so the chain at the top of the cog feeds
+      // rightward and the cog spins clockwise on forward scroll, matching the bike's
+      // drive-side rotation as viewed in this layout.
+      const chainOffset = -progress * TOTAL_CHAIN_MOTION;
+      const state = chainStates.get(currentIdx);
+      if (!state) return;
+
+      // Cog rotation: clockwise on forward scroll (positive angle in SVG y-down).
+      // Magnitude derived from chain motion / R so chain and cog stay synced.
+      if (spinner) {
+        const rotDeg = (Math.abs(chainOffset) / state.R) * (180 / Math.PI);
+        spinner.setAttribute('transform', `rotate(${rotDeg.toFixed(2)} ${CX} ${CY})`);
+      }
+
+      // Shift each pin and recompute the link plates joining them. Apply fade near the
+      // right edge so plates that would "bridge" the wrap point are invisible.
+      state.pins.forEach((pin) => {
+        const i = Number(pin.dataset.pinIdx);
+        const pos = pointAtArcLength(i * state.pitch + chainOffset, state.R);
+        pin.setAttribute('cx', pos.x.toFixed(1));
+        pin.setAttribute('cy', pos.y.toFixed(1));
+        pin.setAttribute('opacity', fadeAt(pos.x).toFixed(2));
+      });
+      // A "wrap link" is one whose two pins land on opposite tails because their s
+      // values straddle the chain endpoints. The geometric distance gives it away —
+      // a normal link's pins are ~pitch apart, a wrap link's pins are at least the
+      // cog diameter apart. Hide those entirely so no bridge plate spans the right edge.
+      const wrapDistanceThreshold = state.pitch * 2.5;
+      state.links.forEach((link) => {
+        const i = Number(link.dataset.linkIdx);
+        const p1 = pointAtArcLength(i * state.pitch + chainOffset, state.R);
+        const p2 = pointAtArcLength((i + 1) * state.pitch + chainOffset, state.R);
+        const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        if (dist > wrapDistanceThreshold) {
+          link.setAttribute('opacity', '0');
+          return;
+        }
+        link.setAttribute('d', buildLinkPath(p1, p2));
+        link.setAttribute('opacity', fadeAt(Math.max(p1.x, p2.x)).toFixed(2));
+      });
+    };
+
+    // Scroll length: ~60vh of scroll per gear shift (tighter than 100vh).
+    const SCROLL_PER_GEAR = 60;
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: `+=${total * SCROLL_PER_GEAR}%`,
+      pin: '.cassette-inner',
+      pinSpacing: true,
+      onUpdate: (self) => {
+        const idx = Math.min(total - 1, Math.floor(self.progress * total));
+        setActive(idx);
+        updateMotion(self.progress);
+      },
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    initCassette();
+  } else {
+    window.addEventListener('load', initCassette);
+  }
+</script>
+
+<style>
+  .cassette {
+    position: relative;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* The inner container is what GSAP pins. It fills the viewport while pinned, so the
+     cassette and panel stay centred regardless of where the user is in the scroll range. */
+  .cassette-inner {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-6) var(--space-4);
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) {
+    .cassette-inner {
+      padding: var(--space-12) var(--space-8);
+    }
+  }
+
+  .cassette-label,
+  .cassette-grid {
+    max-width: var(--max-width-wide);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .cassette-label {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .cassette-label {
+      margin-bottom: var(--space-8);
+    }
+  }
+
+  .cassette-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "cogs"
+      "panels";
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .cassette-grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      grid-template-areas: "panels cogs";
+      gap: var(--space-16);
+    }
+  }
+
+  .panels { grid-area: panels; }
+  .cog-wrap { grid-area: cogs; }
+
+  /* Default: every panel renders inline as a vertical timeline.  This is what no-JS users
+     and reduced-motion users see.  The carousel below is enabled only when JS is active. */
+  .panels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: var(--max-width-prose);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px dashed var(--color-border);
+  }
+
+  .panel:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Carousel mode: only the active panel is visible, stacked in a single grid cell.  Enabled
+     by the cassette script when JS is available and the user hasn't requested reduced motion. */
+  .cassette.js-active .panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .cassette.js-active .panel {
+    grid-area: 1 / 1;
+    padding-bottom: 0;
+    border-bottom: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .cassette.js-active .panel.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .panel-span {
+    color: var(--color-text-secondary);
+  }
+
+  .panel-title {
+    /* Fluid sizing: smaller on narrow viewports so the title fits on one line. */
+    font-size: clamp(var(--text-lg), 4.5vw, var(--text-2xl));
+    margin: var(--space-2) 0 0;
+    color: var(--color-text-primary);
+    line-height: var(--leading-snug);
+  }
+
+  .panel-subtitle {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+  }
+
+  /* Accomplishments as a list of chain plates: each bullet is prefixed with a small
+     ring whose silhouette echoes the pin holes on the chain plates in the SVG above. */
+  .panel-bullets {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .panel-bullet {
+    position: relative;
+    padding-left: calc(var(--space-4) + 4px);
+    color: var(--color-text-primary);
+    line-height: var(--leading-normal);
+  }
+
+  .panel-bullet::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-accent);
+    box-sizing: border-box;
+  }
+
+  /* A faint guide line links the bullets vertically, so a stack of accomplishments
+     reads as one continuous "chain" of work rather than a loose pile of dots. */
+  .panel-bullet:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: calc(0.55em + 8px);
+    bottom: calc(-1 * var(--space-2));
+    width: 1.5px;
+    background: var(--color-border);
+  }
+
+  /* Cog SVG */
+  .cog-wrap {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .cogs {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    display: block;
+  }
+
+  .cog {
+    fill: none;
+    stroke: var(--color-forest-soft);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Active cog highlight only takes effect in the JS-driven carousel.  Without JS we'd
+     have one cog flagged active at server-render time but there's no active gear concept. */
+  .cassette.js-active .cog.active {
+    stroke: var(--color-accent);
+    stroke-width: 1.75;
+  }
+
+  .chain {
+    display: none;
+  }
+
+  .cassette.js-active .chain.active {
+    display: inline;
+  }
+
+  .chain-link {
+    fill: var(--color-bg);
+    stroke: var(--color-text-secondary);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .chain-pin {
+    fill: var(--color-text-secondary);
+  }
+
+  .hub {
+    fill: var(--color-bg);
+    stroke: var(--color-text-secondary);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hub-bolt {
+    fill: var(--color-text-secondary);
+  }
+
+  /* Tick legend along the side of the cassette */
+  .gear-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: right;
+  }
+
+  .legend-tick {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--color-text-tertiary);
+    line-height: 1.1;
+  }
+
+  .cassette.js-active .legend-tick.active {
+    color: var(--color-accent);
+  }
+
+  .legend-tick span:first-child {
+    font-size: var(--text-xs);
+  }
+
+  .legend-tick span:last-child {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-loose);
+  }
+
+  /* Below the tablet breakpoint: shrink the cassette so the panel below still gets room,
+     and re-flow the gear legend as a horizontal row of ticks under the cog instead of a
+     vertical column beside it.  This block goes last so it overrides the base rules above. */
+  @media (max-width: 900px) {
+    .cog-wrap {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: var(--space-4);
+    }
+    .cogs {
+      width: 60%;
+      max-width: 280px;
+    }
+    .gear-legend {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 280px;
+      text-align: center;
+      gap: var(--space-3);
+    }
+    .legend-tick {
+      align-items: center;
+    }
+  }
+</style>

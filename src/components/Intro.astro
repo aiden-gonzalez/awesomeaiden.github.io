@@ -1,0 +1,221 @@
+---
+const skills = [
+  {
+    label: 'Core',
+    value: 'Backend development, data structures, cloud infrastructure, APIs, scaling and reliability',
+  },
+  {
+    label: 'Languages',
+    value: 'C#, Python, SQL / dbt, Node.js, C++, C, TypeScript, React, Flutter',
+  },
+  {
+    label: 'Technologies',
+    value: 'AWS (Certified), Docker, Airflow, CI / CD, Snowflake, Postgres, Terraform, Kubernetes',
+  },
+];
+---
+
+<section class="intro" id="intro" aria-labelledby="intro-lead">
+  <div class="intro-inner">
+    <div class="intro-main">
+      <div class="intro-text">
+        <h2 id="intro-lead" class="intro-lead reveal" style="--reveal-delay: 0ms;">
+          I build full-stack systems for financial workloads.
+        </h2>
+
+        <p class="intro-bio reveal" style="--reveal-delay: 80ms;">
+          Strong foundation in data structures, databases, and performant backend infrastructure. Skilled in C#, Python, Node.js, React, C++, and AWS, with a track record of building reliable, scalable systems. Proficient in collaboration across teams to deliver high-impact features.
+        </p>
+      </div>
+
+      <figure class="intro-headshot reveal" style="--reveal-delay: 160ms;">
+        <img
+          class="headshot-img"
+          src="/images/headshot.webp"
+          alt="Aiden Gonzalez"
+          width="1700"
+          height="1753"
+        />
+      </figure>
+    </div>
+
+    <dl class="intro-skills">
+      {skills.map((s, i) => (
+        <>
+          <dt class="skill-label label-mono reveal" style={`--reveal-delay: ${240 + i * 80}ms;`}>{s.label}</dt>
+          <dd class="skill-value reveal" style={`--reveal-delay: ${240 + i * 80}ms;`}>{s.value}</dd>
+        </>
+      ))}
+    </dl>
+  </div>
+
+  <footer class="intro-bottom">
+    <p class="label-mono">keep going ↓</p>
+  </footer>
+</section>
+
+<script>
+  const section = document.getElementById('intro');
+  if (section) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            section.classList.add('is-revealed');
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(section);
+  }
+</script>
+
+<style>
+  .intro {
+    background: var(--color-bg);
+    padding: var(--space-12) var(--space-8) var(--space-12);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* The min-height: 100vh constraint is desktop-only — on mobile the section
+     is already content-heavy, so forcing it to fill the viewport just packs
+     things in. Let the section be its natural content height with generous
+     padding instead. */
+  @media (min-width: 768px) {
+    .intro {
+      min-height: 100vh;
+      padding: var(--space-12) var(--space-12) var(--space-16);
+    }
+  }
+
+  .intro-bottom,
+  .intro-inner {
+    max-width: var(--max-width-wide);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .intro-bottom {
+    text-align: right;
+  }
+
+  .intro-bottom p {
+    margin: 0;
+    color: var(--color-accent);
+  }
+
+  /* The content area fills the space between top and bottom labels and centres vertically. */
+  .intro-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-12);
+  }
+
+  /* Constrain the prose width inside the layout grid so the long lines stay readable
+     even though the outer container is now wider. */
+  .intro-text {
+    max-width: var(--max-width-prose);
+  }
+
+  /* Two-column row: text on the left, headshot on the right.  Stacks on mobile (text first). */
+  .intro-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .intro-main {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-12);
+    }
+  }
+
+  .intro-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Headshot column */
+  .intro-headshot {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .headshot-img {
+    width: 100%;
+    /* Mobile cap so the headshot reads as a portrait element rather than a
+       viewport-wide image dominating the stacked single-column layout.
+       Overridden at the 2-column breakpoint below. */
+    max-width: 320px;
+    height: auto;
+    display: block;
+    /* Soft desaturate + warm grade so the photo sits inside the bone/forest palette. */
+    filter: saturate(0.35) sepia(0.2) brightness(1.15) contrast(1.05);
+    /* Fade the bottom edge into the page so the cutout doesn't sit on top of the
+       topography.  Lower number = more of the photo fades; higher = less. */
+    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  }
+
+  /* On the 2-column desktop layout the image lives in its own 1fr track,
+     so the original 500px cap is fine. */
+  @media (min-width: 900px) {
+    .headshot-img {
+      max-width: 500px;
+    }
+  }
+
+  .intro-lead {
+    font-family: var(--font-sans);
+    font-size: clamp(var(--text-2xl), 4.5vw, var(--text-3xl));
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0;
+    max-width: 30ch;
+  }
+
+  .intro-bio {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .intro-skills {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-8);
+    row-gap: var(--space-4);
+    align-items: baseline;
+    padding-top: var(--space-6);
+    border-top: 1px dashed var(--color-border);
+    margin: 0;
+  }
+
+  .skill-label {
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .skill-value {
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-primary);
+  }
+</style>

@@ -1,0 +1,211 @@
+---
+type Pt = [number, number];
+
+const VIEW_W = 1600;
+const VIEW_H = 1000;
+
+// Shared terrain shape. Composed from two superimposed wave scales: a long primary wave
+// for the major mountain mass and a shorter secondary wave for sub-features (smaller
+// hills, foothills, saddles). Each ridge samples this same function but with a small
+// phase shift, so peaks land in slightly different x positions per ridge.
+const PRIMARY_WAVELENGTH = 1100;
+const SECONDARY_WAVELENGTH = 380;
+const BASE_AMPLITUDE = 95;
+
+function terrainDelta(x: number, phase: number): number {
+  const u = x + phase;
+  const tPri = (u / PRIMARY_WAVELENGTH) * Math.PI * 2;
+  const tSec = (u / SECONDARY_WAVELENGTH) * Math.PI * 2;
+  return (
+    -1.00 * Math.sin(tPri)
+    - 0.35 * Math.sin(tPri * 2 + 0.4)
+    - 0.12 * Math.sin(tPri * 3 + 1.1)
+    - 0.32 * Math.sin(tSec + 0.6)
+    - 0.14 * Math.sin(tSec * 2.3 + 1.7)
+  );
+}
+
+function ridgePath(baseY: number, amplitude: number, phase: number, segments = 480): string {
+  const points: Pt[] = [];
+  for (let i = 0; i <= segments; i++) {
+    const x = (i / segments) * VIEW_W;
+    const y = baseY + amplitude * terrainDelta(x, phase);
+    points.push([x, y]);
+  }
+  return (
+    'M ' +
+    points
+      .map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`)
+      .join(' L ')
+  );
+}
+
+// Nine ridges. Amplitudes ease toward the page edges. Phase shifts smoothly across the
+// stack so peaks fan out slightly, adjacent ridges stay close, distant ridges diverge more.
+const ridges = [
+  { baseY: 200, ampScale: 0.55, phase:   0 },
+  { baseY: 290, ampScale: 0.70, phase:  35 },
+  { baseY: 380, ampScale: 0.85, phase:  60 },
+  { baseY: 470, ampScale: 0.95, phase:  50 },
+  { baseY: 560, ampScale: 1.00, phase:  10 },
+  { baseY: 650, ampScale: 0.95, phase: -40 },
+  { baseY: 740, ampScale: 0.85, phase: -70 },
+  { baseY: 830, ampScale: 0.70, phase: -55 },
+  { baseY: 915, ampScale: 0.55, phase: -20 },
+] as const;
+
+// Smooth gradient of weight across the stack. Top ridges fade into the page
+// (atmospheric perspective), bottom ridges are slightly more present. The middle
+// band (where the name and tagline sit) stays light so the text reads cleanly.
+const N = ridges.length;
+const ridgeData = ridges.map((r, i) => {
+  const t = i / (N - 1); // 0 → 1, top → bottom
+  return {
+    ...r,
+    d: ridgePath(r.baseY, BASE_AMPLITUDE * r.ampScale, r.phase),
+    opacity: 0.18 + t * 0.28,        // 0.18 → 0.46
+    strokeWidth: 0.85 + t * 0.4,     // 0.85 → 1.25
+  };
+});
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <svg
+    class="hero-topo"
+    viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+    preserveAspectRatio="xMidYMax slice"
+    aria-hidden="true"
+    role="img"
+  >
+    <title>Topographic background</title>
+    <desc>Layered horizontal ridge silhouettes suggesting a mountain range seen from the side.</desc>
+
+    {ridgeData.map((r) => (
+      <path
+        d={r.d}
+        class="ridge"
+        style={`stroke-opacity:${r.opacity.toFixed(2)};stroke-width:${r.strokeWidth.toFixed(2)}`}
+      />
+    ))}
+  </svg>
+
+  <div class="hero-grid">
+    <p class="hero-coords label-mono">N 47.110° / W 122.552°</p>
+
+    <p class="hero-mark label-mono">
+      field notes<br />
+      vol. iii · 2026
+    </p>
+
+    <div class="hero-center">
+      <h1 id="hero-name" class="hero-name">Aiden Gonzalez</h1>
+      <p class="hero-tagline">Senior Software Engineer</p>
+    </div>
+
+    <p class="hero-cue label-mono">scroll to ride ↓</p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background: var(--color-bg);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-topo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .ridge {
+    fill: none;
+    stroke: var(--color-forest);
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "coords mark"
+      "center center"
+      ".     cue";
+    gap: var(--space-6);
+    min-height: 100vh;
+    max-width: var(--max-width-wide);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6) var(--space-12);
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) {
+    .hero-grid {
+      padding: var(--space-12) var(--space-12) var(--space-16);
+    }
+  }
+
+  .hero-coords {
+    grid-area: coords;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-mark {
+    grid-area: mark;
+    text-align: right;
+    color: var(--color-text-secondary);
+    line-height: var(--leading-snug);
+  }
+
+  .hero-center {
+    grid-area: center;
+    align-self: center;
+    justify-self: start;
+    max-width: var(--max-width-content);
+  }
+
+  .hero-name {
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 7vw, var(--text-3xl));
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .hero-tagline {
+    margin-top: var(--space-3);
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+  }
+
+  .hero-cue {
+    grid-area: cue;
+    text-align: right;
+    align-self: end;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 480px) {
+    .hero-grid {
+      grid-template-areas:
+        "coords mark"
+        "center center"
+        "cue    cue";
+    }
+
+    .hero-cue {
+      text-align: left;
+    }
+  }
+</style>

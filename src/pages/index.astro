@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import Cassette from '../components/Cassette.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<Layout>
+  <Hero />
+  <Intro />
+  <Cassette />
+  <Projects />
+  <Contact />
+</Layout>
+
+<style>
+  .section-placeholder {
+    background: var(--color-bg);
+    border-top: 1px dashed var(--color-border);
+    border-bottom: 1px dashed var(--color-border);
+    padding: var(--space-16) var(--space-4);
+    text-align: center;
+  }
+
+  .ph-label {
+    color: var(--color-text-secondary);
+  }
+
+  .ph-note {
+    margin-top: var(--space-3);
+    color: var(--color-text-tertiary);
+    font-size: var(--text-sm);
+  }
+</style>

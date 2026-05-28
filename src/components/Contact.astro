@@ -1,0 +1,370 @@
+---
+type Channel =
+  | { label: string; value: string; copy: string }
+  | { label: string; value: string; href: string }
+  | { label: string; value: string; download: string };
+
+const channels: Channel[] = [
+  { label: 'Email',    value: 'aidenlgonzalez2@gmail.com',                copy: 'aidenlgonzalez2@gmail.com' },
+  { label: 'GitHub',   value: 'github.com/aiden-gonzalez',                href: 'https://github.com/aiden-gonzalez' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/aiden-gonzalez-712a26170', href: 'https://www.linkedin.com/in/aiden-gonzalez-712a26170/' },
+  { label: 'Resume',   value: 'aiden_gonzalez_resume.pdf',                 download: '/files/aiden_gonzalez_resume.pdf' },
+];
+---
+
+<section class="contact" id="contact">
+  <header class="contact-header">
+    <p class="label-mono">contact</p>
+    <p class="label-mono contact-elev">elevation · 14,410 ft</p>
+  </header>
+
+  <div class="contact-grid">
+    <aside class="contact-channels">
+      <ul class="channels-list">
+        {channels.map((c) => (
+          <li class="channel">
+            <span class="channel-label label-mono">{c.label}</span>
+            {'href' in c ? (
+              <a class="channel-value" href={c.href} target="_blank" rel="noopener noreferrer">{c.value}</a>
+            ) : 'download' in c ? (
+              <a class="channel-value" href={c.download} download>{c.value}</a>
+            ) : (
+              <button
+                class="channel-value channel-copy"
+                type="button"
+                data-copy={c.copy}
+                aria-label={`Copy ${c.value} to clipboard`}
+              >
+                <span class="channel-text">{c.value}</span>
+                <span class="channel-hover" aria-hidden="true">click to copy</span>
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </aside>
+
+      <figure class="contact-mountain">
+        <svg
+          class="mountain"
+          viewBox="0 0 600 320"
+          preserveAspectRatio="xMidYEnd meet"
+          role="img"
+          aria-label="Mountain"
+        >
+          <!-- Atmospheric ridges behind — distant peaks. -->
+          <path
+            class="mountain-far"
+            fill="none"
+            d="M 0,268 Q 80,264 160,269 T 320,266 T 480,268 T 600,266"
+          />
+          <path
+            class="mountain-ridge"
+            fill="none"
+            d="M 0,254 C 80,250 160,260 240,252 C 320,246 400,256 480,250 C 540,246 580,252 600,250"
+          />
+
+          <!-- Main silhouette: broad asymmetric mountain.  Small subsidiary summit on
+               the left with a slight saddle between it and the main flat-topped summit. -->
+          <path
+            class="mountain-main"
+            fill="none"
+            d="M 20,305
+               C 90,300 150,285 195,255
+               C 225,228 250,180 262,135
+               C 265,118 268,95 272,86
+               L 280,84
+               L 292,84
+               C 296,84 300,93 303,99
+               C 308,112 315,118 322,113
+               C 328,100 336,75 344,60
+               C 348,55 354,53 360,52
+               L 395,52
+               C 402,55 410,72 418,90
+               C 445,140 480,200 515,240
+               C 545,270 575,292 590,300
+               L 596,305"
+          />
+
+          <!-- Cleaver lines: subtle interior strokes suggesting rocky ridges between glaciers. -->
+          <path
+            class="mountain-cleaver"
+            fill="none"
+            d="M 315,68 C 308,140 298,215 290,290"
+          />
+          <path
+            class="mountain-cleaver"
+            fill="none"
+            d="M 372,68 C 382,140 398,215 412,290"
+          />
+
+          <!-- Snow band on the upper slopes. -->
+          <path
+            class="mountain-snow"
+            fill="none"
+            d="M 270,100 C 295,88 325,80 355,80 C 380,80 397,86 408,98"
+          />
+          <path
+            class="mountain-snow-soft"
+            fill="none"
+            d="M 258,148 C 295,134 330,128 365,130 C 392,132 412,142 428,158"
+          />
+
+          <!-- Ground -->
+          <line class="mountain-ground" fill="none" x1="0" y1="308" x2="600" y2="308" />
+        </svg>
+      </figure>
+  </div>
+
+  <footer class="contact-footer">
+    <p class="label-mono">end of route</p>
+  </footer>
+</section>
+
+<script>
+  // Copy-to-clipboard for channel buttons with [data-copy].  Briefly swaps the label
+  // to "Copied!" so the user gets visual confirmation.
+  document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((btn) => {
+    const text = btn.querySelector<HTMLElement>('.channel-text');
+    if (!text) return;
+    const original = text.textContent;
+    let timer: number | undefined;
+    btn.addEventListener('click', async () => {
+      const payload = btn.dataset.copy;
+      if (!payload) return;
+      try {
+        await navigator.clipboard.writeText(payload);
+        text.textContent = 'copied to clipboard';
+        btn.classList.add('copied');
+        if (timer) window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          text.textContent = original;
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch (err) {
+        console.warn('Copy failed', err);
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact {
+    background: var(--color-surface-inset);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-16) var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .contact {
+      padding: var(--space-24) var(--space-8);
+    }
+  }
+
+  .contact-header,
+  .contact-grid,
+  .contact-footer {
+    max-width: var(--max-width-wide);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .contact-header .label-mono {
+    color: var(--color-text-secondary);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    margin-top: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-16);
+    }
+  }
+
+  /* Mountain */
+  .contact-mountain {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .mountain {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+  }
+
+  .mountain path,
+  .mountain line {
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .mountain-far {
+    stroke: var(--color-forest-faint);
+    stroke-width: 0.8;
+  }
+
+  .mountain-ridge {
+    stroke: var(--color-forest-faint);
+    stroke-width: 1;
+  }
+
+  .mountain-main {
+    stroke: var(--color-forest);
+    stroke-width: 1.5;
+  }
+
+  .mountain-cleaver {
+    stroke: var(--color-forest-faint);
+    stroke-width: 0.9;
+  }
+
+  .mountain-snow {
+    stroke: var(--color-forest-soft);
+    stroke-width: 1.25;
+  }
+
+  .mountain-snow-soft {
+    stroke: var(--color-forest-faint);
+    stroke-width: 1;
+  }
+
+  .mountain-ground {
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+
+  /* Channels panel */
+  .contact-channels {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+
+  .channels-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .channel-label {
+    color: var(--color-text-secondary);
+  }
+
+  .channel-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .channel-value:hover,
+  .channel-value:focus-visible {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* The copy button needs button-default resets to look like the sibling link.
+     The button has two layered labels: the value text (default visible) and a
+     "click to copy" hint (default hidden) that fades in on hover/focus. */
+  button.channel-value {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    position: relative;
+  }
+
+  .channel-text,
+  .channel-hover {
+    transition: opacity var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .channel-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  button.channel-value:hover .channel-text,
+  button.channel-value:focus-visible .channel-text {
+    opacity: 0;
+  }
+
+  button.channel-value:hover .channel-hover,
+  button.channel-value:focus-visible .channel-hover {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  /* The shared .channel-value rule underlines on hover/focus.  Buttons swap text
+     instead, so no underline is needed. */
+  button.channel-value:hover,
+  button.channel-value:focus-visible {
+    text-decoration: none;
+  }
+
+  /* While the "copied" message is showing, keep the value text visible and the
+     hover label hidden even if the cursor is still over the button. */
+  button.channel-value.copied {
+    color: var(--color-accent);
+  }
+
+  button.channel-value.copied .channel-text {
+    opacity: 1;
+  }
+
+  button.channel-value.copied .channel-hover {
+    opacity: 0;
+  }
+
+  /* Footer */
+  .contact-footer {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .contact-footer .label-mono {
+    color: var(--color-text-secondary);
+  }
+</style>

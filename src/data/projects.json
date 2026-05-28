@@ -1,0 +1,325 @@
+[
+  {
+    "title": "promlite",
+    "period": "2026",
+    "org": "Personal",
+    "description": "A lightweight, single-node time series database for home server observability. PromQL-compatible for Grafana integration, targeting <100MB memory.",
+    "stack": ["Rust"],
+    "status": "active",
+    "shape": "series",
+    "detail": {
+      "body": [
+        "A single-node time series database for home server observability, written in Rust. Implements the Prometheus HTTP query API so existing Grafana dashboards work unchanged. Aims for under 100MB resident memory for 10,000 active series, 5,000 samples/sec ingest, p99 query latency under 500ms on 24-hour range queries.",
+        "Ingestion is hybrid IPC. Publishers register over a Unix domain socket and receive a shared memory segment. Sample batches travel through a per-publisher SPSC ring buffer and are signaled with DataReady messages on the socket. Writes land in an in-memory head block (immediately queryable) and an async-fsynced WAL in parallel. The head block flushes to an immutable Gorilla-compressed block file with an inverted label index every two hours or at a size threshold. Queries hit an HTTP API that runs the PromQL pipeline (lexer, parser, planner, executor) and merges results from the head block with on-disk blocks (head block wins on overlapping timestamps).",
+        "Flush atomicity uses POSIX rename: write to .tmp, fsync, rename to .db, then truncate the WAL. On startup, stray .tmp files from interrupted flushes are discarded, the in-memory block manifest is rebuilt by scanning .db headers, and WAL replay (idempotent via overwrite-by-timestamp) restores the head block.",
+        "Cargo workspace of seven crates: ipc, write-path, query-engine, storage, api, arena, and the main binary. Dependencies follow data flow, which keeps the graph acyclic."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/promlite/architecture.svg",
+          "alt": "Architecture diagram. Publisher app and Grafana sit at the top, feeding into a PromLite Rust workspace with a write path (IPC server, head block plus WAL) on the left and a read path (HTTP API, query engine) on the right. Both paths flow into a shared block-file storage layer at the bottom."
+        }
+      ]
+    }
+  },
+  {
+    "title": "hydRate",
+    "period": "2025",
+    "org": "BoilerMake",
+    "description": "Cross-platform app for finding and rating public water fountains and bathrooms. Built on a scalable Node.js / PostgreSQL backend on AWS.",
+    "stack": ["Flutter", "Node.js", "PostgreSQL", "AWS"],
+    "status": "active",
+    "shape": "route",
+    "detail": {
+      "body": [
+        "Two repos: a Flutter mobile client and a Node.js + PostgreSQL backend. The backend runs on Kubernetes with signed CloudFront URLs for media."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://www.youtube.com/watch?v=tq3YYdi_cBI",
+          "label": "Prototype demo"
+        }
+      ],
+      "links": [
+        { "label": "Frontend (Flutter)", "href": "https://github.com/aiden-gonzalez/hydrate_mobile_flutter" },
+        { "label": "Backend (Node.js)", "href": "https://github.com/aiden-gonzalez/hydrate-backend" }
+      ]
+    }
+  },
+  {
+    "title": "Financial statement generator",
+    "period": "2024",
+    "org": "Jasper Ridge",
+    "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80-90% for monthly and quarterly client reporting.",
+    "stack": ["C# .NET"],
+    "status": "completed",
+    "shape": "rows"
+  },
+  {
+    "title": "Income allocation engine",
+    "period": "2024",
+    "org": "Jasper Ridge",
+    "description": "Auditable income allocation engine with operation-tracking framework and AG Grid frontend, enabling composable accounting workflows.",
+    "stack": ["C# .NET", "React"],
+    "status": "completed",
+    "shape": "split"
+  },
+  {
+    "title": "Regex comprehension study",
+    "period": "2023",
+    "org": "Purdue ECE",
+    "description": "Experimental web app studying the efficacy of regex comprehension tools. Co-authored a research paper on the findings.",
+    "stack": ["React", "Python", "Flask"],
+    "status": "completed",
+    "shape": "capture",
+    "detail": {
+      "body": [
+        "For a study on regular expression comprehension tools, I helped develop a web app (React frontend, Python Flask backend) to run participants through the experiment and collect data. The app allowed our 4-person research group to gather enough data to draw conclusions in the paper.",
+        "From the paper's abstract: Regular expressions are notoriously hard to intuitively comprehend. Debugging issues with them can also be difficult. Several techniques have been created to help alleviate this issue and make these expressions easier to understand.",
+        "Existing techniques include everything from diagrams to equivalent code to natural language descriptions. However, there is not a lot of empirical evidence to show which methods are most effective in aiding regular expression (regex) comprehension.",
+        "In our work, we conduct an experiment to study and measure the effectiveness of several different comprehension techniques. By doing so, we are able to provide empirical support for the strongest of these techniques, encouraging its adoption to fight regex-related bugs in software.",
+        "To make our contribution, we select three popular and distinct regex comprehension techniques and integrate them into a custom-developed experimental tool. The tool has various measurement techniques to monitor user comprehension of regular expressions. After many trials with a comprehensive sample of developers, comprehension of the different techniques is analyzed, and findings are presented."
+      ],
+      "gallery": [
+        { "kind": "doc", "src": "/files/projects/regex-comprehension-study/writeup.pdf", "label": "Writeup" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/595-regex-comp" }
+      ]
+    }
+  },
+  {
+    "title": "CI/CD pipeline",
+    "period": "2023",
+    "org": "Precocity",
+    "description": "Template GitLab CI/CD pipeline for Kotlin API development, allowing for faster, more reliable deployments across teams.",
+    "stack": ["Kotlin", "GitLab CI"],
+    "status": "completed",
+    "shape": "pipeline",
+    "detail": {
+      "body": [
+        "A reference CI/CD pipeline built at Precocity for Kotlin API development. It runs against an example API written previously by a colleague, triggered on changes to a specified folder in the repo.",
+        "The pipeline spans 10 stages across 20 jobs: Gradle build and test, code coverage, four parallel static analyses (vulnerabilities, formatting, likely bugs), Docker packaging to two cloud container registries, image vulnerability scanning, deploy to a Google App Engine Flexible test environment, performance and functionality API tests, Google Web Scanner security tests, a Slack-notified gated production deploy, and an automatic dev-to-master merge after a successful prod deploy.",
+        "It served as a launching point for subsequent Kotlin API work at the company."
+      ]
+    }
+  },
+  {
+    "title": "Lantern",
+    "period": "2022",
+    "org": "Purdue ECE",
+    "description": "Accounting MVP for small business owners which distilled their financial health into digestible insights.",
+    "stack": ["React", "Node.js", "Express", "MongoDB"],
+    "status": "completed",
+    "shape": "radiate",
+    "detail": {
+      "body": [
+        "Senior design capstone with a three-person team. Lantern is an open-source accounting MVP for small business owners: link a business bank account through Plaid and the app produces instant views of financial health.",
+        "Built on the MERN stack (MongoDB, Express, React, Node). My contributions were the API specification, the backend server, and several frontend features. I also ran the GitHub project (issue triage, PR review, merges) and configured the GitHub Actions CI/CD pipeline so every PR ran tests and lint checks before merge."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/lantern/dashboard.png",
+          "alt": "Lantern dashboard overview. Left sidebar lists Banking, Finances, Tools, and Settings sections. Main area shows a cash flow breakdown line chart with revenue, expenses, and profit traces over March and April 2022, plus an account balance card, an upcoming events list, and pie charts for expenses and revenue."
+        },
+        { "kind": "doc", "src": "/files/projects/lantern/presentation.pdf", "label": "Final presentation" }
+      ],
+      "links": [
+        { "label": "Frontend (React)", "href": "https://github.com/lanterndevs/Lantern-Client" },
+        { "label": "Backend (Node.js)", "href": "https://github.com/lanterndevs/Lantern-Server" }
+      ]
+    }
+  },
+  {
+    "title": "OpenAir assistant",
+    "period": "2022",
+    "org": "Precocity",
+    "description": "Slack-integrated time tracking tool MVP that streamlined employee reporting.",
+    "stack": ["Node.js", "Google App Engine", "Firestore"],
+    "status": "completed",
+    "shape": "hub",
+    "detail": {
+      "body": [
+        "Solo MVP of a Slack app for managing OpenAir timesheets without leaving Slack. Precocity employees connect their account and then log time and update their active timesheet through Slack messages and Block Kit interactive components.",
+        "Runs on Google App Engine (Node.js standard environment), organized into four files: main.js routes incoming Slack actions and outgoing responses, openair.js handles the OpenAir XML API, database.js caches session and timesheet data in Firebase Firestore, and messages.js builds the outgoing Slack messages (plain text through interactive Block Kit layouts).",
+        "Reception was strong enough internally that coworkers with no prior involvement asked to contribute after their first use."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/openair/slack-profile.png",
+          "alt": "Slack app profile card for OpenAir Assistant, showing the blue app icon, the tagline 'Assists in logging hours in OpenAir', and the two slash commands /oa and /openair that launch the assistant."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/-GEk_bYwt0w",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "README (Gist)", "href": "https://gist.github.com/aiden-gonzalez/c4a766ba92f9ad980f777a7a0b414395" }
+      ]
+    }
+  },
+  {
+    "title": "YOLO object detection",
+    "period": "2022",
+    "org": "Purdue ECE",
+    "description": "PyTorch implementation of you-only-look-once object detection from scratch.",
+    "stack": ["PyTorch", "Python"],
+    "status": "completed",
+    "shape": "boxes",
+    "detail": {
+      "body": [
+        "Final project for an artificial intelligence course at Purdue: a from-scratch PyTorch reimplementation of YOLO (You Only Look Once) real-time object detection.",
+        "Tested on still images first, then fed in dashcam footage from my car to see how the network performed on real driving scenes."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/yolo/detection.png",
+          "alt": "YOLO detection output on a still image: colored bounding boxes label a dog in the foreground, a bicycle leaning against a wall, and a vehicle visible through a doorway in the background."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/AV93oGncrsM",
+          "label": "Final presentation"
+        },
+        { "kind": "doc", "src": "/files/projects/yolo/paper.pdf", "label": "Final paper" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/ece570-yolo" }
+      ]
+    }
+  },
+  {
+    "title": "TapIn!",
+    "period": "2021",
+    "org": "BoilerMake",
+    "description": "Social media profile sharing prototype.",
+    "stack": ["React Native", "Express.js", "Firebase"],
+    "status": "completed",
+    "shape": "icons",
+    "detail": {
+      "body": [
+        "BoilerMake hackathon project. TapIn replaces the awkward dance of trading half a dozen social handles when meeting someone new: each user has a QR code that, when scanned, opens a webpage with their chosen social profiles. The person scanning never needs TapIn installed.",
+        "Built with a React Native client, Express.js backend, and Firebase. The original concept was NFC tap-to-share, but we hit hardware issues during the hackathon and pivoted to QR codes to land a working demo before the deadline."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://youtu.be/StbNhc_cBo0",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "Devpost", "href": "https://devpost.com/software/tapin-nhebcv" }
+      ]
+    }
+  },
+  {
+    "title": "BLE LEDs",
+    "period": "2021",
+    "org": "Purdue ECE",
+    "description": "Bluetooth-controlled Arduino LED strip with a companion mobile app.",
+    "stack": ["Arduino", "Bluetooth LE", "Android"],
+    "status": "completed",
+    "shape": "bars",
+    "detail": {
+      "body": [
+        "Final project for an embedded systems course at Purdue. The setup has two halves: a custom Android app, and a Bluetooth-enabled Arduino driving an LED strip. The app publishes mode changes over BLE; the board reads them and switches the strip's lighting pattern accordingly."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://youtu.be/SoEO8mAIuX0",
+          "label": "Demo video"
+        }
+      ]
+    }
+  },
+  {
+    "title": "AHB convolver",
+    "period": "2020",
+    "org": "Purdue ECE",
+    "description": "Verilog AHB-connected 2D convolver module prototype for hardware-accelerated image processing.",
+    "stack": ["Verilog", "AHB"],
+    "status": "completed",
+    "shape": "kernel",
+    "detail": {
+      "body": [
+        "Honors project for an undergraduate ASIC design lab at Purdue, working with the course instructor, Dr. Mark Johnson, to prototype a new final lab for the course: an AHB-connected 2D convolver module for hardware-accelerated image processing.",
+        "Across the semester I scoped the concept with Dr. Johnson, designed the architecture, implemented it in Verilog, and wrote test benches for both the simulated and synthesized versions. The whole thing was packaged with documentation so it could land as the official final lab for the Spring 2022 cohort."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/ahb-convolver/convolution.png",
+          "alt": "Diagram of a 2D convolution: a small white kernel grid on the left maps via highlighted lines to a darker region within a larger blue input grid on the right, illustrating how the kernel slides across the input."
+        },
+        { "kind": "doc", "src": "/files/projects/ahb-convolver/lab-manual.pdf", "label": "Lab manual" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/337labs/tree/main/Honors" }
+      ]
+    }
+  },
+  {
+    "title": "Microcontroller pong",
+    "period": "2020",
+    "org": "Purdue ECE",
+    "description": "Pong-style game running on a microcontroller, with discrete inputs and a small display.",
+    "stack": ["C", "Embedded"],
+    "status": "completed",
+    "shape": "bounce",
+    "detail": {
+      "body": [
+        "Final project for a microprocessors course at Purdue. Pong, built up on a breadboard around a microcontroller: a two-button matrix for paddle input, seven-segment displays for the scoreboard, and a small SPI-driven color display for the game itself."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/pong/circuit.jpg",
+          "alt": "Breadboarded Pong circuit. A microcontroller dev board sits in the center, surrounded by a button-matrix keypad, a row of seven-segment displays, a small color SPI display, and an LCD module. A Digilent Analog Discovery unit and a power input block flank the board, with a tangle of colored jumper wires running across the breadboard."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/_LcupM9aCvk",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/362work/tree/master/finalproject" }
+      ]
+    }
+  },
+  {
+    "title": "Русский-CV",
+    "period": "2019",
+    "org": "Purdue Russian",
+    "description": "OpenCV script that reads Cyrillic characters from images. Final project for a Russian language course.",
+    "stack": ["Python", "OpenCV"],
+    "status": "completed",
+    "shape": "glyphs",
+    "detail": {
+      "body": [
+        "Final project for a Russian language course at Purdue, fall 2019. A Python + OpenCV script that reads printed Cyrillic text from images, picking up OpenCV from scratch in the process.",
+        "Preprocessing (grayscale, Gaussian blur, adaptive threshold) feeds contour detection to segment characters. A 1-nearest-neighbor classifier matches each cropped glyph against a hand-labeled training set, built interactively by stepping through a training image and pressing the matching key for each detected character. Recognition then reconstructs lines and words: contours sort into lines by Y position, by X within each line, and gaps wider than half the line's maximum intra-line gap mark word boundaries."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://youtu.be/ih_uahWhLEM",
+          "label": "Demo video"
+        },
+        { "kind": "doc", "src": "/files/projects/russian-cv/presentation.pdf", "label": "Final presentation" }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/rockocmos-cv" }
+      ]
+    }
+  }
+]
