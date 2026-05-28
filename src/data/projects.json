@@ -276,8 +276,27 @@
     "org": "Purdue ECE",
     "description": "Pong-style game running on a microcontroller, with discrete inputs and a small display.",
     "stack": ["C", "Embedded"],
-    "link": "https://portfolium.com/entry/microcontroller-pong-game",
     "status": "completed",
-    "shape": "bounce"
+    "shape": "bounce",
+    "detail": {
+      "body": [
+        "Final project for a microprocessors course at Purdue. Pong, built up on a breadboard around a microcontroller: a two-button matrix for paddle input, seven-segment displays for the scoreboard, and a small SPI-driven color display for the game itself."
+      ],
+      "gallery": [
+        {
+          "kind": "image",
+          "src": "/images/projects/pong/circuit.jpg",
+          "alt": "Breadboarded Pong circuit. A microcontroller dev board sits in the center, surrounded by a button-matrix keypad, a row of seven-segment displays, a small color SPI display, and an LCD module. A Digilent Analog Discovery unit and a power input block flank the board, with a tangle of colored jumper wires running across the breadboard."
+        },
+        {
+          "kind": "video",
+          "src": "https://youtu.be/_LcupM9aCvk",
+          "label": "Demo video"
+        }
+      ],
+      "links": [
+        { "label": "Repository", "href": "https://github.com/aiden-gonzalez/362work/tree/master/finalproject" }
+      ]
+    }
   }
 ]
