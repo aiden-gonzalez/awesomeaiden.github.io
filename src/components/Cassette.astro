@@ -1,76 +1,17 @@
 ---
+import cassetteData from '../data/cassette.json';
+
 type Pt = [number, number];
 
-const gears = [
-  {
-    teeth: 28,
-    span: 'May 2019 - Dec 2023',
-    title: 'Software Engineering Intern · Precocity, LLC',
-    subtitle: 'Dallas, TX',
-    bullets: [
-      'Delivered full-stack features and bug fixes in C# and React for a top fintech client',
-      'Automated payroll accounting with SQL, Python, and JavaScript, improving efficiency by 90%',
-      'Built a GitLab CI/CD pipeline for Kotlin APIs, enabling faster and more reliable deployments',
-      'Prototyped a Slack-integrated time tracker in Node.js',
-    ],
-  },
-  {
-    teeth: 24,
-    span: 'Jun 2020 - Aug 2021',
-    title: 'Software Intern · Northrop Grumman',
-    subtitle: 'Dulles, VA / Cincinnati, OH',
-    bullets: [
-      'Identified and remediated security vulnerabilities in embedded ESPAStar satellite software',
-      'Optimized SonarQube API calls to enable efficient extraction of 100k+ static analysis findings',
-      'Automated Subversion tag scanning and artifact distribution pipelines with Jenkins CI/CD',
-      'Researched and prototyped an internal gig-economy marketplace to improve staffing efficiency, presenting findings to the VP of Engineering Innovation to guide internal strategy',
-    ],
-  },
-  {
-    teeth: 21,
-    span: 'Aug 2018 - May 2022',
-    title: 'BS Computer Engineering · Purdue',
-    subtitle: 'Honors College · Math minor · GPA 3.95, with distinction',
-    bullets: [
-      'Marching Band (Section Leader), Concert Band, Orchestra, Jazz Band, Basketball Band etc.',
-      'Python course grader, concrete math TA, code camp mentor',
-      'Boilermake hackathons, intramural sports, band photography',
-    ],
-  },
-  {
-    teeth: 18,
-    span: 'June 2022 - May 2023',
-    title: 'MS Electrical & Computer Engineering · Purdue',
-    subtitle: 'Engineering Teaching Assistantship · GPA 3.50',
-    bullets: [
-      '"Engineering Projects in Community Service" graduate teaching assistant',
-      'Coursework expanded on undergraduate topics while also exploring finance and research'
-    ],
-  },
-  {
-    teeth: 16,
-    span: 'Jan 2024 - Dec 2025',
-    title: 'Software Developer · Jasper Ridge Partners',
-    subtitle: 'Fort Worth, TX',
-    bullets: [
-      'Designed and implemented a parallelized financial statement generation engine in C#, boosting performance 80-90% for client reporting packages and improving user experience',
-      'Built a composable income allocation engine in C# .NET with an AG Grid React frontend, featuring an operation-tracking framework that captures and renders calculation logic to improve transparency, validation, and user trust',
-      'Developed a .NET API client and dbt data models to integrate Bloomberg data into analytics pipelines, enabling efficient flow for risk analysis and performance dashboards',
-      'Diagnosed production issues with Datadog, quickly isolating root causes and deploying fixes',
-    ],
-  },
-  {
-    teeth: 14,
-    span: 'Jan 2026 - Present',
-    title: 'Senior Software Developer · Jasper Ridge Partners',
-    subtitle: 'Fort Worth, TX',
-    bullets: [
-      'Led end-to-end development of data reconciliation and performance models with dbt and SQL, driving integration with a third-party portfolio analytics platform while ensuring accuracy',
-      'Built an API sync between an evolving internal entity-management system and the live portfolio analytics environment',
-      'Served as technical lead for more junior engineers, promoting code quality and best practices',
-    ],
-  },
-];
+type Gear = {
+  teeth: number;
+  span: string;
+  title: string;
+  subtitle: string;
+  bullets: string[];
+};
+
+const gears = cassetteData as Gear[];
 
 const activeIdx = 0;
 const active = gears[activeIdx];

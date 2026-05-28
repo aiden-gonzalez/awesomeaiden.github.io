@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="none">
+  <style>
+    .surface { fill: #faf6ed; }
+    .ink { stroke: #3a5a4a; stroke-width: 1.5; }
+    .ink-thin { stroke: #3a5a4a; stroke-width: 1; }
+    .accent { stroke: #8b3a2b; stroke-width: 1.5; }
+    .dashed { stroke: #3a5a4a; stroke-width: 1; stroke-dasharray: 4 3; }
+    .label { font: 500 14px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #2c2416; }
+    .sub { font: 400 10px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #6b5d44; }
+    .section { font: 500 10px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #3a5a4a; letter-spacing: 0.2em; text-transform: uppercase; }
+    .caption { font: 400 11px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #6b5d44; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3a5a4a"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8b3a2b"/>
+    </marker>
+  </defs>
+
+  <!-- top label -->
+  <text x="300" y="22" text-anchor="middle" class="section">promlite · architecture</text>
+
+  <!-- client layer -->
+  <rect x="60" y="42" width="160" height="58" rx="6" class="surface ink" />
+  <text x="140" y="68" text-anchor="middle" class="label">publisher app</text>
+  <text x="140" y="86" text-anchor="middle" class="sub">application code</text>
+
+  <rect x="380" y="42" width="160" height="58" rx="6" class="surface ink" />
+  <text x="460" y="68" text-anchor="middle" class="label">grafana</text>
+  <text x="460" y="86" text-anchor="middle" class="sub">dashboards</text>
+
+  <!-- client → promlite arrows -->
+  <line x1="140" y1="100" x2="140" y2="138" class="ink" marker-end="url(#arrow)" />
+  <text x="148" y="124" class="sub">ipc · shm</text>
+
+  <line x1="460" y1="100" x2="460" y2="138" class="ink" marker-end="url(#arrow)" />
+  <text x="468" y="124" class="sub">http</text>
+
+  <!-- promlite container -->
+  <rect x="30" y="145" width="540" height="408" rx="10" class="ink" fill="none" />
+  <rect x="30" y="145" width="540" height="22" rx="10" fill="#efe9da" stroke="none" />
+  <path d="M 30 167 L 570 167" stroke="#3a5a4a" stroke-width="1.5" />
+  <text x="45" y="161" class="section">promlite (rust workspace)</text>
+
+  <!-- sub-section labels -->
+  <text x="45" y="190" class="section">write path</text>
+  <text x="375" y="190" class="section">read path</text>
+
+  <!-- IPC server -->
+  <rect x="60" y="202" width="160" height="58" rx="6" class="surface ink" />
+  <text x="140" y="228" text-anchor="middle" class="label">ipc server</text>
+  <text x="140" y="246" text-anchor="middle" class="sub">drain ring, decode</text>
+
+  <!-- HTTP API -->
+  <rect x="380" y="202" width="160" height="58" rx="6" class="surface ink" />
+  <text x="460" y="228" text-anchor="middle" class="label">http api</text>
+  <text x="460" y="246" text-anchor="middle" class="sub">/api/v1/query_range</text>
+
+  <line x1="140" y1="260" x2="140" y2="298" class="ink" marker-end="url(#arrow)" />
+  <line x1="460" y1="260" x2="460" y2="298" class="ink" marker-end="url(#arrow)" />
+
+  <!-- Head block + WAL -->
+  <rect x="60" y="300" width="160" height="78" rx="6" class="surface ink" />
+  <text x="140" y="326" text-anchor="middle" class="label">head block + wal</text>
+  <text x="140" y="346" text-anchor="middle" class="sub">10mb in-memory buffer</text>
+  <text x="140" y="362" text-anchor="middle" class="sub">async-fsync durability</text>
+
+  <!-- Query engine -->
+  <rect x="380" y="300" width="160" height="78" rx="6" class="surface ink" />
+  <text x="460" y="326" text-anchor="middle" class="label">query engine</text>
+  <text x="460" y="346" text-anchor="middle" class="sub">lexer · parser ·</text>
+  <text x="460" y="362" text-anchor="middle" class="sub">planner · executor</text>
+
+  <!-- read recent: query engine → head block (curved) -->
+  <path d="M 380 338 C 300 338 300 338 230 338" class="dashed" fill="none" marker-end="url(#arrow)" />
+  <text x="305" y="332" text-anchor="middle" class="sub">read recent</text>
+
+  <!-- flush arrow -->
+  <line x1="140" y1="378" x2="140" y2="418" class="ink" marker-end="url(#arrow)" />
+  <text x="148" y="402" class="sub">flush · 2h</text>
+
+  <!-- read arrow -->
+  <line x1="460" y1="378" x2="460" y2="418" class="ink" marker-end="url(#arrow)" />
+  <text x="468" y="402" class="sub">scan</text>
+
+  <!-- Storage -->
+  <rect x="60" y="420" width="480" height="82" rx="6" class="surface accent" />
+  <text x="300" y="448" text-anchor="middle" class="label">storage</text>
+  <text x="300" y="468" text-anchor="middle" class="sub">2-hour immutable block files · gorilla compression · inverted index</text>
+  <text x="300" y="486" text-anchor="middle" class="sub">30-day retention · in-memory manifest rebuilt from .db files on startup</text>
+
+  <!-- bottom caption -->
+  <text x="300" y="530" text-anchor="middle" class="caption">single-node · &lt;100mb for 10k series · 5k samples/sec</text>
+
+  <!-- corner annotations -->
+  <text x="45" y="572" class="sub">crates: ipc · write-path · query-engine · storage · api · arena · promlite</text>
+</svg>
