@@ -228,10 +228,21 @@
     "period": "2021",
     "org": "Purdue ECE",
     "description": "Bluetooth-controlled Arduino LED strip with a companion mobile app.",
-    "stack": ["Arduino", "Bluetooth LE"],
-    "link": "https://portfolium.com/entry/bluetooth-controlled-led-strip",
+    "stack": ["Arduino", "Bluetooth LE", "Android"],
     "status": "completed",
-    "shape": "bars"
+    "shape": "bars",
+    "detail": {
+      "body": [
+        "Final project for an embedded systems course at Purdue. The setup has two halves: a custom Android app, and a Bluetooth-enabled Arduino driving an LED strip. The app publishes mode changes over BLE; the board reads them and switches the strip's lighting pattern accordingly."
+      ],
+      "gallery": [
+        {
+          "kind": "video",
+          "src": "https://youtu.be/SoEO8mAIuX0",
+          "label": "Demo video"
+        }
+      ]
+    }
   },
   {
     "title": "AHB convolver",
