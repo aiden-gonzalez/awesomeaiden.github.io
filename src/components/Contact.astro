@@ -44,74 +44,28 @@ const channels: Channel[] = [
       </ul>
     </aside>
 
-      <figure class="contact-mountain">
+      <figure class="contact-cup">
         <svg
-          class="mountain"
-          viewBox="0 0 600 320"
-          preserveAspectRatio="xMidYEnd meet"
+          class="cup"
+          viewBox="104 80 212 212"
+          preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Mountain"
+          aria-label="A cup of espresso with steam, viewed from the side"
         >
-          <!-- Atmospheric ridges behind — distant peaks. -->
-          <path
-            class="mountain-far"
-            fill="none"
-            d="M 0,268 Q 80,264 160,269 T 320,266 T 480,268 T 600,266"
-          />
-          <path
-            class="mountain-ridge"
-            fill="none"
-            d="M 0,254 C 80,250 160,260 240,252 C 320,246 400,256 480,250 C 540,246 580,252 600,250"
-          />
+          <!-- Steam rising off the cup. -->
+          <path class="cup-steam" fill="none" d="M 196,170 C 185,154 207,138 196,122" />
+          <path class="cup-steam" fill="none" d="M 224,170 C 213,154 235,138 224,122" />
 
-          <!-- Main silhouette: broad asymmetric mountain.  Small subsidiary summit on
-               the left with a slight saddle between it and the main flat-topped summit. -->
-          <path
-            class="mountain-main"
-            fill="none"
-            d="M 20,305
-               C 90,300 150,285 195,255
-               C 225,228 250,180 262,135
-               C 265,118 268,95 272,86
-               L 280,84
-               L 292,84
-               C 296,84 300,93 303,99
-               C 308,112 315,118 322,113
-               C 328,100 336,75 344,60
-               C 348,55 354,53 360,52
-               L 395,52
-               C 402,55 410,72 418,90
-               C 445,140 480,200 515,240
-               C 545,270 575,292 590,300
-               L 596,305"
-          />
+          <!-- Saucer. -->
+          <ellipse class="cup-line" cx="210" cy="238" rx="98" ry="15" fill="none" />
+          <path class="cup-line" fill="none" d="M 124,240 Q 210,260 296,240" />
 
-          <!-- Cleaver lines: subtle interior strokes suggesting rocky ridges between glaciers. -->
-          <path
-            class="mountain-cleaver"
-            fill="none"
-            d="M 315,68 C 308,140 298,215 290,290"
-          />
-          <path
-            class="mountain-cleaver"
-            fill="none"
-            d="M 372,68 C 382,140 398,215 412,290"
-          />
-
-          <!-- Snow band on the upper slopes. -->
-          <path
-            class="mountain-snow"
-            fill="none"
-            d="M 270,100 C 295,88 325,80 355,80 C 380,80 397,86 408,98"
-          />
-          <path
-            class="mountain-snow-soft"
-            fill="none"
-            d="M 258,148 C 295,134 330,128 365,130 C 392,132 412,142 428,158"
-          />
-
-          <!-- Ground -->
-          <line class="mountain-ground" fill="none" x1="0" y1="308" x2="600" y2="308" />
+          <!-- Cup body (seated low in the saucer), rim opening, crema surface, and handle.
+               The handle is a closed loop returning to the cup wall at both ends. -->
+          <path class="cup-line" fill="none" d="M 154,177 C 158,202 168,218 180,232 Q 210,239 240,232 C 252,218 262,202 266,177" />
+          <ellipse class="cup-line" cx="210" cy="177" rx="56" ry="12" fill="none" />
+          <ellipse class="cup-crema" cx="210" cy="177" rx="45" ry="8" fill="none" />
+          <path class="cup-line" fill="none" d="M 264,186 C 297,182 301,217 250,218" />
         </svg>
       </figure>
   </div>
@@ -196,8 +150,8 @@ const channels: Channel[] = [
     }
   }
 
-  /* Mountain */
-  .contact-mountain {
+  /* Espresso cup */
+  .contact-cup {
     margin: 0;
     padding: 0;
     display: flex;
@@ -206,53 +160,33 @@ const channels: Channel[] = [
     gap: var(--space-2);
   }
 
-  .mountain {
+  .cup {
     width: 100%;
-    max-width: 520px;
+    max-width: 360px;
     height: auto;
     display: block;
   }
 
-  .mountain path,
-  .mountain line {
+  .cup path,
+  .cup ellipse {
     vector-effect: non-scaling-stroke;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
 
-  .mountain-far {
-    stroke: var(--color-forest-faint);
-    stroke-width: 0.8;
+  .cup-line {
+    stroke: var(--color-text-primary);
+    stroke-width: 2.2;
   }
 
-  .mountain-ridge {
-    stroke: var(--color-forest-faint);
-    stroke-width: 1;
+  .cup-steam {
+    stroke: var(--color-text-tertiary);
+    stroke-width: 2;
   }
 
-  .mountain-main {
-    stroke: var(--color-forest);
-    stroke-width: 1.5;
-  }
-
-  .mountain-cleaver {
-    stroke: var(--color-forest-faint);
-    stroke-width: 0.9;
-  }
-
-  .mountain-snow {
-    stroke: var(--color-forest-soft);
-    stroke-width: 1.25;
-  }
-
-  .mountain-snow-soft {
-    stroke: var(--color-forest-faint);
-    stroke-width: 1;
-  }
-
-  .mountain-ground {
-    stroke: var(--color-border);
-    stroke-width: 1;
+  .cup-crema {
+    stroke: var(--color-text-tertiary);
+    stroke-width: 1.8;
   }
 
   /* Channels panel */
