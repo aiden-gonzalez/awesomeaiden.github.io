@@ -8,6 +8,8 @@ Single-page personal site built with Astro + Tailwind. Deployed to GitHub Pages 
 - `npm run build` — produce static output in `docs/`
 - `npm run preview` — preview the production build
 
+You don't need to run `npm run build` after every change — GitHub Actions builds on push, so a local build is only worth it to debug a build error or sanity-check a big change. Trust the dev server / type errors for normal edits.
+
 ## Page structure
 
 `src/pages/index.astro` composes five section components in order:
@@ -16,7 +18,7 @@ Single-page personal site built with Astro + Tailwind. Deployed to GitHub Pages 
 2. **`Intro.astro`** — bio, skills, headshot
 3. **`Cassette.astro`** — career timeline as a scroll-pinned bike cassette (GSAP ScrollTrigger). Rotation + chain motion are driven by scroll progress
 4. **`Projects.astro`** — work and personal project cards
-5. **`Contact.astro`** — links (email click-to-copy, GitHub, LinkedIn, resume), Mt. Rainier illustration
+5. **`Contact.astro`** — links (email click-to-copy, GitHub, LinkedIn, resume), side-view espresso cup illustration
 
 Design tokens (colors, typography, spacing, motion) live in `src/styles/design-tokens.css` and are referenced as CSS custom properties throughout. Don't duplicate them into `tailwind.config`.
 
@@ -39,4 +41,4 @@ These shape every piece of visible text on the site:
 
 ## Deploying
 
-The build outputs to `docs/`, which GitHub Pages serves. After a build, commit the `docs/` changes alongside source changes. `CNAME` in `public/` keeps the `aidengonzalez.dev` domain bound on every build.
+GitHub Actions builds and deploys to GitHub Pages on push to `master`. `docs/` is gitignored (built by CI, not committed) — only commit `src/`/`public/` changes. `CNAME` in `public/` keeps the `aidengonzalez.dev` domain bound on every build.

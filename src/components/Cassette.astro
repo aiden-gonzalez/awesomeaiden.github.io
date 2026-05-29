@@ -720,22 +720,61 @@ const chainGeoms = gears.map((g) => chainGeometry(outerRadius(g.teeth), g.teeth)
     .cog-wrap {
       grid-template-columns: 1fr;
       justify-items: center;
-      gap: var(--space-4);
+      gap: var(--space-3);
     }
     .cogs {
-      width: 60%;
-      max-width: 280px;
+      width: 52%;
+      max-width: 240px;
     }
     .gear-legend {
       flex-direction: row;
       justify-content: space-between;
       width: 100%;
-      max-width: 280px;
+      max-width: 240px;
       text-align: center;
       gap: var(--space-3);
     }
     .legend-tick {
       align-items: center;
+    }
+  }
+
+  /* Phones: tighten the cassette's vertical footprint (smaller cog, tighter gaps and
+     bullet type) so a four-bullet gear still fits the pinned viewport. The carousel
+     and its scroll mechanic stay on; we trim the layout, not the effect. */
+  @media (max-width: 600px) {
+    .cassette-inner {
+      padding: var(--space-4);
+    }
+    .cassette-label {
+      margin-bottom: var(--space-3);
+    }
+    .cassette-grid {
+      gap: var(--space-4);
+    }
+    .cogs {
+      width: 46%;
+      max-width: 200px;
+    }
+    .panel-subtitle {
+      font-size: var(--text-sm);
+    }
+    .panel-bullets {
+      margin-top: var(--space-3);
+      gap: var(--space-1);
+    }
+    .panel-bullet {
+      font-size: var(--text-sm);
+      line-height: var(--leading-snug);
+    }
+  }
+
+  /* Short small screens (landscape phones, very short windows): align the pinned
+     content to the top instead of centring it, so the gear title and cog stay
+     visible even if the longest gear's last bullet runs past the fold. */
+  @media (max-width: 900px) and (max-height: 760px) {
+    .cassette-inner {
+      justify-content: flex-start;
     }
   }
 </style>

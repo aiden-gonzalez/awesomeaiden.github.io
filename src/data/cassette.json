@@ -50,9 +50,9 @@
     "title": "Software Developer · Jasper Ridge Partners",
     "subtitle": "Fort Worth, TX",
     "bullets": [
-      "Designed and implemented a parallelized financial statement generation engine in C#, boosting performance 80-90% for client reporting packages and improving user experience",
-      "Built a composable income allocation engine in C# .NET with an AG Grid React frontend, featuring an operation-tracking framework that captures and renders calculation logic to improve transparency, validation, and user trust",
-      "Developed a .NET API client and dbt data models to integrate Bloomberg data into analytics pipelines, enabling efficient flow for risk analysis and performance dashboards",
+      "Designed and implemented a parallelized financial statement generation engine in C#, cutting client reporting time by 80-90%",
+      "Built a composable income allocation engine (C# .NET, AG Grid React) with an operation-tracking framework that captures and renders calculation logic for transparency and validation",
+      "Developed a .NET client and dbt models to integrate Bloomberg data into analytics pipelines, powering risk and performance dashboards",
       "Diagnosed production issues with Datadog, quickly isolating root causes and deploying fixes"
     ]
   },

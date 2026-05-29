@@ -62,7 +62,7 @@ const slugify = (s: string) =>
 
 <section class="projects" id="projects">
   <header class="projects-header">
-    <p class="label-mono">selected work · click a card to expand</p>
+    <p class="label-mono">selected work · <span class="expand-hint">click a card to expand</span></p>
   </header>
 
   <ul class="projects-grid">
@@ -256,6 +256,24 @@ const slugify = (s: string) =>
   );
   for (const card of revealCards) revealObserver.observe(card);
 
+  // Flash the "click a card to expand" hint a few times the first time the header
+  // scrolls into view, so the expandable cards don't get mistaken for static tiles.
+  const projectsHeader = document.querySelector('#projects .projects-header');
+  if (projectsHeader) {
+    const hintObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            projectsHeader.classList.add('hint-flash');
+            hintObserver.disconnect();
+          }
+        }
+      },
+      { threshold: 1 }
+    );
+    hintObserver.observe(projectsHeader);
+  }
+
   const triggers = document.querySelectorAll<HTMLButtonElement>('#projects .card-expandable');
   let openTrigger: HTMLButtonElement | null = null;
 
@@ -362,6 +380,24 @@ const slugify = (s: string) =>
   .projects-header p {
     color: var(--color-text-secondary);
     margin: 0;
+  }
+
+  /* The expand hint glows to the clay accent a few times when the section scrolls in:
+     just a color change plus a soft text-shadow halo, no background highlight. */
+  .projects-header.hint-flash .expand-hint {
+    /* ~0.5s pause after the hint scrolls in, then two glows. */
+    animation: expand-hint-glow 0.65s var(--ease-out-quart) 0.5s 2;
+  }
+
+  @keyframes expand-hint-glow {
+    0%, 100% {
+      color: var(--color-text-secondary);
+      text-shadow: none;
+    }
+    45% {
+      color: var(--color-accent);
+      text-shadow: 0 0 8px var(--color-accent), 0 0 3px var(--color-accent);
+    }
   }
 
   .projects-grid {
