@@ -55,7 +55,14 @@
     "description": "Parallelized financial statement generation engine in C#. Cut processing time by 80-90% for monthly and quarterly client reporting.",
     "stack": ["C# .NET"],
     "status": "completed",
-    "shape": "rows"
+    "shape": "rows",
+    "detail": {
+      "body": [
+        "Jasper Ridge sends each client a financial statement package every month and quarter: a cover sheet, then a balance sheet and statement of investments for every fund, merged into a single PDF. I built this engine as a C# ASP.NET API that assembles the package straight from fund accounting data in Snowflake, rendering each statement from HTML templates into print-ready PDFs.",
+        "Generation is parallel wherever the work is independent. The queries for balance sheet data, investment data, and footnotes run concurrently, and every fund's statements render in parallel before merging back in order. The statement of investments is composed from small Handlebars templates, grouped four levels deep with subtotals at every level, and footnote references resolved per deal.",
+        "The engine is also designed to fail loudly rather than publish a wrong number. Balance sheet and investment totals are reconciled for every fund. Rounding-level differences are absorbed, but a tolerance check fails the whole run when the two data sources genuinely disagree."
+      ]
+    }
   },
   {
     "title": "Income allocation engine",
