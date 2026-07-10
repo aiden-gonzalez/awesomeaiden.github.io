@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 26 600 514" fill="none">
+  <style>
+    .surface { fill: #faf6ed; }
+    .ink { stroke: #3a5a4a; stroke-width: 1.5; }
+    .ink-thin { stroke: #3a5a4a; stroke-width: 1; }
+    .dashed { stroke: #3a5a4a; stroke-width: 1; stroke-dasharray: 4 3; }
+    .label { font: 500 14px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #2c2416; }
+    .sub { font: 400 10px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #6b5d44; }
+    .result { font: 500 10px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #8b3a2b; }
+    .section { font: 500 10px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: #3a5a4a; letter-spacing: 0.2em; text-transform: uppercase; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3a5a4a"/>
+    </marker>
+  </defs>
+
+  <!-- step code -->
+  <rect x="80" y="42" width="440" height="58" rx="6" class="surface ink" />
+  <text x="300" y="68" text-anchor="middle" class="label">fee = Round(balance * rate * (days / 365))</text>
+  <text x="300" y="86" text-anchor="middle" class="sub">plain arithmetic via operator overloads</text>
+
+  <!-- code → tree arrow -->
+  <line x1="300" y1="100" x2="300" y2="138" class="ink" marker-end="url(#arrow)" />
+
+  <!-- operation tree container -->
+  <rect x="30" y="145" width="540" height="290" rx="10" class="ink" fill="none" />
+  <rect x="30" y="145" width="540" height="22" rx="10" fill="#efe9da" stroke="none" />
+  <path d="M 30 167 L 570 167" stroke="#3a5a4a" stroke-width="1.5" />
+  <text x="45" y="161" class="section">operation tree</text>
+
+  <!-- root: Round -->
+  <rect x="252" y="182" width="96" height="44" rx="6" class="surface ink" />
+  <text x="300" y="200" text-anchor="middle" class="label">Round</text>
+  <text x="300" y="216" text-anchor="middle" class="result">= 12,465.75</text>
+
+  <line x1="300" y1="226" x2="300" y2="246" class="ink-thin" />
+
+  <!-- Multiply -->
+  <rect x="252" y="246" width="96" height="44" rx="6" class="surface ink" />
+  <text x="300" y="274" text-anchor="middle" class="label">Multiply</text>
+
+  <line x1="300" y1="290" x2="110" y2="310" class="ink-thin" />
+  <line x1="300" y1="290" x2="270" y2="310" class="ink-thin" />
+  <line x1="300" y1="290" x2="460" y2="310" class="ink-thin" />
+
+  <!-- Reference: capital balance -->
+  <rect x="50" y="310" width="120" height="44" rx="6" class="surface ink" />
+  <text x="110" y="328" text-anchor="middle" class="label">Reference</text>
+  <text x="110" y="344" text-anchor="middle" class="sub">capital balance</text>
+
+  <!-- Literal: fee rate -->
+  <rect x="210" y="310" width="120" height="44" rx="6" class="surface ink" />
+  <text x="270" y="328" text-anchor="middle" class="label">Literal</text>
+  <text x="270" y="344" text-anchor="middle" class="sub">0.02 · fee rate</text>
+
+  <!-- Divide -->
+  <rect x="412" y="310" width="96" height="44" rx="6" class="surface ink" />
+  <text x="460" y="338" text-anchor="middle" class="label">Divide</text>
+
+  <line x1="460" y1="354" x2="410" y2="374" class="ink-thin" />
+  <line x1="460" y1="354" x2="520" y2="374" class="ink-thin" />
+
+  <!-- shared subtree behind the Reference -->
+  <line x1="110" y1="354" x2="110" y2="374" class="dashed" />
+  <rect x="50" y="374" width="120" height="44" rx="6" class="dashed" fill="none" />
+  <text x="110" y="392" text-anchor="middle" class="sub">shared subtree</text>
+  <text x="110" y="408" text-anchor="middle" class="sub">from a prior step</text>
+
+  <!-- Literal: days -->
+  <rect x="355" y="374" width="110" height="44" rx="6" class="surface ink" />
+  <text x="410" y="392" text-anchor="middle" class="label">Literal</text>
+  <text x="410" y="408" text-anchor="middle" class="sub">91 · period days</text>
+
+  <!-- Literal: 365 -->
+  <rect x="480" y="374" width="80" height="44" rx="6" class="surface ink" />
+  <text x="520" y="392" text-anchor="middle" class="label">Literal</text>
+  <text x="520" y="408" text-anchor="middle" class="sub">365</text>
+
+  <!-- tree → outputs arrows -->
+  <line x1="115" y1="435" x2="115" y2="460" class="ink" marker-end="url(#arrow)" />
+  <line x1="300" y1="435" x2="300" y2="460" class="ink" marker-end="url(#arrow)" />
+  <line x1="485" y1="435" x2="485" y2="460" class="ink" marker-end="url(#arrow)" />
+
+  <!-- outputs -->
+  <rect x="30" y="465" width="170" height="58" rx="6" class="surface ink" />
+  <text x="115" y="491" text-anchor="middle" class="label">json</text>
+  <text x="115" y="509" text-anchor="middle" class="sub">drill into any grid cell</text>
+
+  <rect x="215" y="465" width="170" height="58" rx="6" class="surface ink" />
+  <text x="300" y="491" text-anchor="middle" class="label">math string</text>
+  <text x="300" y="509" text-anchor="middle" class="sub">logs and tests</text>
+
+  <rect x="400" y="465" width="170" height="58" rx="6" class="surface ink" />
+  <text x="485" y="491" text-anchor="middle" class="label">excel formula</text>
+  <text x="485" y="509" text-anchor="middle" class="sub">=balance*0.02*(91/365)</text>
+</svg>

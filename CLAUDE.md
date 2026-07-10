@@ -28,6 +28,8 @@ These shape every piece of visible text on the site:
 
 - **No em dashes (—) or en dashes (–) anywhere in user-facing copy.** The user considers em dashes an AI tell. Use commas, colons, parentheses, or "and" instead. For date ranges, use a regular hyphen (`-`); for section labels that span a timeline, use an arrow (`→`) as in "2019 → 2026".
 - **Never use exclamation points.** The voice is dry, observational, slightly literary. Field journal, not corporate blog.
+- **No semicolons in user-facing copy.** Split into two sentences or join with a comma and a conjunction instead.
+- **No punchy fragment openers or cute anthropomorphizing.** "One tree, three outputs" and "code that doesn't know they exist" both read as AI tells. Write plain declarative sentences.
 - **Sentence case everywhere.** "Software developer" not "Software Developer." Goes for headings, buttons, labels. The hero title and the bio's "Senior Software Engineer" are exceptions (proper titles).
 - **Specifics over abstractions.** Prefer concrete technical numbers and details (e.g., "cut processing time 80-90%") over vague claims like "improved performance." Don't reach for cutesy personal-life specifics (coffee orders, daily routines) as flavor — the user finds that style AI-generated-sounding.
 - **No "I love" or "I'm passionate about."** Show, don't tell.
