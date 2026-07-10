@@ -115,7 +115,7 @@
     "shape": "pipeline",
     "detail": {
       "body": [
-        "A reference CI/CD pipeline built at Precocity for Kotlin API development. It runs against an example API written previously by a colleague, triggered on changes to a specified folder in the repo.",
+        "A reference CI/CD pipeline I built at Precocity for Kotlin API development. It runs against an example API written previously by a colleague, triggered on changes to a specified folder in the repo.",
         "The pipeline spans 10 stages across 20 jobs: Gradle build and test, code coverage, four parallel static analyses (vulnerabilities, formatting, likely bugs), Docker packaging to two cloud container registries, image vulnerability scanning, deploy to a Google App Engine Flexible test environment, performance and functionality API tests, Google Web Scanner security tests, a Slack-notified gated production deploy, and an automatic dev-to-master merge after a successful prod deploy.",
         "It served as a launching point for subsequent Kotlin API work at the company."
       ]
@@ -158,7 +158,7 @@
     "shape": "hub",
     "detail": {
       "body": [
-        "Solo MVP of a Slack app for managing OpenAir timesheets without leaving Slack. Precocity employees connect their account and then log time and update their active timesheet through Slack messages and Block Kit interactive components.",
+        "A Slack app I built for managing OpenAir timesheets without leaving Slack. Precocity employees connect their account and then log time and update their active timesheet through Slack messages and Block Kit interactive components.",
         "Runs on Google App Engine (Node.js standard environment), organized into four files: main.js routes incoming Slack actions and outgoing responses, openair.js handles the OpenAir XML API, database.js caches session and timesheet data in Firebase Firestore, and messages.js builds the outgoing Slack messages (plain text through interactive Block Kit layouts).",
         "Reception was strong enough internally that coworkers with no prior involvement asked to contribute after their first use."
       ],
