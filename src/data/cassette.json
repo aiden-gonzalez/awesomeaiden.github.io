@@ -2,7 +2,7 @@
   {
     "teeth": 28,
     "span": "May 2019 - Dec 2023",
-    "title": "Software Engineering Intern · Precocity, LLC",
+    "title": "Software Engineering Intern / Consultant · Precocity, LLC",
     "subtitle": "Dallas, TX",
     "bullets": [
       "Delivered full-stack features and bug fixes in C# and React for a top fintech client",
@@ -63,7 +63,8 @@
     "subtitle": "Fort Worth, TX",
     "bullets": [
       "Led end-to-end development of data reconciliation and performance models with dbt and SQL, driving integration with a third-party portfolio analytics platform while ensuring accuracy",
-      "Built an API sync between an evolving internal entity-management system and the live portfolio analytics environment",
+      "Presented on database internals, comparing mechanisms of Postgres, Snowflake, and NoSQL",
+      "Orchestrated production apps on AWS ECS and Fargate, optimizing for scalability and resilience",
       "Served as technical lead for more junior engineers, promoting code quality and best practices"
     ]
   }
