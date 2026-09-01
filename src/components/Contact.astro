@@ -1,14 +1,13 @@
 ---
 type Channel =
   | { label: string; value: string; copy: string }
-  | { label: string; value: string; href: string }
-  | { label: string; value: string; download: string };
+  | { label: string; value: string; href: string };
 
 const channels: Channel[] = [
   { label: 'Email',    value: 'aidenlgonzalez2@gmail.com',                copy: 'aidenlgonzalez2@gmail.com' },
   { label: 'GitHub',   value: 'github.com/aiden-gonzalez',                href: 'https://github.com/aiden-gonzalez' },
   { label: 'LinkedIn', value: 'linkedin.com/in/aiden-gonzalez-712a26170', href: 'https://www.linkedin.com/in/aiden-gonzalez-712a26170/' },
-  { label: 'Resume',   value: 'aiden_gonzalez_resume.pdf',                 download: '/files/aiden_gonzalez_resume.pdf' },
+  { label: 'Resume',   value: 'aiden_gonzalez_resume.pdf',                href: '/files/aiden_gonzalez_resume.pdf' },
 ];
 ---
 
@@ -26,8 +25,6 @@ const channels: Channel[] = [
             <span class="channel-label label-mono">{c.label}</span>
             {'href' in c ? (
               <a class="channel-value" href={c.href} target="_blank" rel="noopener noreferrer">{c.value}</a>
-            ) : 'download' in c ? (
-              <a class="channel-value" href={c.download} download>{c.value}</a>
             ) : (
               <button
                 class="channel-value channel-copy"
